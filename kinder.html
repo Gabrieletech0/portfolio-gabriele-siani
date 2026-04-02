@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kinder Pinguì — Strategia Social Media | Gabriele Siani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?v=3"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#080D1A',
+            'bg-secondary': '#0F1623',
+            accent: '#4B6BFB',
+            border: '#1E293B',
+            muted: '#94A3B8',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body { background-color: #080D1A; color: #fff; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    .card { background: #0F1623; border: 1px solid #1E293B; border-radius: 1rem; }
+    .tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; border: 1px solid #1E293B; font-size: 0.75rem; color: #94A3B8; letter-spacing: 0.05em; text-transform: uppercase; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1E293B 30%, #1E293B 70%, transparent); }
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .btn-back { background: transparent; border: 1px solid #1E293B; color: #94A3B8; padding: 0.6rem 1.2rem; border-radius: 0.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .btn-back:hover { border-color: #4B6BFB; color: #fff; }
+    .quote-block { border-left: 3px solid #FF6B2B; padding-left: 1.5rem; }
+    .stat-pill { background: rgba(75,107,251,0.1); border: 1px solid rgba(75,107,251,0.2); border-radius: 9999px; padding: 0.4rem 1rem; font-size: 0.875rem; color: #818cf8; display: inline-block; }
+    .kinder-accent { color: #FF6B2B; }
+    .kinder-stat { background: rgba(255,107,43,0.1); border: 1px solid rgba(255,107,43,0.2); border-radius: 9999px; padding: 0.4rem 1rem; font-size: 0.875rem; color: #FF9A6B; display: inline-block; }
+
+    /* Grain */
+    body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; z-index: 9999; mix-blend-mode: overlay; }
+
+    /* Radial glow — caldo arancio/rosso Kinder */
+    .hero-glow::before { content: ''; position: absolute; top: -20%; right: -10%; width: 50%; height: 80%; background: radial-gradient(ellipse, rgba(255,107,43,0.08) 0%, transparent 70%); pointer-events: none; }
+
+    /* Channel badges */
+    .channel-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; border: 1px solid; }
+
+    /* KPI bar */
+    .kpi-bar-bg { background: #1E293B; border-radius: 9999px; height: 6px; width: 100%; overflow: hidden; }
+    .kpi-bar-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #FF6B2B, #FFB347); }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav style="position:fixed; top:0; left:0; right:0; z-index:100; padding:1.5rem 2rem; background:rgba(8,13,26,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #1E293B;">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="font-display font-bold text-lg">GS<span style="color:#4B6BFB">.</span></a>
+      <a href="index.html" class="btn-back">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Torna al portfolio
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative pt-36 pb-20 px-6 hero-glow overflow-hidden">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex flex-wrap gap-3 mb-6">
+        <span class="tag">Social Media Strategy</span>
+        <span class="tag" style="background:rgba(148,163,184,0.1);">Progetto Universitario</span>
+        <span class="tag">2024–2025</span>
+      </div>
+      <h1 class="font-display font-black leading-tight mb-6" style="font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing:-0.02em;">
+        Kinder Pinguì —<br /><span class="kinder-accent">Ogni pausa ha il suo Pinguì</span>
+      </h1>
+      <p class="text-lg mb-8" style="color:#94A3B8; max-width:620px; line-height:1.7;">
+        Strategia social media commissionata da Ferrero per il rilancio di Kinder Pinguì. Campagna multicanale con influencer, contest e piano editoriale completo sviluppati per Instagram, TikTok, YouTube e Facebook.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <span class="kinder-stat">Commissionato da Ferrero</span>
+        <span class="stat-pill">La Sapienza · 2024–2025</span>
+        <span class="stat-pill">Team Sin4rgy</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- OVERVIEW -->
+  <section class="py-20 px-6" style="background:#0F1623;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal grid md:grid-cols-4 gap-5 mb-16">
+        <div class="card p-6">
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Ruolo</div>
+          <div class="font-display font-bold text-base">Strategist & Presenter</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Team</div>
+          <div class="font-display font-bold text-base">4 persone · Sin4rgy</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Canali</div>
+          <div class="font-display font-bold text-base">4 piattaforme</div>
+        </div>
+        <div class="card p-6">
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Orizzonte</div>
+          <div class="font-display font-bold text-base">9 mesi di piano</div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <span class="tag mb-4 block">Il Brief</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">Il progetto</h2>
+        <p class="text-base leading-relaxed mb-4" style="color:#94A3B8;">
+          Ferrero ha commissionato al team universitario la progettazione di una strategia social media completa per Kinder Pinguì, prodotto iconico che ha bisogno di riposizionarsi come snack di qualità per tutta la famiglia e come momento di pausa autentica.
+        </p>
+        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+          Il brief richiedeva: identificazione del target, scelta dei canali, concept creativo, piano editoriale mensile, strategia influencer, attivazioni speciali e KPI misurabili su un orizzonte temporale di 9 mesi.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TARGET E CONCEPT -->
+  <section class="py-20 px-6">
+    <div class="max-w-4xl mx-auto space-y-16">
+
+      <div class="reveal">
+        <span class="tag mb-4 block">Concept creativo</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">"Ogni pausa ha il suo Pinguì"</h2>
+        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
+          Il concept nasce dall'idea che ogni momento di pausa — dal lavoro, dallo studio, dalla routine — merita una ricompensa piccola ma autentica. Kinder Pinguì non è solo uno snack: è il segnale che ci si è guadagnati un attimo tutto per sé. Una pausa rituale, riconoscibile, condivisibile.
+        </p>
+        <div class="card p-6" style="border-left: 3px solid #FF6B2B;">
+          <p class="font-display italic text-lg leading-relaxed" style="color:#e2e8f0;">"Non è uno snack. È il segnale che stai per staccare."</p>
+          <p class="text-sm mt-3" style="color:#94A3B8;">— Linea guida di tono del progetto</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <span class="tag mb-4 block">Target</span>
+        <h2 class="font-display font-black text-3xl mb-6">Due pubblici, un prodotto</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card p-7">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-4" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">01</div>
+            <div class="font-display font-bold text-lg mb-2">Genitori multitasking</div>
+            <p class="text-sm leading-relaxed" style="color:#94A3B8;">Adulti con figli tra gli 8 e i 12 anni. Cercano snack di qualità che possano condividere con i bambini senza sensi di colpa. Valutano il rapporto qualità-marca.</p>
+          </div>
+          <div class="card p-7">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-4" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">02</div>
+            <div class="font-display font-bold text-lg mb-2">Giovani adulti 18–35</div>
+            <p class="text-sm leading-relaxed" style="color:#94A3B8;">Studenti e lavoratori che associano Kinder Pinguì alla nostalgia dell'infanzia. Ricercano autenticità nei brand. Fortemente presenti su TikTok e Instagram.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- MOCKUP VISIVI -->
+  <section class="py-20 px-6" style="background:#080D1A;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Visual della campagna</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Come appare sui canali</h2>
+      </div>
+      <div class="reveal flex flex-wrap justify-center gap-8">
+
+        <!-- Phone mockup 1 — Instagram post -->
+        <div style="width:220px; flex-shrink:0;">
+          <div style="background:#0F1623; border:1px solid #1E293B; border-radius:2rem; padding:1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            <!-- Status bar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; padding:0 0.25rem;">
+              <span style="font-size:0.6rem; color:#94A3B8;">9:41</span>
+              <div style="display:flex; gap:4px; align-items:center;">
+                <div style="width:12px; height:6px; border:1px solid #94A3B8; border-radius:1px;"><div style="width:60%; height:100%; background:#94A3B8; border-radius:1px;"></div></div>
+              </div>
+            </div>
+            <!-- IG header -->
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:0.6rem; padding:0 0.25rem;">
+              <div style="width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); display:flex; align-items:center; justify-content:center; font-size:0.55rem; font-weight:700; color:#fff;">KP</div>
+              <div>
+                <div style="font-size:0.6rem; font-weight:600; color:#fff;">kinderpinguiit</div>
+                <div style="font-size:0.5rem; color:#94A3B8;">Sponsored</div>
+              </div>
+              <div style="margin-left:auto; font-size:1rem; color:#94A3B8;">···</div>
+            </div>
+            <!-- Image area -->
+            <div style="border-radius:0.75rem; overflow:hidden; margin-bottom:0.6rem; height:200px; background: linear-gradient(135deg, #FF6B2B 0%, #FFB347 50%, #FF8C42 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative;">
+              <div style="position:absolute; inset:0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%);"></div>
+              <div style="font-size:2.5rem; margin-bottom:0.5rem;">🐧</div>
+              <div style="font-family:'Playfair Display',serif; font-weight:900; font-size:0.85rem; color:#fff; text-align:center; line-height:1.2; padding:0 1rem;">Ogni pausa<br/>ha il suo Pinguì</div>
+              <div style="margin-top:0.75rem; background:rgba(255,255,255,0.2); border-radius:999px; padding:0.2rem 0.75rem; font-size:0.55rem; color:#fff; font-weight:600;">#PausaPinguì</div>
+            </div>
+            <!-- Actions -->
+            <div style="display:flex; gap:10px; padding:0 0.25rem; margin-bottom:0.5rem;">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316"/></svg>
+            </div>
+            <div style="font-size:0.6rem; color:#fff; padding:0 0.25rem; line-height:1.4;"><span style="font-weight:600;">kinderpinguiit</span> La pausa che ti meriti. 🐧 <span style="color:#4B6BFB;">#PausaPinguì #KinderPinguì</span></div>
+          </div>
+          <div style="text-align:center; margin-top:0.75rem; font-size:0.7rem; color:#94A3B8; text-transform:uppercase; letter-spacing:0.08em;">Instagram Post</div>
+        </div>
+
+        <!-- Phone mockup 2 — TikTok -->
+        <div style="width:220px; flex-shrink:0;">
+          <div style="background:#0F1623; border:1px solid #1E293B; border-radius:2rem; padding:1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            <!-- Status bar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; padding:0 0.25rem;">
+              <span style="font-size:0.6rem; color:#94A3B8;">9:41</span>
+              <div style="width:12px; height:6px; border:1px solid #94A3B8; border-radius:1px;"><div style="width:80%; height:100%; background:#94A3B8; border-radius:1px;"></div></div>
+            </div>
+            <!-- TikTok video area -->
+            <div style="border-radius:0.75rem; overflow:hidden; height:280px; background: linear-gradient(160deg, #080D1A 0%, #1a0a2e 40%, #0d1a33 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative;">
+              <div style="position:absolute; inset:0; background: radial-gradient(ellipse at 50% 40%, rgba(255,107,43,0.2), transparent 60%);"></div>
+              <!-- Play icon area -->
+              <div style="font-size:3rem; margin-bottom:0.75rem; position:relative; z-index:1;">🐧💃</div>
+              <div style="font-family:'DM Sans',sans-serif; font-weight:700; font-size:1.1rem; color:#fff; text-align:center; line-height:1.2; position:relative; z-index:1;">#KinderPinguì<span style="color:#FF6B2B;">Dance</span></div>
+              <!-- Side actions -->
+              <div style="position:absolute; right:0.75rem; bottom:2rem; display:flex; flex-direction:column; gap:1rem; align-items:center;">
+                <div style="text-align:center;"><div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#f09433,#e6683c,#dc2743); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:700; color:#fff;">MCT</div></div>
+                <div style="text-align:center;"><svg width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><div style="font-size:0.5rem; color:#fff; margin-top:2px;">47.2K</div></div>
+                <div style="text-align:center;"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><div style="font-size:0.5rem; color:#fff; margin-top:2px;">3.1K</div></div>
+              </div>
+              <!-- Bottom text -->
+              <div style="position:absolute; bottom:0.75rem; left:0.75rem; right:3rem;">
+                <div style="font-size:0.6rem; color:#fff; font-weight:600; margin-bottom:2px;">@meccontroyte × @kinderpinguiit</div>
+                <div style="font-size:0.55rem; color:#ccc;">Prova la dance e vinci! 🏆</div>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-around; margin-top:0.6rem; padding:0 0.25rem;">
+              <div style="text-align:center;"><div style="font-size:0.55rem; color:#94A3B8;">Per te</div></div>
+              <div style="text-align:center;"><div style="font-size:0.55rem; color:#fff; font-weight:600; border-bottom:1px solid #FF6B2B; padding-bottom:2px;">Seguiti</div></div>
+            </div>
+          </div>
+          <div style="text-align:center; margin-top:0.75rem; font-size:0.7rem; color:#94A3B8; text-transform:uppercase; letter-spacing:0.08em;">TikTok Challenge</div>
+        </div>
+
+        <!-- Phone mockup 3 — Contest Stories -->
+        <div style="width:220px; flex-shrink:0;">
+          <div style="background:#0F1623; border:1px solid #1E293B; border-radius:2rem; padding:1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            <!-- Status bar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; padding:0 0.25rem;">
+              <span style="font-size:0.6rem; color:#94A3B8;">9:41</span>
+              <div style="width:12px; height:6px; border:1px solid #94A3B8; border-radius:1px;"><div style="width:50%; height:100%; background:#94A3B8; border-radius:1px;"></div></div>
+            </div>
+            <!-- Story area -->
+            <div style="border-radius:0.75rem; overflow:hidden; height:280px; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative;">
+              <!-- Story progress bar -->
+              <div style="position:absolute; top:0.5rem; left:0.5rem; right:0.5rem; display:flex; gap:2px;">
+                <div style="flex:1; height:2px; background:rgba(255,255,255,0.8); border-radius:999px;"></div>
+                <div style="flex:1; height:2px; background:rgba(255,255,255,0.3); border-radius:999px;"></div>
+                <div style="flex:1; height:2px; background:rgba(255,255,255,0.3); border-radius:999px;"></div>
+              </div>
+              <div style="position:absolute; inset:0; background: radial-gradient(circle at 60% 60%, rgba(255,107,43,0.15), transparent 60%);"></div>
+              <div style="position:relative; z-index:1; text-align:center; padding:1rem;">
+                <div style="font-size:1.5rem; margin-bottom:0.5rem;">🏆</div>
+                <div style="font-family:'Playfair Display',serif; font-weight:900; font-size:1rem; color:#fff; margin-bottom:0.4rem; line-height:1.2;">Vinci<br/>Disneyland Paris</div>
+                <div style="font-size:0.6rem; color:#FF9A6B; margin-bottom:0.75rem;">per tutta la famiglia!</div>
+                <div style="background:rgba(255,107,43,0.2); border:1px solid rgba(255,107,43,0.4); border-radius:0.5rem; padding:0.5rem 0.75rem; margin-bottom:0.75rem;">
+                  <div style="font-size:0.65rem; color:#fff; font-weight:600;">Come partecipare:</div>
+                  <div style="font-size:0.55rem; color:#ccc; margin-top:0.25rem; line-height:1.4;">Posta la tua pausa Pinguì<br/>con <span style="color:#FF9A6B;">#PausaPinguì</span><br/>e tagga @kinderpinguiit</div>
+                </div>
+                <div style="background:#FF6B2B; border-radius:999px; padding:0.3rem 1rem; font-size:0.6rem; font-weight:700; color:#fff; display:inline-block;">Partecipa ora →</div>
+              </div>
+            </div>
+          </div>
+          <div style="text-align:center; margin-top:0.75rem; font-size:0.7rem; color:#94A3B8; text-transform:uppercase; letter-spacing:0.08em;">Instagram Story — Contest</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CANALI -->
+  <section class="py-20 px-6" style="background:#0F1623;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Piano multicanale</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Strategia per canale</h2>
+      </div>
+      <div class="reveal grid md:grid-cols-2 gap-6">
+
+        <div class="card p-7">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(225,48,108,0.15);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#E1306C" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="#E1306C" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#E1306C"/></svg>
+            </div>
+            <span class="font-display font-bold text-base">Instagram</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Hub visivo del progetto. Contenuti estetici delle pause, Reels lifestyle, Stories interattive con quiz e sondaggi. Contest "#PausaPinguì" con foto UGC. Frequenza: 4–5 post/settimana.</p>
+        </div>
+
+        <div class="card p-7">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(0,0,0,0.3); border:1px solid #333;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.27 8.27 0 004.84 1.55V6.79a4.85 4.85 0 01-1.07-.1z"/></svg>
+            </div>
+            <span class="font-display font-bold text-base">TikTok</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Canale prioritario per i giovani 18–35. Challenge "#KinderPinguìDance" in collaborazione con Me Contro Te. Video brevi autentici, trend adattati al brand, duetti con influencer. Frequenza: 5–6 video/settimana.</p>
+        </div>
+
+        <div class="card p-7">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(255,0,0,0.15);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.7 12 3.7 12 3.7s-7.5 0-9.4.4a3 3 0 00-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.4 9.4.4 9.4.4s7.5 0 9.4-.4a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><polygon points="9.7,15.5 15.8,12 9.7,8.5" fill="white"/></svg>
+            </div>
+            <span class="font-display font-bold text-base">YouTube</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Contenuti longform e pre-roll ads. Collaboration paid con Me Contro Te (7,1M iscritti). Mini-docuserie "La storia di una pausa". Frequenza: 1–2 video/mese.</p>
+        </div>
+
+        <div class="card p-7">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(24,119,242,0.15);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+            </div>
+            <span class="font-display font-bold text-base">Facebook</span>
+          </div>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Canale dedicato ai genitori. Post informativi su ingredienti e qualità Ferrero, event marketing (back to school, feste), community management e retargeting ads verso il segmento adulto.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- INFLUENCER -->
+  <section class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Influencer Strategy</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">I partner selezionati</h2>
+      </div>
+      <div class="reveal space-y-5">
+
+        <div class="card p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold flex-shrink-0" style="background:rgba(255,107,43,0.15); color:#FF9A6B; font-size:1rem;">MCT</div>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="font-display font-bold text-base">Me Contro Te</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">Partnership paid</span>
+            </div>
+            <p class="text-sm" style="color:#94A3B8;">7,1M iscritti YouTube · Coppia di creator perfetta per il target bambini 8–12 e genitori. Integrazione nella challenge #KinderPinguìDance e nei video YouTube.</p>
+          </div>
+        </div>
+
+        <div class="card p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold flex-shrink-0" style="background:rgba(75,107,251,0.15); color:#818cf8; font-size:0.85rem;">PP</div>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="font-display font-bold text-base">Pamela Paolini</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(75,107,251,0.1); color:#818cf8;">TikTok · 2,7M follower</span>
+            </div>
+            <p class="text-sm" style="color:#94A3B8;">Lifestyle creator con forte engagement sul segmento 18–35. Contenuti autentici sulle pause quotidiane, perfetti per il concept del progetto.</p>
+          </div>
+        </div>
+
+        <div class="card p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold flex-shrink-0" style="background:rgba(75,107,251,0.15); color:#818cf8; font-size:0.85rem;">CT</div>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="font-display font-bold text-base">Claudia Tortorici</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(75,107,251,0.1); color:#818cf8;">TikTok · 1,8M follower</span>
+            </div>
+            <p class="text-sm" style="color:#94A3B8;">Creator con tono ironico e quotidiano, molto riconoscibile dai giovani adulti. Ideale per contenuti relatable sulla pausa studio/lavoro.</p>
+          </div>
+        </div>
+
+        <div class="card p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold flex-shrink-0" style="background:rgba(75,107,251,0.15); color:#818cf8; font-size:0.75rem;">VFS</div>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="font-display font-bold text-base">Vita da Fuori Sede</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(75,107,251,0.1); color:#818cf8;">TikTok · 220K follower</span>
+            </div>
+            <p class="text-sm" style="color:#94A3B8;">Micro-influencer specializzata nella vita universitaria fuori casa. Comunità iper-engaggiata di studenti fuorisede — target diretto per Pinguì come snack da studio.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ATTIVAZIONI -->
+  <section class="py-20 px-6" style="background:#0F1623;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Attivazioni speciali</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Le campagne chiave</h2>
+      </div>
+      <div class="reveal grid md:grid-cols-2 gap-6">
+
+        <div class="card p-7">
+          <div class="text-3xl mb-4">🏆</div>
+          <h3 class="font-display font-bold text-xl mb-3">Contest "Pausa Pinguì"</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:#94A3B8;">Gli utenti condividono la loro pausa preferita taggando @KinderPinguì con l'hashtag #PausaPinguì. Il post più creativo vince un weekend a Disneyland Paris per tutta la famiglia.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag" style="font-size:0.7rem;">UGC</span>
+            <span class="tag" style="font-size:0.7rem;">Instagram + Facebook</span>
+            <span class="tag" style="font-size:0.7rem;">Premio Disneyland Paris</span>
+          </div>
+        </div>
+
+        <div class="card p-7">
+          <div class="text-3xl mb-4">💃</div>
+          <h3 class="font-display font-bold text-xl mb-3">#KinderPinguìDance</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:#94A3B8;">Challenge TikTok con coreografia originale co-creata con Me Contro Te. Gli utenti replicano e condividono il loro Pinguì dance. Meccanica semplice, alta potenziale di viralità.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag" style="font-size:0.7rem;">TikTok Challenge</span>
+            <span class="tag" style="font-size:0.7rem;">Con Me Contro Te</span>
+            <span class="tag" style="font-size:0.7rem;">Virale</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- KPI -->
+  <section class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Misurazione dei risultati</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">KPI obiettivo</h2>
+      </div>
+      <div class="reveal grid md:grid-cols-3 gap-6 mb-12">
+        <div class="card p-6 text-center">
+          <div class="font-display font-black text-4xl mb-2" style="color:#FF6B2B;">+30%</div>
+          <div class="text-sm" style="color:#94A3B8;">Menzioni organiche in 6 mesi</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="font-display font-black text-4xl mb-2" style="color:#FF6B2B;">200K</div>
+          <div class="text-sm" style="color:#94A3B8;">Visualizzazioni video totali</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="font-display font-black text-4xl mb-2" style="color:#FF6B2B;">+20%</div>
+          <div class="text-sm" style="color:#94A3B8;">Engagement rate in 3 mesi</div>
+        </div>
+      </div>
+      <div class="reveal card p-7">
+        <h3 class="font-display font-bold text-lg mb-5">Obiettivi per canale</h3>
+        <div class="space-y-5">
+          <div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>Instagram — Reach mensile</span><span class="kinder-accent font-medium">500K+</span></div>
+            <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:80%;"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>TikTok — Views per video</span><span class="kinder-accent font-medium">50K avg</span></div>
+            <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:65%;"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>Contest UGC — Contenuti generati</span><span class="kinder-accent font-medium">50 post</span></div>
+            <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:50%;"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>YouTube — Visualizzazioni challenge</span><span class="kinder-accent font-medium">200K</span></div>
+            <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:70%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PIANO EDITORIALE -->
+  <section class="py-20 px-6" style="background:#0F1623;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Piano editoriale</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">9 mesi di contenuti</h2>
+      </div>
+      <div class="reveal grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Gen–Feb</div><div class="font-display font-bold mb-1">New Year, New Pause</div><p class="text-xs" style="color:#94A3B8;">Nuovi buoni propositi e momento di pausa come ricompensa per i propri obiettivi.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Mar</div><div class="font-display font-bold mb-1">Spring Break Snack</div><p class="text-xs" style="color:#94A3B8;">Pausa primaverile, contenuti outdoor e lifestyle leggero.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Apr</div><div class="font-display font-bold mb-1">Pausa Pasquale</div><p class="text-xs" style="color:#94A3B8;">Integrazione con le festività. Famiglia e condivisione come valori centrali.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Mag–Giu</div><div class="font-display font-bold mb-1">Back to School</div><p class="text-xs" style="color:#94A3B8;">Fine anno scolastico, la pausa meritata dopo gli esami e le verifiche.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Lug–Ago</div><div class="font-display font-bold mb-1">Estate in Pausa</div><p class="text-xs" style="color:#94A3B8;">Vacanze, spiaggia, momenti relax. UGC con scatti estivi. Contest #PausaPinguì.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Set</div><div class="font-display font-bold mb-1">Ritorno alla Routine</div><p class="text-xs" style="color:#94A3B8;">Rientro scolastico e lavorativo. Pinguì come alleato delle pause quotidiane post-estate.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TEAM -->
+  <section class="py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Il progetto</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Chi ha lavorato a questo</h2>
+      </div>
+      <div class="reveal flex justify-start">
+        <div class="card p-7 flex items-center gap-5" style="max-width:320px;">
+          <div class="w-14 h-14 rounded-full flex items-center justify-center font-display font-bold text-xl flex-shrink-0" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">GS</div>
+          <div>
+            <div class="font-display font-bold text-base mb-1">Gabriele Siani</div>
+            <div class="text-sm" style="color:#94A3B8;">Strategist & Presenter</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal mt-6 card p-5" style="border-color: rgba(255,107,43,0.2);">
+        <p class="text-sm" style="color:#94A3B8;">Corso: Comunicazione digitale e social media · Prof. Francesca Comunello · Sapienza Università di Roma</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONCLUSIONI -->
+  <section class="py-20 px-6" style="background:#0F1623;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="tag mb-4 block">Takeaway</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">Cosa ci ha insegnato questo progetto</h2>
+        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
+          Lavorare su un brief reale commissionato da Ferrero ha significato affrontare la complessità di un brand con un'identità consolidata e un target doppio — bambini e adulti — da raggiungere con messaggi coerenti ma su canali completamente diversi.
+        </p>
+        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+          Il progetto ha richiesto coordinamento tra strategia, creatività e misurazione: dalla selezione degli influencer giusti per ogni segmento alla costruzione di un piano editoriale mensile con temi e toni differenziati per piattaforma. Una vera esperienza di marketing integrato a 360°.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <section class="py-16 px-6 text-center">
+    <a href="index.html" class="btn-back mx-auto" style="display:inline-flex;">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Torna al portfolio
+    </a>
+  </section>
+
+  <footer class="py-8 px-6 text-center" style="border-top:1px solid #1E293B;">
+    <p class="text-sm" style="color:#94A3B8;">© 2026 Gabriele Siani</p>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    document.querySelectorAll('.reveal').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+        }
+      );
+    });
+    window.addEventListener('load', () => { ScrollTrigger.refresh(); });
+  </script>
+</body>
+</html>
