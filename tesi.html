@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tesi Magistrale — Guerrilla vs. Marketing Tradizionale · Gabriele Siani</title>
+  <meta name="description" content="Studio sperimentale 2x2 su Brand Equity e Willingness to Pay: Guerrilla Marketing vs. Marketing Tradizionale. Tesi magistrale alla Sapienza di Roma." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?v=3"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #080D1A; color: #fff; font-family: 'DM Sans', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
+    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 2rem; transition: background 0.4s, border-color 0.4s; border-bottom: 1px solid transparent; }
+    nav.scrolled { background: rgba(8,13,26,0.92); backdrop-filter: blur(16px); border-color: #1A2540; }
+    .tag { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 9999px; border: 1px solid #1A2540; font-size: 0.72rem; color: #8896B0; letter-spacing: 0.07em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #4B6BFB; display: flex; align-items: center; gap: 0.6rem; }
+    .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: #4B6BFB; }
+    .card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1A2540 30%, #1A2540 70%, transparent); }
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; color: #8896B0; text-decoration: none; font-size: 0.85rem; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; transition: color 0.3s; }
+    .back-btn:hover { color: #fff; }
+    .stat-big { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(3rem, 6vw, 5rem); color: #4B6BFB; letter-spacing: -0.03em; line-height: 1; }
+    .img-frame { border-radius: 1.25rem; overflow: hidden; border: 1px solid #1A2540; position: relative; }
+    .img-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(8,13,26,0.6) 100%); pointer-events: none; }
+    .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.4rem, 2.5vw, 2rem); line-height: 1.4; color: #fff; border-left: 3px solid #4B6BFB; padding-left: 1.5rem; }
+    .phase-card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1rem; padding: 1.75rem; position: relative; overflow: hidden; }
+    .phase-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: #4B6BFB; }
+    .insight-pill { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(75,107,251,0.1); border: 1px solid rgba(75,107,251,0.25); border-radius: 9999px; padding: 0.4rem 1rem; font-size: 0.82rem; color: #818cf8; }
+    .hyp-card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1rem; padding: 1.5rem; }
+    .hyp-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: #4B6BFB; font-weight: 600; }
+    .matrix-cell { background: #0D1425; border: 1px solid #1A2540; padding: 1.25rem; text-align: center; }
+    .btn-primary { background: #4B6BFB; color: #fff; padding: 0.875rem 2rem; border-radius: 0.625rem; font-weight: 500; font-size: 0.9rem; transition: background 0.3s, transform 0.2s, box-shadow 0.3s; display: inline-block; text-decoration: none; }
+    .btn-primary:hover { background: #5D7AFF; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(75,107,251,0.40); }
+    .lang-toggle { background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 999px; padding: 0.3rem 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: #818cf8; cursor: pointer; transition: background 0.3s, border-color 0.3s; text-transform: uppercase; }
+    .lang-toggle:hover { background: rgba(75,107,251,0.2); border-color: #4B6BFB; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-1" style="text-decoration:none;">
+        <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;">GS</span><span style="color:#4B6BFB;font-size:1.4rem;line-height:1;">.</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+        <a href="index.html#projects" class="back-btn">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span data-en="All projects">Tutti i progetti</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="relative min-h-screen flex items-end overflow-hidden">
+    <!-- Abstract ambient background -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+      <div style="position:absolute;top:-10%;left:-5%;width:60vw;height:60vw;background:radial-gradient(ellipse,rgba(75,107,251,0.12) 0%,transparent 60%);"></div>
+      <div style="position:absolute;bottom:-10%;right:-10%;width:50vw;height:50vw;background:radial-gradient(ellipse,rgba(168,85,247,0.06) 0%,transparent 60%);"></div>
+      <!-- Grid pattern -->
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(75,107,251,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(75,107,251,0.03) 1px,transparent 1px);background-size:60px 60px;"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 pb-20 pt-40 w-full relative">
+      <div class="reveal max-w-4xl">
+        <div class="flex flex-wrap items-center gap-3 mb-8">
+          <span class="tag" style="border-color:rgba(75,107,251,0.4);color:#818cf8;" data-en="Academic Research">Ricerca Accademica</span>
+          <span class="tag" data-en="Master's Thesis">Tesi Magistrale</span>
+          <span class="tag" data-en="In progress / 2026">In corso / 2026</span>
+        </div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:900;line-height:0.95;letter-spacing:-0.03em;font-size:clamp(2.8rem, 7vw, 6rem);" class="mb-6" data-en="Guerrilla vs.&lt;br /&gt;Marketing&lt;br /&gt;&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;Traditional.&lt;/span&gt;" data-html="true">
+          Guerrilla vs.<br />Marketing<br /><span style="color:#4B6BFB;font-style:italic;">Tradizionale.</span>
+        </h1>
+        <p class="text-lg leading-relaxed" style="color:#8896B0; max-width:580px;" data-en="The impact on Brand Equity and Willingness to Pay. The moderating role of hedonic vs. utilitarian product nature.">
+          L'impatto sulla Brand Equity e Willingness to Pay. Il ruolo moderatore della natura del prodotto edonico vs. utilitaristico.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+  <section class="py-20 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-px" style="background:#1A2540; border-radius:1.25rem; overflow:hidden;">
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">2x2</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Experimental design">Disegno sperimentale</div>
+        </div>
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">4</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Theoretical frameworks">Framework teorici</div>
+        </div>
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">H4</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Research hypotheses">Ipotesi di ricerca</div>
+        </div>
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">10</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Planned chapters">Capitoli previsti</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ LA DOMANDA ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="section-label mb-6" data-en="The research question">La domanda di ricerca</div>
+          <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight mb-6" data-en="Does unconventional marketing&lt;br /&gt;really &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;work?&lt;/span&gt;" data-html="true">
+            Il marketing non convenzionale<br />funziona <span style="color:#4B6BFB;font-style:italic;">davvero?</span>
+          </h2>
+          <p class="leading-relaxed mb-5" style="color:#8896B0;" data-en="Guerrilla Marketing promises to break the mold and capture attention where traditional media fails. But academic research on this topic is still fragmented: there is a lack of experimental studies that directly compare the two strategies by measuring their impact on concrete metrics.">
+            Il Guerrilla Marketing promette di rompere gli schemi e catturare l'attenzione dove i media tradizionali falliscono. Ma la ricerca accademica su questo tema è ancora frammentata: mancano studi sperimentali che confrontino direttamente le due strategie misurando il loro impatto su metriche concrete.
+          </p>
+          <p class="leading-relaxed mb-8" style="color:#8896B0;" data-en="This thesis was born to fill that gap. I designed a quantitative experimental study that compares traditional marketing and guerrilla marketing, measuring their effect on Brand Equity and Willingness to Pay. The key variable? Product nature — hedonic or utilitarian — which could completely change the consumer's response.">
+            Questa tesi nasce per colmare quel gap. Ho progettato uno studio quantitativo sperimentale che mette a confronto marketing tradizionale e guerrilla marketing, misurando il loro effetto su Brand Equity e Willingness to Pay. La variabile chiave? La natura del prodotto — edonico o utilitaristico — che potrebbe cambiare completamente la risposta del consumatore.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="insight-pill">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              <span data-en="Gap in the literature">Gap nella letteratura</span>
+            </span>
+            <span class="insight-pill" data-en="Original experimental study">Studio sperimentale originale</span>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="img-frame" style="height:420px;">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80&fit=crop" alt="Ricerca accademica e libri" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ FRAMEWORK TEORICI ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal text-center mb-16">
+        <div class="section-label mb-4 justify-center" data-en="Theoretical foundations">Fondamenta teoriche</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="Four theories, one &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;framework.&lt;/span&gt;" data-html="true">
+          Quattro teorie, un <span style="color:#4B6BFB;font-style:italic;">framework.</span>
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-5">
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;">SIGNALING THEORY</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-3" data-en="The quality signal">Il segnale di qualità</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Traditional media (TV, print, billboards) communicate an implicit signal of solidity and reliability. The visible investment in advertising reassures the consumer about the brand's quality — a mechanism particularly effective for utilitarian products where trust is decisive.">I media tradizionali (TV, stampa, affissioni) comunicano un segnale implicito di solidità e affidabilità. L'investimento visibile in advertising rassicura il consumatore sulla qualità del brand — un meccanismo particolarmente efficace per prodotti utilitaristici dove la fiducia è decisiva.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;">SCHEMA CONGRUITY THEORY</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-3" data-en="Breaking the schemas">La rottura degli schemi</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Guerrilla Marketing violates consumer expectations, generating surprise and deeper cognitive elaboration. This incongruence with pre-existing mental schemas produces stronger recall and a more favorable attitude toward the brand.">Il Guerrilla Marketing viola le aspettative del consumatore, generando sorpresa e un'elaborazione cognitiva più profonda. Questa incongruenza con gli schemi mentali preesistenti produce un ricordo più forte e un atteggiamento più favorevole verso il brand.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;">ELABORATION LIKELIHOOD MODEL</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-3" data-en="Two paths of persuasion">Due percorsi di persuasione</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="The ELM explains why product nature is a key variable: utilitarian products activate the central route (rational analysis), while hedonic products favor the peripheral route (emotion, creativity) — ideal terrain for guerrilla marketing.">L'ELM spiega perché la natura del prodotto è una variabile chiave: i prodotti utilitaristici attivano il percorso centrale (analisi razionale), mentre i prodotti edonici favoriscono il percorso periferico (emozione, creatività) — terreno ideale per il guerrilla marketing.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;">COMMODITY THEORY</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-3" data-en="Perceived scarcity and uniqueness">Scarsità e unicità percepita</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Willingness to Pay is influenced by the perception of uniqueness and scarcity. Guerrilla marketing, due to its non-replicable and contextual nature, can increase the perception of brand exclusivity and justify a premium price.">La Willingness to Pay è influenzata dalla percezione di unicità e scarsità. Il guerrilla marketing, per la sua natura non replicabile e contestuale, può aumentare la percezione di esclusività del brand e giustificare un premium price.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ IPOTESI ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-12">
+        <div class="section-label mb-4" data-en="Research hypotheses">Ipotesi di ricerca</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="What I am &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;testing.&lt;/span&gt;" data-html="true">
+          Cosa sto <span style="color:#4B6BFB;font-style:italic;">testando.</span>
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-5">
+        <div class="hyp-card">
+          <div class="hyp-label mb-3">H1</div>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Guerrilla Marketing generates higher levels of &lt;strong style=&quot;color:#fff;&quot;&gt;perceived Brand Equity&lt;/strong&gt; compared to traditional marketing." data-html="true">Il Guerrilla Marketing genera livelli di <strong style="color:#fff;">Brand Equity percepita</strong> superiori rispetto al marketing tradizionale.</p>
+        </div>
+        <div class="hyp-card">
+          <div class="hyp-label mb-3">H2</div>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Guerrilla Marketing leads to a higher &lt;strong style=&quot;color:#fff;&quot;&gt;Willingness to Pay&lt;/strong&gt; compared to traditional marketing." data-html="true">Il Guerrilla Marketing determina una maggiore <strong style="color:#fff;">Willingness to Pay</strong> rispetto al marketing tradizionale.</p>
+        </div>
+        <div class="hyp-card">
+          <div class="hyp-label mb-3">H3</div>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="The positive effect of Guerrilla Marketing on Brand Equity and WTP is &lt;strong style=&quot;color:#fff;&quot;&gt;stronger for hedonic products&lt;/strong&gt; compared to utilitarian products." data-html="true">L'effetto positivo del Guerrilla Marketing su Brand Equity e WTP è <strong style="color:#fff;">più forte per prodotti edonici</strong> rispetto a prodotti utilitaristici.</p>
+        </div>
+        <div class="hyp-card">
+          <div class="hyp-label mb-3">H4</div>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="For utilitarian products, &lt;strong style=&quot;color:#fff;&quot;&gt;traditional marketing is more effective&lt;/strong&gt; in generating Willingness to Pay compared to Guerrilla Marketing." data-html="true">Per prodotti utilitaristici, il <strong style="color:#fff;">marketing tradizionale risulta più efficace</strong> nel generare Willingness to Pay rispetto al Guerrilla Marketing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ DISEGNO SPERIMENTALE ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-16">
+        <div class="section-label mb-4" data-en="Methodology">Metodologia</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;2x2&lt;/span&gt; Design." data-html="true">
+          Disegno <span style="color:#4B6BFB;font-style:italic;">2x2.</span>
+        </h2>
+        <p class="mt-4" style="color:#8896B0;max-width:600px;" data-en="Participants are randomly assigned to one of the four experimental conditions, exposing them to communication stimuli differentiated by marketing type and product nature.">
+          I partecipanti vengono assegnati casualmente a una delle quattro condizioni sperimentali, esponendoli a stimoli comunicativi differenziati per tipologia di marketing e natura del prodotto.
+        </p>
+      </div>
+
+      <!-- Matrice 2x2 -->
+      <div class="reveal max-w-2xl mx-auto mb-12">
+        <div class="grid grid-cols-3 gap-px" style="background:#1A2540;border-radius:1.25rem;overflow:hidden;">
+          <!-- Header row -->
+          <div class="p-4 text-center" style="background:#080D1A;"></div>
+          <div class="p-4 text-center" style="background:#080D1A;">
+            <span class="text-xs" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;" data-en="HEDONIC">EDONICO</span>
+          </div>
+          <div class="p-4 text-center" style="background:#080D1A;">
+            <span class="text-xs" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;" data-en="UTILITARIAN">UTILITARISTICO</span>
+          </div>
+          <!-- Guerrilla row -->
+          <div class="p-4 flex items-center justify-center" style="background:#080D1A;">
+            <span class="text-xs" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;">GUERRILLA</span>
+          </div>
+          <div class="matrix-cell">
+            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#4B6BFB;">G1</div>
+            <div class="text-xs mt-1" style="color:#8896B0;" data-en="Guerrilla + Hedonic">Guerrilla + Edonico</div>
+          </div>
+          <div class="matrix-cell">
+            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#4B6BFB;">G2</div>
+            <div class="text-xs mt-1" style="color:#8896B0;" data-en="Guerrilla + Utilitarian">Guerrilla + Utilitaristico</div>
+          </div>
+          <!-- Tradizionale row -->
+          <div class="p-4 flex items-center justify-center" style="background:#080D1A;">
+            <span class="text-xs" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;" data-en="TRADITIONAL">TRADIZIONALE</span>
+          </div>
+          <div class="matrix-cell">
+            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#818cf8;">T1</div>
+            <div class="text-xs mt-1" style="color:#8896B0;" data-en="Traditional + Hedonic">Tradizionale + Edonico</div>
+          </div>
+          <div class="matrix-cell">
+            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#818cf8;">T2</div>
+            <div class="text-xs mt-1" style="color:#8896B0;" data-en="Traditional + Utilitarian">Tradizionale + Utilitaristico</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variabili -->
+      <div class="reveal grid md:grid-cols-3 gap-5">
+        <div class="phase-card">
+          <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;" data-en="Independent variable">Variabile indipendente</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;" class="mb-2" data-en="Communication type">Tipo di comunicazione</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Traditional marketing (print, TV, billboards) vs. Guerrilla Marketing (ambient, street, experiential).">Marketing tradizionale (stampa, TV, affissioni) vs. Guerrilla Marketing (ambient, street, esperienziale).</p>
+        </div>
+        <div class="phase-card">
+          <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;" data-en="Dependent variables">Variabili dipendenti</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;" class="mb-2">CBBE & WTP</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Customer-Based Brand Equity (Keller's model) and Willingness to Pay — how much the consumer is willing to pay for the product.">Customer-Based Brand Equity (modello di Keller) e Willingness to Pay — quanto il consumatore è disposto a pagare per il prodotto.</p>
+        </div>
+        <div class="phase-card">
+          <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;" data-en="Moderating variable">Variabile moderatrice</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;" class="mb-2" data-en="Product nature">Natura del prodotto</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Hedonic (pleasure, emotion, sensory experience) vs. Utilitarian (functionality, efficiency, problem-solving).">Edonico (piacere, emozione, esperienza sensoriale) vs. Utilitaristico (funzionalità, efficienza, problem-solving).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ PROCESSO ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="section-label mb-6" data-en="The process">Il processo</div>
+          <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight mb-6" data-en="From literature&lt;br /&gt;to &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;data.&lt;/span&gt;" data-html="true">
+            Dalla letteratura<br />ai <span style="color:#4B6BFB;font-style:italic;">dati.</span>
+          </h2>
+          <p class="leading-relaxed mb-8" style="color:#8896B0;" data-en="I structured the research following a rigorous path: from a systematic review of existing literature (PRISMA protocol), to the design of the data collection instrument, to statistical analysis with ANOVA to test main and interaction effects.">
+            Ho strutturato la ricerca seguendo un percorso rigoroso: dalla revisione sistematica della letteratura esistente (protocollo PRISMA), alla progettazione dello strumento di raccolta dati, fino all'analisi statistica con ANOVA per testare gli effetti principali e di interazione.
+          </p>
+
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(75,107,251,0.12);border:1px solid rgba(75,107,251,0.3);">
+                <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:#4B6BFB;font-weight:600;">01</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium mb-1" data-en="Systematic review (PRISMA)">Revisione sistematica (PRISMA)</div>
+                <div class="text-xs" style="color:#8896B0;" data-en="Analysis of existing literature on guerrilla marketing, brand equity and WTP. Identification of research gaps.">Analisi della letteratura esistente su guerrilla marketing, brand equity e WTP. Identificazione dei gap nella ricerca.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(75,107,251,0.12);border:1px solid rgba(75,107,251,0.3);">
+                <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:#4B6BFB;font-weight:600;">02</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium mb-1" data-en="Theoretical framework construction">Costruzione del framework teorico</div>
+                <div class="text-xs" style="color:#8896B0;" data-en="Integration of Signaling Theory, Schema Congruity, ELM and Commodity Theory into a coherent model.">Integrazione di Signaling Theory, Schema Congruity, ELM e Commodity Theory in un modello coerente.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(75,107,251,0.12);border:1px solid rgba(75,107,251,0.3);">
+                <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:#4B6BFB;font-weight:600;">03</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium mb-1" data-en="Questionnaire with validated scales">Questionario con scale validate</div>
+                <div class="text-xs" style="color:#8896B0;" data-en="Design of the data collection instrument with Likert scales validated by academic literature.">Progettazione dello strumento di raccolta dati con scale Likert validate dalla letteratura accademica.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(75,107,251,0.12);border:1px solid rgba(75,107,251,0.3);">
+                <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:#4B6BFB;font-weight:600;">04</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium mb-1" data-en="ANOVA analysis">Analisi ANOVA</div>
+                <div class="text-xs" style="color:#8896B0;" data-en="Testing main and interaction effects to verify hypotheses H1-H4 with statistical rigor.">Test degli effetti principali e di interazione per verificare le ipotesi H1-H4 con rigore statistico.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="quote mb-10">
+            "Oltre il marketing overload: L'impatto del Guerrilla Marketing rispetto ai Modelli Tradizionali su Brand Equity e Willingness to Pay."
+            <span class="text-base mt-4 block" style="font-family:'DM Mono',monospace;font-style:normal;font-size:0.72rem;letter-spacing:0.08em;color:#4A5568;" data-en="THESIS TITLE">TITOLO DELLA TESI</span>
+          </div>
+
+          <div class="card p-7">
+            <div class="text-xs mb-5" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;" data-en="ACADEMIC DETAILS">DETTAGLI ACCADEMICI</div>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center py-2 border-b" style="border-color:#1A2540;">
+                <span class="text-xs" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.06em;" data-en="UNIVERSITY">UNIVERSITÀ</span>
+                <span class="text-sm" data-en="Sapienza, Rome">Sapienza, Roma</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b" style="border-color:#1A2540;">
+                <span class="text-xs" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.06em;" data-en="PROGRAM">CORSO</span>
+                <span class="text-sm" data-en="Marketing & Corporate Communication">Marketing e Comunicazione d'Impresa</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b" style="border-color:#1A2540;">
+                <span class="text-xs" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.06em;" data-en="SUPERVISOR">RELATORE</span>
+                <span class="text-sm">Prof. Alberto Mattiacci</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b" style="border-color:#1A2540;">
+                <span class="text-xs" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.06em;" data-en="DEFENSE">DISCUSSIONE</span>
+                <span class="text-sm" data-en="July 2026">Luglio 2026</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-xs" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.06em;" data-en="METHOD">METODO</span>
+                <span class="text-sm" data-en="Quantitative experimental">Sperimentale quantitativo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ STRUTTURA ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-12">
+        <div class="section-label mb-4" data-en="Structure">Struttura</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="Three parts, ten &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;chapters.&lt;/span&gt;" data-html="true">
+          Tre parti, dieci <span style="color:#4B6BFB;font-style:italic;">capitoli.</span>
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-3 gap-6">
+        <!-- Parte I -->
+        <div class="card p-7">
+          <div class="text-xs mb-5" style="color:#4ade80;font-family:'DM Mono',monospace;letter-spacing:0.1em;" data-en="PART I — THEORY">PARTE I — TEORIA</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;" class="mb-4" data-en="Theoretical framework and literature review">Quadro teorico e revisione della letteratura</h3>
+          <div class="space-y-3">
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;01&lt;/span&gt; &amp;nbsp;Traditional Marketing" data-html="true"><span style="color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;">01</span> &nbsp;Il Marketing Tradizionale</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;02&lt;/span&gt; &amp;nbsp;Guerrilla Marketing" data-html="true"><span style="color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;">02</span> &nbsp;Il Guerrilla Marketing</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;03&lt;/span&gt; &amp;nbsp;Brand Equity and Willingness to Pay" data-html="true"><span style="color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;">03</span> &nbsp;Brand Equity e Willingness to Pay</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;04&lt;/span&gt; &amp;nbsp;Product nature as moderator" data-html="true"><span style="color:#4ade80;font-family:'DM Mono',monospace;font-size:0.72rem;">04</span> &nbsp;Natura del prodotto come moderatore</div>
+          </div>
+        </div>
+
+        <!-- Parte II -->
+        <div class="card p-7">
+          <div class="text-xs mb-5" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;" data-en="PART II — METHOD">PARTE II — METODO</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;" class="mb-4" data-en="Research methodology">Metodologia della ricerca</h3>
+          <div class="space-y-3">
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;05&lt;/span&gt; &amp;nbsp;Research design" data-html="true"><span style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;">05</span> &nbsp;Disegno della ricerca</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;06&lt;/span&gt; &amp;nbsp;Data collection instrument" data-html="true"><span style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;">06</span> &nbsp;Strumento di raccolta dati</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;07&lt;/span&gt; &amp;nbsp;Data analysis" data-html="true"><span style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;">07</span> &nbsp;Analisi dei dati</div>
+          </div>
+        </div>
+
+        <!-- Parte III -->
+        <div class="card p-7">
+          <div class="text-xs mb-5" style="color:#facc15;font-family:'DM Mono',monospace;letter-spacing:0.1em;" data-en="PART III — RESULTS">PARTE III — RISULTATI</div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;" class="mb-4" data-en="Results, discussion and implications">Risultati, discussione e implicazioni</h3>
+          <div class="space-y-3">
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#facc15;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;08&lt;/span&gt; &amp;nbsp;Presentation of results" data-html="true"><span style="color:#facc15;font-family:'DM Mono',monospace;font-size:0.72rem;">08</span> &nbsp;Presentazione dei risultati</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#facc15;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;09&lt;/span&gt; &amp;nbsp;Discussion" data-html="true"><span style="color:#facc15;font-family:'DM Mono',monospace;font-size:0.72rem;">09</span> &nbsp;Discussione</div>
+            <div class="text-sm" style="color:#8896B0;" data-en="&lt;span style=&quot;color:#facc15;font-family:'DM Mono',monospace;font-size:0.72rem;&quot;&gt;10&lt;/span&gt; &amp;nbsp;Conclusions" data-html="true"><span style="color:#facc15;font-family:'DM Mono',monospace;font-size:0.72rem;">10</span> &nbsp;Conclusioni</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ TAKEAWAY ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal max-w-3xl mx-auto text-center">
+        <div class="section-label mb-6 justify-center" data-en="Why this research matters">Perché questa ricerca conta</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight mb-8" data-en="Contribution to the &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;discipline.&lt;/span&gt;" data-html="true">
+          Contributo alla <span style="color:#4B6BFB;font-style:italic;">disciplina.</span>
+        </h2>
+        <p class="leading-relaxed mb-6" style="color:#8896B0;" data-en="This thesis is not just an academic exercise. It is an original contribution that aims to provide marketing professionals with a data-driven decision framework: when it makes sense to invest in guerrilla marketing and when traditional is the more effective choice, depending on the product type.">
+          Questa tesi non è solo un esercizio accademico. È un contributo originale che intende fornire ai professionisti del marketing un framework decisionale basato sui dati: quando ha senso investire in guerrilla marketing e quando il tradizionale è la scelta più efficace, in funzione del tipo di prodotto.
+        </p>
+        <p class="leading-relaxed mb-10" style="color:#8896B0;" data-en="The integration of four theoretical frameworks into a single experimental model, the simultaneous measurement of Brand Equity and Willingness to Pay, and the analysis of the moderating role of product nature represent an approach that the current literature has not yet explored systematically.">
+          L'integrazione di quattro framework teorici in un unico modello sperimentale, la misurazione simultanea di Brand Equity e Willingness to Pay, e l'analisi del ruolo moderatore della natura del prodotto rappresentano un approccio che la letteratura attuale non ha ancora esplorato in modo sistematico.
+        </p>
+        <a href="index.html#contact" class="btn-primary" data-en="Want to know more? Contact me">Vuoi saperne di più? Contattami</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <div class="divider"></div>
+  <section class="py-16 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <div class="text-xs mb-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;" data-en="Next project">Progetto successivo</div>
+        <a href="ferrari.html" style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.5rem;color:#fff;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#4B6BFB'" onmouseout="this.style.color='#fff'">
+          Ferrari — Brand Positioning &#8594;
+        </a>
+      </div>
+      <a href="index.html" class="back-btn" style="font-size:0.9rem;" data-en="&#8592; Back to portfolio">&#8592; Torna al portfolio</a>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        delay: (i % 2) * 0.1,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+    });
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+
+    let currentLang = localStorage.getItem('lang') || 'it';
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+    }
+    function applyLang() {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = currentLang === 'it' ? 'EN' : 'IT';
+      document.documentElement.lang = currentLang;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.it) el.dataset.it = el.dataset.html === 'true' ? el.innerHTML.trim() : el.textContent.trim();
+        if (currentLang === 'en') {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.en;
+          else el.textContent = el.dataset.en;
+        } else {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.it;
+          else el.textContent = el.dataset.it;
+        }
+      });
+    }
+    if (currentLang === 'en') applyLang();
+  </script>
+</body>
+</html>

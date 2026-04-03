@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gabriele Siani — Marketing & Web Design</title>
+  <title>Gabriele Siani — Marketing Strategist & Web Designer</title>
+  <meta name="description" content="Portfolio di Gabriele Siani — Marketing Strategist, Web Designer e laureando magistrale alla Sapienza di Roma. Case study reali, risultati documentati." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com?v=3"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -21,15 +18,17 @@
         extend: {
           colors: {
             bg: '#080D1A',
-            'bg-secondary': '#0F1623',
+            'bg-card': '#0D1425',
             accent: '#4B6BFB',
             'accent-hover': '#6B8AFB',
-            border: '#1E293B',
-            muted: '#94A3B8',
+            border: '#1A2540',
+            muted: '#8896B0',
+            dim: '#4A5568',
           },
           fontFamily: {
             display: ['Playfair Display', 'serif'],
             body: ['DM Sans', 'sans-serif'],
+            mono: ['DM Mono', 'monospace'],
           },
         },
       },
@@ -37,602 +36,573 @@
   </script>
 
   <style>
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       background-color: #080D1A;
       color: #ffffff;
       font-family: 'DM Sans', sans-serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Radial gradient backgrounds */
-    .bg-radial-hero::before {
+    body::before {
       content: '';
-      position: absolute;
-      top: -20%;
-      left: -10%;
-      width: 60%;
-      height: 80%;
-      background: radial-gradient(ellipse, rgba(75,107,251,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .bg-radial-hero::after {
-      content: '';
-      position: absolute;
-      bottom: -10%;
-      right: -5%;
-      width: 50%;
-      height: 60%;
-      background: radial-gradient(ellipse, rgba(75,107,251,0.07) 0%, transparent 70%);
-      pointer-events: none;
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
     }
 
-    /* Grain texture */
-    .grain::after {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: overlay;
-    }
-
-    /* Nav */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 2rem;
-      transition: background 0.3s, backdrop-filter 0.3s;
-    }
-    nav.scrolled {
-      background: rgba(8,13,26,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #1E293B;
-    }
-
-    /* Animated underline */
-    .nav-link {
-      position: relative;
-      color: #94A3B8;
-      transition: color 0.3s;
-      font-size: 0.875rem;
-      letter-spacing: 0.05em;
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: #4B6BFB;
-      transition: width 0.3s;
-    }
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 2rem; transition: background 0.4s, border-color 0.4s; border-bottom: 1px solid transparent; }
+    nav.scrolled { background: rgba(8,13,26,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: #1A2540; }
+    .nav-link { position: relative; color: #8896B0; font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.3s; text-decoration: none; }
+    .nav-link::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: #4B6BFB; transition: width 0.3s ease; }
     .nav-link:hover { color: #fff; }
     .nav-link:hover::after { width: 100%; }
 
-    /* Cursor blink */
-    .cursor {
-      display: inline-block;
-      width: 3px;
-      height: 1em;
-      background: #4B6BFB;
-      margin-left: 4px;
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
-    }
+    /* HERO */
+    .hero-ambient { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .hero-ambient .orb1 { position: absolute; top: -15%; left: -8%; width: 55vw; height: 55vw; background: radial-gradient(ellipse, rgba(75,107,251,0.10) 0%, transparent 65%); }
+    .hero-ambient .orb2 { position: absolute; bottom: 5%; right: -5%; width: 40vw; height: 40vw; background: radial-gradient(ellipse, rgba(75,107,251,0.06) 0%, transparent 65%); }
+    .cursor { display: inline-block; width: 4px; height: 0.85em; background: #4B6BFB; margin-left: 6px; vertical-align: middle; animation: blink 1.1s step-end infinite; }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Tags */
-    .tag {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      border: 1px solid #1E293B;
-      font-size: 0.75rem;
-      color: #94A3B8;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
+    /* TAGS */
+    .tag { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 9999px; border: 1px solid #1A2540; font-size: 0.72rem; color: #8896B0; letter-spacing: 0.07em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
 
-    /* Cards */
-    .card {
-      background: #0F1623;
-      border: 1px solid #1E293B;
-      border-radius: 1rem;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-4px) scale(1.01);
-      border-color: #4B6BFB;
-      box-shadow: 0 0 30px rgba(75,107,251,0.15);
-    }
+    /* LABEL */
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #4B6BFB; display: flex; align-items: center; gap: 0.6rem; }
+    .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: #4B6BFB; }
 
-    /* Skill bar */
-    .skill-bar {
-      height: 2px;
-      background: #1E293B;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .skill-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #4B6BFB, #6B8AFB);
-      border-radius: 999px;
-      width: 0%;
-      transition: width 0.7s ease;
-    }
+    /* CARDS */
+    .card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; }
+    .card:hover { transform: translateY(-5px); border-color: rgba(75,107,251,0.45); box-shadow: 0 12px 48px rgba(75,107,251,0.12); }
 
-    /* CTA button */
-    .btn-primary {
-      background: #4B6BFB;
-      color: #fff;
-      padding: 0.875rem 2rem;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .btn-primary:hover {
-      background: #6B8AFB;
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(75,107,251,0.4);
-    }
-    .btn-secondary {
-      background: transparent;
-      color: #fff;
-      padding: 0.875rem 2rem;
-      border-radius: 0.5rem;
-      border: 1px solid #1E293B;
-      font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      transition: border-color 0.3s, transform 0.2s;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .btn-secondary:hover {
-      border-color: #4B6BFB;
-      transform: scale(1.02);
-    }
+    /* PROJECT CARD */
+    .project-card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; overflow: hidden; transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s; text-decoration: none; color: inherit; display: block; }
+    .project-card:hover { border-color: rgba(75,107,251,0.4); box-shadow: 0 16px 56px rgba(75,107,251,0.10); transform: translateY(-4px); }
+    .project-card-thumb { height: 220px; position: relative; overflow: hidden; }
+    .project-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .project-card:hover .project-card-thumb img { transform: scale(1.05); }
+    .project-card-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, #0D1425 100%); }
+    .project-badge { font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; font-family: 'DM Mono', monospace; }
 
-    /* Stat counter */
-    .stat-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: #4B6BFB;
-      line-height: 1;
-    }
+    /* SKILL BAR */
+    .skill-bar { height: 2px; background: #1A2540; border-radius: 999px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: linear-gradient(90deg, #4B6BFB, #6B8AFB); border-radius: 999px; width: 0%; transition: width 1s cubic-bezier(.4,0,.2,1); }
 
-    /* Section fade-in */
-    .reveal { opacity: 0; transform: translateY(40px); }
+    /* BUTTONS */
+    .btn-primary { background: #4B6BFB; color: #fff; padding: 0.875rem 2rem; border-radius: 0.625rem; font-weight: 500; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: background 0.3s, transform 0.2s, box-shadow 0.3s; display: inline-block; text-decoration: none; letter-spacing: 0.01em; }
+    .btn-primary:hover { background: #5D7AFF; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(75,107,251,0.40); }
+    .btn-ghost { background: transparent; color: #fff; padding: 0.875rem 2rem; border-radius: 0.625rem; border: 1px solid #1A2540; font-weight: 400; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: border-color 0.3s, transform 0.2s, color 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .btn-ghost:hover { border-color: #4B6BFB; color: #4B6BFB; transform: translateY(-2px); }
 
-    /* Project badge */
-    .project-badge {
-      font-size: 0.65rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-    }
+    /* STAT */
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 3.25rem; font-weight: 900; color: #4B6BFB; line-height: 1; letter-spacing: -0.02em; }
 
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #1E293B 30%, #1E293B 70%, transparent);
-    }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1A2540 30%, #1A2540 70%, transparent); }
+    .reveal { opacity: 0; transform: translateY(36px); }
 
-    /* Form input */
-    .form-input {
-      background: #0F1623;
-      border: 1px solid #1E293B;
-      color: #fff;
-      border-radius: 0.5rem;
-      padding: 0.875rem 1rem;
-      width: 100%;
-      font-family: 'DM Sans', sans-serif;
-      transition: border-color 0.3s;
-      outline: none;
-    }
+    /* FORM */
+    .form-input { background: #0D1425; border: 1px solid #1A2540; color: #fff; border-radius: 0.625rem; padding: 0.875rem 1.125rem; width: 100%; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: border-color 0.3s; outline: none; }
     .form-input:focus { border-color: #4B6BFB; }
-    .form-input::placeholder { color: #94A3B8; }
+    .form-input::placeholder { color: #4A5568; }
+
+    /* BLOG CARD */
+    .blog-card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; overflow: hidden; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+    .blog-card:hover { border-color: rgba(75,107,251,0.35); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(75,107,251,0.10); }
+    .blog-thumb { height: 180px; position: relative; overflow: hidden; }
+    .blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .blog-card:hover .blog-thumb img { transform: scale(1.05); }
+
+    /* NEWSLETTER */
+    .newsletter-section { position: relative; overflow: hidden; }
+    .newsletter-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 200%; background: radial-gradient(ellipse, rgba(75,107,251,0.08) 0%, transparent 65%); pointer-events: none; }
+
+    /* MOBILE */
+    .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(8,13,26,0.97); backdrop-filter: blur(20px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: #fff; text-decoration: none; transition: color 0.3s; }
+    .mobile-menu a:hover { color: #4B6BFB; }
+
+    @keyframes scrollDown { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
+    .scroll-dot { animation: scrollDown 1.6s ease-in-out infinite; }
+
+    /* LANG TOGGLE */
+    .lang-toggle { background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 999px; padding: 0.3rem 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: #818cf8; cursor: pointer; transition: background 0.3s, border-color 0.3s; text-transform: uppercase; }
+    .lang-toggle:hover { background: rgba(75,107,251,0.2); border-color: #4B6BFB; }
   </style>
 </head>
 
-<body class="grain">
+<body>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button id="mobileClose" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:#8896B0;cursor:pointer;">
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <a href="#about" class="mobile-link" data-en="About me">Chi sono</a>
+    <a href="#skills" class="mobile-link" data-en="Skills">Competenze</a>
+    <a href="#projects" class="mobile-link" data-en="Projects">Progetti</a>
+    <a href="#results" class="mobile-link" data-en="Results">Risultati</a>
+    <a href="#blog" class="mobile-link" data-en="Blog">Blog</a>
+    <a href="#contact" class="mobile-link" data-en="Contact">Contatti</a>
+  </div>
 
   <!-- NAV -->
   <nav id="navbar">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <a href="#hero" class="font-display font-bold text-lg tracking-tight">GS<span style="color:#4B6BFB">.</span></a>
+      <a href="#hero" style="text-decoration:none;" class="flex items-center gap-1">
+        <span class="font-display font-black text-lg tracking-tight">GS</span><span style="color:#4B6BFB;font-size:1.4rem;line-height:1;">.</span>
+      </a>
       <div class="hidden md:flex items-center gap-8">
-        <a href="#about" class="nav-link">Chi sono</a>
-        <a href="#skills" class="nav-link">Competenze</a>
-        <a href="#projects" class="nav-link">Progetti</a>
-        <a href="#results" class="nav-link">Risultati</a>
-        <a href="#contact" class="nav-link">Contatti</a>
+        <a href="#about" class="nav-link" data-en="About">Chi sono</a>
+        <a href="#skills" class="nav-link" data-en="Skills">Competenze</a>
+        <a href="#projects" class="nav-link" data-en="Projects">Progetti</a>
+        <a href="#results" class="nav-link" data-en="Results">Risultati</a>
+        <a href="#blog" class="nav-link" data-en="Blog">Blog</a>
+        <a href="#contact" class="nav-link" data-en="Contact">Contatti</a>
       </div>
-      <a href="#contact" class="btn-primary text-sm py-2 px-5">Lavoriamo insieme</a>
+      <div class="flex items-center gap-3">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+        <a href="#contact" class="btn-primary hidden md:inline-block" style="padding:0.6rem 1.4rem;font-size:0.82rem;" data-en="Let's work together">Lavoriamo insieme</a>
+        <button id="menuBtn" class="md:hidden" style="background:none;border:none;color:#fff;cursor:pointer;padding:0.25rem;">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="hero" class="relative min-h-screen flex items-center bg-radial-hero overflow-hidden">
-    <div class="max-w-6xl mx-auto px-6 pt-32 pb-20 w-full">
-      <div class="max-w-4xl">
-        <div class="flex items-center gap-3 mb-8">
-          <span class="tag">Disponibile per nuovi progetti</span>
-          <span class="flex h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+    <div class="hero-ambient"><div class="orb1"></div><div class="orb2"></div></div>
+
+    <div class="max-w-6xl mx-auto px-6 pt-32 pb-24 w-full relative">
+      <div class="max-w-5xl">
+
+        <div class="flex items-center gap-3 mb-10">
+          <span class="tag" data-en="Available for new projects">Disponibile per nuovi progetti</span>
+          <span class="flex h-2 w-2 rounded-full bg-emerald-400" style="box-shadow: 0 0 6px rgba(52,211,153,0.8); animation: pulse 2s ease-in-out infinite;"></span>
         </div>
-        <h1 class="font-display font-black leading-none mb-6" style="font-size: clamp(3.5rem, 8vw, 7rem); letter-spacing: -0.02em;">
-          Gabriele<br />
-          <span style="color:#4B6BFB">Siani</span><span class="cursor"></span>
+
+        <h1 class="font-display font-black leading-none mb-8" style="font-size: clamp(3.8rem, 9vw, 8.5rem); letter-spacing: -0.03em; line-height: 0.95;">
+          Marketing<br />
+          <span style="color:#4B6BFB; font-style:italic;">Strategist</span>
         </h1>
-        <p class="text-xl md:text-2xl font-body mb-4" style="color:#94A3B8; max-width: 600px; line-height: 1.6;">
-          Marketing Strategist & Web Designer.<br />
-          Trasformo dati in strategie e idee in esperienze digitali.
-        </p>
-        <p class="text-base font-body mb-10" style="color:#64748B; max-width: 500px;">
-          Laureando magistrale alla Sapienza · Esperienza internazionale nel marketing · AI-driven
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="#projects" class="btn-primary">Vedi i miei progetti</a>
-          <a href="#contact" class="btn-secondary">Contattami</a>
+
+        <div class="grid md:grid-cols-2 gap-10 items-end">
+          <div>
+            <p class="text-lg md:text-xl leading-relaxed mb-8" style="color:#8896B0; max-width: 480px;">
+              <span data-en="Gabriele Siani — I turn data into strategies and ideas into measurable digital experiences.">Gabriele Siani — trasformo dati in strategie e idee in esperienze digitali misurabili.</span>
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a href="#projects" class="btn-primary" data-en="View projects">Vedi i progetti</a>
+              <a href="#contact" class="btn-ghost">
+                <span data-en="Contact me">Contattami</span>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <p class="text-sm mb-4" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.05em;" data-en="CURRENTLY">ATTUALMENTE</p>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3"><span style="color:#4B6BFB;">&#8594;</span><span style="color:#8896B0; font-size:0.9rem;" data-en="Master's thesis at Sapienza University, Rome">Tesi magistrale alla Sapienza, Roma</span></div>
+              <div class="flex items-center gap-3"><span style="color:#4B6BFB;">&#8594;</span><span style="color:#8896B0; font-size:0.9rem;" data-en="Marketing internship">Tirocinio marketing aziendale</span></div>
+              <div class="flex items-center gap-3"><span style="color:#4B6BFB;">&#8594;</span><span style="color:#8896B0; font-size:0.9rem;" data-en="Launching multi-sector e-commerce businesses">Lanciando e-commerce multisettoriali</span></div>
+            </div>
+          </div>
         </div>
 
-        <!-- Quick stats -->
-        <div class="flex flex-wrap gap-10 mt-16 pt-10 border-t" style="border-color:#1E293B;">
+        <div class="flex flex-wrap gap-12 mt-16 pt-12 border-t" style="border-color:#1A2540;">
           <div>
-            <div class="font-display font-black text-3xl" style="color:#4B6BFB;">+2K</div>
-            <div class="text-sm mt-1" style="color:#94A3B8;">Follower organici in 45 giorni</div>
+            <div class="font-display font-black text-3xl mb-1" style="color:#4B6BFB; letter-spacing:-0.02em;">+2.000</div>
+            <div class="text-xs tracking-wide" style="color:#4A5568; text-transform:uppercase; letter-spacing:0.08em;" data-en="Organic followers in 45 days">Follower organici in 45gg</div>
           </div>
           <div>
-            <div class="font-display font-black text-3xl" style="color:#4B6BFB;">200K+</div>
-            <div class="text-sm mt-1" style="color:#94A3B8;">Follower gestiti</div>
+            <div class="font-display font-black text-3xl mb-1" style="color:#4B6BFB; letter-spacing:-0.02em;">200K+</div>
+            <div class="text-xs tracking-wide" style="color:#4A5568; text-transform:uppercase; letter-spacing:0.08em;" data-en="Followers managed">Follower gestiti</div>
           </div>
           <div>
-            <div class="font-display font-black text-3xl" style="color:#4B6BFB;">2+</div>
-            <div class="text-sm mt-1" style="color:#94A3B8;">Brand internazionali</div>
+            <div class="font-display font-black text-3xl mb-1" style="color:#4B6BFB; letter-spacing:-0.02em;">4+</div>
+            <div class="text-xs tracking-wide" style="color:#4A5568; text-transform:uppercase; letter-spacing:0.08em;" data-en="International brands">Brand internazionali</div>
+          </div>
+          <div>
+            <div class="font-display font-black text-3xl mb-1" style="color:#4B6BFB; letter-spacing:-0.02em;">C1</div>
+            <div class="text-xs tracking-wide" style="color:#4A5568; text-transform:uppercase; letter-spacing:0.08em;" data-en="English + internship abroad">Inglese + stage all'estero</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-      <span class="text-xs tracking-widest uppercase" style="color:#94A3B8;">Scroll</span>
-      <div class="w-px h-12 bg-gradient-to-b from-transparent to-accent"></div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style="opacity:0.35;">
+      <span class="text-xs" style="font-family:'DM Mono',monospace; letter-spacing:0.12em; color:#8896B0;">SCROLL</span>
+      <div style="width:1px; height:36px; background:linear-gradient(to bottom, #4B6BFB, transparent); position:relative;">
+        <div class="scroll-dot" style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:5px; height:5px; border-radius:50%; background:#4B6BFB; margin-left:-2.5px;"></div>
+      </div>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- CHI SONO -->
-  <section id="about" class="py-28 px-6" style="background:#0F1623;">
+  <!-- ═══════════════════════════════ CHI SONO ═══════════════════════════════ -->
+  <section id="about" class="py-32 px-6" style="background:#0D1425;">
     <div class="max-w-6xl mx-auto">
-      <div class="reveal grid md:grid-cols-2 gap-16 items-center">
-        <div>
-          <span class="tag mb-6 block">Chi sono</span>
-          <h2 class="font-display font-black text-4xl md:text-5xl mb-6 leading-tight">
-            Marketing orientato<br />al <span style="color:#4B6BFB;">risultato.</span>
+      <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+        <div class="reveal">
+          <div class="section-label mb-6" data-en="About me">Chi sono</div>
+          <h2 class="font-display font-black leading-tight mb-8" style="font-size: clamp(2.5rem, 4.5vw, 3.5rem); letter-spacing:-0.02em;" data-en="Result-driven&lt;br /&gt;&lt;span style='color:#4B6BFB; font-style:italic;'&gt;marketing.&lt;/span&gt;" data-html="true">
+            Marketing orientato<br />al <span style="color:#4B6BFB; font-style:italic;">risultato.</span>
           </h2>
-          <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
-            Sono un laureando magistrale in Marketing e Comunicazione d'Impresa alla Sapienza di Roma, con un'esperienza internazionale maturata durante uno stage a Madrid nel digital marketing.
+          <p class="leading-relaxed mb-5" style="color:#8896B0; font-size:1.0rem; max-width:480px;" data-en="I'm a Master's student in Marketing and Business Communication at Sapienza University of Rome, with international experience gained during a digital marketing internship abroad.">
+            Sono un laureando magistrale in Marketing e Comunicazione d'Impresa alla Sapienza di Roma, con esperienza internazionale maturata durante uno stage a Madrid nel digital marketing.
           </p>
-          <p class="text-base leading-relaxed mb-8" style="color:#94A3B8;">
-            Ho gestito campagne su Meta Ads e Google Ads, curato la strategia editoriale di account Instagram fino a 200.000 follower e lavorato su brief reali per brand come Ferrari e Kinder. Oggi uso l'AI come strumento strategico per lavorare più velocemente e con più precisione.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <span class="tag">Marketing Strategico</span>
-            <span class="tag">Social Media</span>
-            <span class="tag">Web Design</span>
-            <span class="tag">AI-driven</span>
-            <span class="tag">Data Analytics</span>
-          </div>
-        </div>
-
-        <div class="relative">
-          <!-- Profile card -->
-          <div class="card p-8 relative">
-            <div class="flex items-center gap-4 mb-6">
-              <div class="w-16 h-16 rounded-full flex items-center justify-center font-display font-black text-2xl" style="background: linear-gradient(135deg, #4B6BFB, #6B8AFB);">G</div>
-              <div>
-                <div class="font-display font-bold text-xl">Gabriele Siani</div>
-                <div class="text-sm" style="color:#94A3B8;">Roma, Italia</div>
-              </div>
-            </div>
-            <div class="space-y-4 mb-6">
-              <div class="flex justify-between items-center">
-                <span class="text-sm" style="color:#94A3B8;">Università</span>
-                <span class="text-sm font-medium">La Sapienza, Roma</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="text-sm" style="color:#94A3B8;">Laurea</span>
-                <span class="text-sm font-medium">Luglio 2026</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="text-sm" style="color:#94A3B8;">Esperienza</span>
-                <span class="text-sm font-medium">Internazionale · Madrid</span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="text-sm" style="color:#94A3B8;">Lingue</span>
-                <span class="text-sm font-medium">IT · EN (C1) · ES (B2)</span>
-              </div>
-            </div>
-            <div class="divider mb-6"></div>
-            <div class="flex gap-3">
-              <a href="https://www.linkedin.com/in/gabrielesiani" target="_blank" class="btn-primary text-sm py-2 px-4 flex-1 text-center">LinkedIn</a>
-              <a href="mailto:gabrielesiani22@gmail.com" class="btn-secondary text-sm py-2 px-4 flex-1 text-center">Email</a>
-            </div>
-          </div>
-          <!-- Decorative blob -->
-          <div class="absolute -z-10 -bottom-8 -right-8 w-48 h-48 rounded-full" style="background: radial-gradient(circle, rgba(75,107,251,0.15), transparent 70%);"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- COMPETENZE -->
-  <section id="skills" class="py-28 px-6" style="background:#080D1A;">
-    <div class="max-w-6xl mx-auto">
-      <div class="reveal text-center mb-16">
-        <span class="tag mb-4 block">Competenze</span>
-        <h2 class="font-display font-black text-4xl md:text-5xl">
-          Cosa so <span style="color:#4B6BFB;">fare.</span>
-        </h2>
-      </div>
-
-      <div class="reveal grid md:grid-cols-3 gap-6">
-
-        <!-- Marketing Digitale -->
-        <div class="card p-7">
-          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: rgba(75,107,251,0.15);">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          </div>
-          <h3 class="font-display font-bold text-xl mb-4">Marketing Digitale</h3>
-          <div class="space-y-4">
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Meta Ads Manager</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Google Ads</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Google Analytics 4</span><span style="color:#4B6BFB;">Intermedio</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Social Media -->
-        <div class="card p-7">
-          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: rgba(75,107,251,0.15);">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
-          </div>
-          <h3 class="font-display font-bold text-xl mb-4">Social Media</h3>
-          <div class="space-y-4">
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Content Strategy</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Instagram & TikTok</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Piano Editoriale</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Web Design -->
-        <div class="card p-7">
-          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-5" style="background: rgba(75,107,251,0.15);">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-          </div>
-          <h3 class="font-display font-bold text-xl mb-4">Web Design</h3>
-          <div class="space-y-4">
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Landing Page</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">UI/UX Design</span><span style="color:#4B6BFB;">Intermedio</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-2"><span style="color:#94A3B8;">Canva & Visual</span><span style="color:#4B6BFB;">Avanzato</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tool strip -->
-      <div class="reveal mt-12 card p-6">
-        <p class="text-xs uppercase tracking-widest mb-5 text-center" style="color:#94A3B8;">Tool e tecnologie</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <span class="tag">Meta Ads</span>
-          <span class="tag">Google Ads</span>
-          <span class="tag">GA4</span>
-          <span class="tag">Canva</span>
-          <span class="tag">Notion</span>
-          <span class="tag">ChatGPT</span>
-          <span class="tag">Claude AI</span>
-          <span class="tag">Meta Business Suite</span>
-          <span class="tag">Adobe Premiere</span>
-          <span class="tag">Microsoft Office</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- PROGETTI -->
-  <section id="projects" class="py-28 px-6" style="background:#0F1623;">
-    <div class="max-w-6xl mx-auto">
-      <div class="reveal text-center mb-16">
-        <span class="tag mb-4 block">Progetti</span>
-        <h2 class="font-display font-black text-4xl md:text-5xl">
-          Lavori <span style="color:#4B6BFB;">selezionati.</span>
-        </h2>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-        <!-- Ferrari -->
-        <a href="ferrari.html" class="reveal card p-8 block" style="text-decoration:none; color:inherit;">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex gap-2 flex-wrap">
-              <span class="project-badge" style="background:rgba(239,68,68,0.15); color:#f87171;">Brand Strategy</span>
-              <span class="project-badge" style="background:rgba(148,163,184,0.1); color:#94A3B8;">Progetto Universitario</span>
-            </div>
-            <span class="text-xs ml-2 shrink-0" style="color:#94A3B8;">2024</span>
-          </div>
-          <h3 class="font-display font-bold text-2xl mb-3">Ferrari — Brand Positioning</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:#94A3B8;">
-            Analisi dei modelli di comunicazione interna Ferrari e delle strategie di gestione della narrazione del brand. Ricerca condotta direttamente presso il Museo Ferrari di Maranello.
+          <p class="leading-relaxed mb-10" style="color:#8896B0; font-size:1.0rem; max-width:480px;" data-en="I've managed Meta and Google Ads campaigns, grown Instagram accounts up to 200K followers, and developed case studies for brands like Ferrari and Kinder. I use AI as a strategic lever to work with precision and speed.">
+            Ho gestito campagne Meta e Google Ads, curato la crescita di account Instagram fino a 200K follower e sviluppato case study per brand come Ferrari e Kinder. Uso l'AI come leva strategica per lavorare con precisione e velocità.
           </p>
           <div class="flex flex-wrap gap-2">
-            <span class="tag" style="font-size:0.7rem;">Brand Strategy</span>
-            <span class="tag" style="font-size:0.7rem;">Internal Comms</span>
-            <span class="tag" style="font-size:0.7rem;">Ricerca Qualitativa</span>
+            <span class="tag" data-en="Strategic Marketing">Marketing Strategico</span>
+            <span class="tag">Social Media</span>
+            <span class="tag">Paid Ads</span>
+            <span class="tag">Web Design</span>
+            <span class="tag">AI-driven</span>
+            <span class="tag" data-en="Research">Research</span>
           </div>
-          <div class="mt-5 text-sm flex items-center gap-1" style="color:#4B6BFB;">
-            Leggi il case study
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="reveal">
+          <div class="card p-8 relative">
+            <div class="flex items-center gap-4 mb-8">
+              <div class="w-14 h-14 rounded-full flex items-center justify-center font-display font-black text-xl flex-shrink-0" style="background: linear-gradient(135deg, #4B6BFB 0%, #6B8AFB 100%);">G</div>
+              <div>
+                <div class="font-display font-bold text-xl leading-tight">Gabriele Siani</div>
+                <div class="text-sm mt-0.5" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.06em;">MARKETING STRATEGIST</div>
+              </div>
+            </div>
+            <div class="space-y-4 mb-8">
+              <div class="flex justify-between items-center py-3 border-b" style="border-color:#1A2540;">
+                <span class="text-sm" style="color:#4A5568; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase;" data-en="University">Università</span>
+                <span class="text-sm font-medium">La Sapienza, Roma</span>
+              </div>
+              <div class="flex justify-between items-center py-3 border-b" style="border-color:#1A2540;">
+                <span class="text-sm" style="color:#4A5568; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase;" data-en="Degree">Laurea</span>
+                <span class="text-sm font-medium" data-en="July 2026">Luglio 2026</span>
+              </div>
+              <div class="flex justify-between items-center py-3 border-b" style="border-color:#1A2540;">
+                <span class="text-sm" style="color:#4A5568; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase;" data-en="Experience">Esperienza</span>
+                <span class="text-sm font-medium" data-en="International">Internazionale</span>
+              </div>
+              <div class="flex justify-between items-center py-3">
+                <span class="text-sm" style="color:#4A5568; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase;" data-en="Languages">Lingue</span>
+                <span class="text-sm font-medium">IT / EN C1 / ES B2 / TR A2</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <a href="https://www.linkedin.com/in/gabrielesiani" target="_blank" class="btn-primary text-sm flex-1 text-center" style="padding:0.7rem 1rem;">LinkedIn &#8594;</a>
+              <a href="mailto:gabrielesiani22@gmail.com" class="btn-ghost text-sm flex-1 text-center" style="padding:0.7rem 1rem; justify-content:center;">Email</a>
+            </div>
+            <div style="position:absolute;z-index:-1;bottom:-3rem;right:-3rem;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(75,107,251,0.12),transparent 70%);pointer-events:none;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════ COMPETENZE ═══════════════════════════════ -->
+  <section id="skills" class="py-32 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <div class="section-label mb-4" data-en="Skills">Competenze</div>
+          <h2 class="font-display font-black leading-tight" style="font-size: clamp(2.5rem, 4.5vw, 3.5rem); letter-spacing:-0.02em;" data-en="What I &lt;span style='color:#4B6BFB; font-style:italic;'&gt;do.&lt;/span&gt;" data-html="true">
+            Cosa so <span style="color:#4B6BFB; font-style:italic;">fare.</span>
+          </h2>
+        </div>
+        <p class="text-sm max-w-xs" style="color:#4A5568;" data-en="Every skill is backed by documented hands-on experience, not just courses.">Ogni competenza è supportata da esperienza pratica documentata, non solo da corsi.</p>
+      </div>
+
+      <div class="reveal grid md:grid-cols-3 gap-5 mb-6">
+        <!-- Marketing Digitale -->
+        <div class="card p-7">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-6 flex-shrink-0" style="background: rgba(75,107,251,0.12); border:1px solid rgba(75,107,251,0.2);">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-6" data-en="Digital Marketing">Marketing Digitale</h3>
+          <div class="space-y-5">
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Meta Ads Manager</span><span style="color:#4B6BFB;">90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Google Ads</span><span style="color:#4B6BFB;">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Google Analytics 4</span><span style="color:#4B6BFB;">75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div></div>
+          </div>
+        </div>
+        <!-- Social Media -->
+        <div class="card p-7">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-6" style="background: rgba(75,107,251,0.12); border:1px solid rgba(75,107,251,0.2);">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-6">Social Media</h3>
+          <div class="space-y-5">
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Content Strategy</span><span style="color:#4B6BFB;">88%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Instagram & TikTok</span><span style="color:#4B6BFB;">90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;" data-en="Editorial Planning">Piano Editoriale</span><span style="color:#4B6BFB;">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+          </div>
+        </div>
+        <!-- Web & AI -->
+        <div class="card p-7">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-6" style="background: rgba(75,107,251,0.12); border:1px solid rgba(75,107,251,0.2);">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-6">Web Design & AI</h3>
+          <div class="space-y-5">
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Landing Page</span><span style="color:#4B6BFB;">88%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">AI Workflows</span><span style="color:#4B6BFB;">85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-2 font-mono"><span style="color:#8896B0;">Canva & Visual</span><span style="color:#4B6BFB;">90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal card p-6">
+        <p class="text-xs mb-5 text-center" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase;" data-en="Stack & tools">Stack & strumenti</p>
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="tag">Meta Ads</span><span class="tag">Google Ads</span><span class="tag">GA4</span><span class="tag">Canva</span><span class="tag">Notion</span><span class="tag">Claude AI</span><span class="tag">ChatGPT</span><span class="tag">Meta Business Suite</span><span class="tag">Adobe Premiere</span><span class="tag">Shopify</span><span class="tag">Vercel</span><span class="tag">GitHub</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════ PROGETTI ═══════════════════════════════ -->
+  <section id="projects" class="py-32 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <div class="section-label mb-4" data-en="Projects">Progetti</div>
+          <h2 class="font-display font-black leading-tight" style="font-size: clamp(2.5rem, 4.5vw, 3.5rem); letter-spacing:-0.02em;" data-en="Selected &lt;span style='color:#4B6BFB; font-style:italic;'&gt;work.&lt;/span&gt;" data-html="true">
+            Lavori <span style="color:#4B6BFB; font-style:italic;">selezionati.</span>
+          </h2>
+        </div>
+        <p class="text-sm max-w-xs" style="color:#4A5568;" data-en="Real briefs, real brands, documented results. Each case study tells the process and method.">Brief reali, brand veri, risultati documentati. Ogni case study racconta processo e metodo.</p>
+      </div>
+
+      <!-- Row 1 — Ferrari + Kinder -->
+      <div class="grid md:grid-cols-2 gap-5 mb-5">
+
+        <!-- Ferrari -->
+        <a href="ferrari.html" class="reveal project-card">
+          <div class="project-card-thumb" style="background: linear-gradient(135deg, #1A0A0A 0%, #3D0C0C 100%); display:flex; align-items:center; justify-content:center;">
+            <span style="color:rgba(220,38,38,0.25); position:relative; z-index:1; font-size:5rem; font-family:'Playfair Display',serif; font-weight:900;">F</span>
+          </div>
+          <div class="p-7">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex gap-2 flex-wrap">
+                <span class="project-badge" style="background:rgba(239,68,68,0.12); color:#f87171;">Brand Strategy</span>
+                <span class="project-badge" style="background:rgba(255,255,255,0.05); color:#8896B0;">Case Study</span>
+              </div>
+              <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2024</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl mb-3 leading-tight">Ferrari — Brand Positioning</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:#8896B0;" data-en="Analysis of Ferrari's internal communication models and brand narrative strategies. Research conducted directly at the Ferrari Museum in Maranello.">
+              Analisi dei modelli di comunicazione interna Ferrari e delle strategie di narrazione del brand. Ricerca condotta direttamente al Museo Ferrari di Maranello.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="tag">Brand Strategy</span><span class="tag">Internal Comms</span><span class="tag" data-en="Qualitative Research">Ricerca Qualitativa</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.04em;" data-en="READ CASE STUDY">
+              LEGGI IL CASE STUDY <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
           </div>
         </a>
 
         <!-- Kinder -->
-        <a href="kinder.html" class="reveal card p-8 block" style="text-decoration:none; color:inherit;">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex gap-2 flex-wrap">
-              <span class="project-badge" style="background:rgba(234,179,8,0.15); color:#facc15;">Social Media</span>
-              <span class="project-badge" style="background:rgba(148,163,184,0.1); color:#94A3B8;">Progetto Universitario</span>
+        <a href="kinder.html" class="reveal project-card">
+          <div class="project-card-thumb" style="background: linear-gradient(135deg, #1A1200 0%, #3D2E00 100%); display:flex; align-items:center; justify-content:center;">
+            <span style="color:rgba(234,179,8,0.25); position:relative; z-index:1; font-size:5rem; font-family:'Playfair Display',serif; font-weight:900;">K</span>
+          </div>
+          <div class="p-7">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex gap-2 flex-wrap">
+                <span class="project-badge" style="background:rgba(234,179,8,0.12); color:#facc15;">Social Media</span>
+                <span class="project-badge" style="background:rgba(255,255,255,0.05); color:#8896B0;">Case Study</span>
+              </div>
+              <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2024</span>
             </div>
-            <span class="text-xs ml-2 shrink-0" style="color:#94A3B8;">2024</span>
+            <h3 class="font-display font-bold text-2xl mb-3 leading-tight" data-en="Kinder (Ferrero) — Social Campaign">Kinder (Ferrero) — Campagna Social</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:#8896B0;" data-en="Complete design of a social campaign for Kinder: content strategy, editorial plan, KPIs and final presentation to the brand.">
+              Progettazione completa di una campagna social per Kinder: strategia di contenuto, piano editoriale, KPI di misurazione e presentazione finale al brand.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="tag">Social Strategy</span><span class="tag">Content Planning</span><span class="tag">KPI Design</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.04em;">
+              LEGGI IL CASE STUDY <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
           </div>
-          <h3 class="font-display font-bold text-2xl mb-3">Kinder (Ferrero) — Campagna Social</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:#94A3B8;">
-            Progettazione completa di una campagna social per Kinder: strategia di contenuto, piano editoriale, KPI di misurazione e presentazione finale al brand.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag" style="font-size:0.7rem;">Social Strategy</span>
-            <span class="tag" style="font-size:0.7rem;">Content Planning</span>
-            <span class="tag" style="font-size:0.7rem;">KPI Design</span>
+        </a>
+      </div>
+
+      <!-- Row 2 — FederVini + SSC Napoli -->
+      <div class="grid md:grid-cols-2 gap-5 mb-5">
+
+        <!-- FederVini -->
+        <a href="federvini.html" class="reveal project-card">
+          <div class="project-card-thumb">
+            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80&fit=crop" alt="Aperitivo conviviale italiano" />
           </div>
-          <div class="mt-5 text-sm flex items-center gap-1" style="color:#4B6BFB;">
-            Leggi il case study
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <div class="p-7">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex gap-2 flex-wrap">
+                <span class="project-badge" style="background:rgba(75,107,251,0.12); color:#818cf8;">Campagna ADV</span>
+                <span class="project-badge" style="background:rgba(255,255,255,0.05); color:#8896B0;">Case Study</span>
+              </div>
+              <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2025</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl mb-3 leading-tight" data-en="FederVini — Responsible Drinking">FederVini — Consumo Responsabile</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:#8896B0;" data-en="Integrated phygital campaign promoting responsible drinking among 18-25 year olds. Glocal language, dialectal irony and online + offline strategy.">
+              Campagna integrata phygital per promuovere un consumo consapevole tra i giovani 18-25 anni. Linguaggio glocal, ironia dialettale e strategia online + offline.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="tag">ADV Campaign</span><span class="tag">Phygital</span><span class="tag">Youth Marketing</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.04em;">
+              LEGGI IL CASE STUDY <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
           </div>
         </a>
 
-        <!-- Instagram Growth -->
-        <div class="reveal card p-8">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex gap-2 flex-wrap">
-              <span class="project-badge" style="background:rgba(168,85,247,0.15); color:#c084fc;">Growth</span>
-              <span class="project-badge" style="background:rgba(34,197,94,0.1); color:#4ade80;">Esperienza Professionale</span>
+        <!-- SSC Napoli -->
+        <a href="napoli.html" class="reveal project-card">
+          <div class="project-card-thumb">
+            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&fit=crop" alt="Stadio calcio atmosfera" />
+          </div>
+          <div class="p-7">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex gap-2 flex-wrap">
+                <span class="project-badge" style="background:rgba(0,173,239,0.12); color:#38bdf8;">Product Strategy</span>
+                <span class="project-badge" style="background:rgba(255,255,255,0.05); color:#8896B0;">Case Study</span>
+              </div>
+              <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2025</span>
             </div>
-            <span class="text-xs ml-2 shrink-0" style="color:#94A3B8;">2026</span>
-          </div>
-          <h3 class="font-display font-bold text-2xl mb-3">Instagram — +2.000 follower in 45 giorni</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:#94A3B8;">
-            Gestione strategica di un account personal brand con crescita organica documentata. Sviluppo di format video, ottimizzazione delle caption con AI e analisi continua delle metriche.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag" style="font-size:0.7rem;">Organic Growth</span>
-            <span class="tag" style="font-size:0.7rem;">Content Creation</span>
-            <span class="tag" style="font-size:0.7rem;">AI Copywriting</span>
-          </div>
-        </div>
-
-        <!-- Tesi -->
-        <div class="reveal card p-8">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex gap-2 flex-wrap">
-              <span class="project-badge" style="background:rgba(75,107,251,0.15); color:#818cf8;">Ricerca</span>
-              <span class="project-badge" style="background:rgba(148,163,184,0.1); color:#94A3B8;">Progetto Universitario</span>
+            <h3 class="font-display font-bold text-2xl mb-3 leading-tight" data-en="SSC Napoli — 100 Rounds of Passion">SSC Napoli — 100 Giri di Passione</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:#8896B0;" data-en="Product concept for Napoli's centenary: collector's edition turntable co-branded with Marshall. Market analysis, premium positioning and GTM strategy.">
+              Concept prodotto per il centenario del Napoli: giradischi collector's edition in co-branding con Marshall. Analisi di mercato, posizionamento premium e strategia GTM.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="tag">Product Concept</span><span class="tag">Luxury Positioning</span><span class="tag">Sport Marketing</span>
             </div>
-            <span class="text-xs ml-2 shrink-0" style="color:#94A3B8;">In corso · 2026</span>
-          </div>
-          <h3 class="font-display font-bold text-2xl mb-3">Tesi — Guerrilla vs. Marketing Tradizionale</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:#94A3B8;">
-            Studio sperimentale 2×2 sull'impatto del Guerrilla Marketing su Brand Equity e Willingness to Pay. Framework: Signaling Theory, ELM, Schema Congruity Theory.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag" style="font-size:0.7rem;">Quantitative Research</span>
-            <span class="tag" style="font-size:0.7rem;">ANOVA</span>
-            <span class="tag" style="font-size:0.7rem;">Brand Equity</span>
-          </div>
-        </div>
-
-        <!-- Hotel Instagram -->
-        <div class="reveal card p-8">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex gap-2 flex-wrap">
-              <span class="project-badge" style="background:rgba(20,184,166,0.15); color:#2dd4bf;">Social Media</span>
-              <span class="project-badge" style="background:rgba(34,197,94,0.1); color:#4ade80;">Esperienza Professionale</span>
+            <div class="flex items-center gap-2 text-sm" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.04em;">
+              LEGGI IL CASE STUDY <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
-            <span class="text-xs ml-2 shrink-0" style="color:#94A3B8;">In corso · 2026</span>
           </div>
-          <h3 class="font-display font-bold text-2xl mb-3">Hotel — Gestione Social 200K+</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:#94A3B8;">
-            Gestione strategica della pagina Instagram di una struttura hospitality con oltre 200.000 follower. Sviluppo di format video immersivi, piano editoriale mensile e ottimizzazione continua delle metriche di engagement per incrementare le prenotazioni dirette.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag" style="font-size:0.7rem;">Instagram Strategy</span>
-            <span class="tag" style="font-size:0.7rem;">Video Content</span>
-            <span class="tag" style="font-size:0.7rem;">Hospitality</span>
-            <span class="tag" style="font-size:0.7rem;">200K+ Follower</span>
-          </div>
-        </div>
-
+        </a>
       </div>
+
+      <!-- Row 3 — smaller cards -->
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="reveal card p-6">
+          <div class="flex items-start justify-between mb-4">
+            <span class="project-badge" style="background:rgba(168,85,247,0.12); color:#c084fc;">Growth</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2025</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-3 leading-tight" data-en="Instagram — +2,000 followers in 45 days">Instagram — +2.000 follower in 45 giorni</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:#8896B0; font-size:0.85rem;" data-en="Stalled account brought back to growth with +2,000 organic followers in 45 days. Video formats, data-driven editorial plan and continuous optimization.">Account bloccato riportato in crescita con +2.000 follower organici in 45 giorni. Format video, piano editoriale data-driven e ottimizzazione continua.</p>
+          <div class="flex flex-wrap gap-1.5"><span class="tag" style="font-size:0.65rem;">Organic Growth</span><span class="tag" style="font-size:0.65rem;">Content Strategy</span></div>
+        </div>
+
+        <div class="reveal card p-6">
+          <div class="flex items-start justify-between mb-4">
+            <span class="project-badge" style="background:rgba(20,184,166,0.12); color:#2dd4bf;">Hospitality</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2025</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-3 leading-tight" data-en="Hotel — Social Management 200K+">Hotel — Gestione Social 200K+</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:#8896B0; font-size:0.85rem;" data-en="Monthly editorial plan, immersive videos and engagement optimization for a 200K follower hospitality account.">Piano editoriale mensile, video immersivi e ottimizzazione engagement per account hospitality da 200K follower.</p>
+          <div class="flex flex-wrap gap-1.5"><span class="tag" style="font-size:0.65rem;">Instagram Strategy</span><span class="tag" style="font-size:0.65rem;">Video Content</span></div>
+        </div>
+
+        <a href="tesi.html" class="reveal card p-6" style="text-decoration:none;color:inherit;display:block;">
+          <div class="flex items-start justify-between mb-4">
+            <span class="project-badge" style="background:rgba(75,107,251,0.12); color:#818cf8;">Research</span>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;" data-en="Ongoing">In corso</span>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-3 leading-tight" data-en="Thesis — Guerrilla vs. Traditional Marketing">Tesi — Guerrilla vs. Marketing Tradizionale</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:#8896B0; font-size:0.85rem;" data-en="2x2 experimental study on Brand Equity and Willingness to Pay. Frameworks: Signaling Theory, ELM, Schema Congruity.">Studio sperimentale 2x2 su Brand Equity e Willingness to Pay. Framework: Signaling Theory, ELM, Schema Congruity.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4"><span class="tag" style="font-size:0.65rem;">ANOVA</span><span class="tag" style="font-size:0.65rem;">Brand Equity</span></div>
+          <div class="flex items-center gap-2 text-sm" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.04em;">LEGGI DI PIU' <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </a>
+      </div>
+
+      <!-- Web Design CTA -->
+      <div class="reveal mt-10">
+        <a href="webdesign.html" class="block relative overflow-hidden" style="background: linear-gradient(135deg, #0D1425 0%, #131E38 100%); border: 1px solid #1A2540; border-radius: 1.25rem; transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s; text-decoration: none; color: inherit;" onmouseover="this.style.borderColor='rgba(75,107,251,0.4)'; this.style.boxShadow='0 16px 56px rgba(75,107,251,0.10)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='#1A2540'; this.style.boxShadow='none'; this.style.transform='none';">
+          <div class="flex flex-col md:flex-row items-center gap-8 p-10">
+            <div class="flex-shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center" style="background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.25);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="1.5"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+              <h3 class="font-display font-bold text-2xl mb-2 leading-tight" data-en="Looking for a professional website?">Cerchi un sito web professionale?</h3>
+              <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="I build custom websites for businesses, freelancers and companies. Personalized design, fast, mobile-optimized and conversion-focused.">Realizzo siti web su misura per attività commerciali, freelance e aziende. Design personalizzato, veloce, ottimizzato per mobile e conversioni.</p>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0" style="color:#4B6BFB; font-family:'DM Mono',monospace; font-size:0.85rem; letter-spacing:0.04em;" data-en="VIEW WORK">
+              VEDI I LAVORI <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+          <div style="position:absolute;top:-30%;right:-5%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(75,107,251,0.08),transparent 70%);pointer-events:none;"></div>
+        </a>
+      </div>
+
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- RISULTATI -->
-  <section id="results" class="py-28 px-6" style="background:#080D1A;">
+  <!-- ═══════════════════════════════ RISULTATI ═══════════════════════════════ -->
+  <section id="results" class="py-32 px-6" style="background:#080D1A;">
     <div class="max-w-6xl mx-auto">
-      <div class="reveal text-center mb-16">
-        <span class="tag mb-4 block">Risultati</span>
-        <h2 class="font-display font-black text-4xl md:text-5xl">
-          Numeri <span style="color:#4B6BFB;">concreti.</span>
+      <div class="reveal text-center mb-20">
+        <div class="section-label mb-4 justify-center" data-en="Results">Risultati</div>
+        <h2 class="font-display font-black leading-tight" style="font-size: clamp(2.5rem, 4.5vw, 3.5rem); letter-spacing:-0.02em;" data-en="Real &lt;span style='color:#4B6BFB; font-style:italic;'&gt;numbers.&lt;/span&gt;" data-html="true">
+          Numeri <span style="color:#4B6BFB; font-style:italic;">reali.</span>
         </h2>
       </div>
 
-      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div class="card p-8 text-center">
-          <div class="stat-number counter" data-target="2000">0</div>
-          <div class="text-sm mt-3" style="color:#94A3B8;">Follower organici in 45 giorni</div>
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-px" style="background:#1A2540; border-radius:1.25rem; overflow:hidden;">
+        <div class="flex flex-col items-center justify-center p-10 text-center" style="background:#0D1425;">
+          <div class="stat-number" data-target="2000">0</div>
+          <div class="text-xs mt-3" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase; max-width:120px;" data-en="Organic followers in 45 days">Follower organici in 45 giorni</div>
         </div>
-        <div class="card p-8 text-center">
-          <div class="stat-number">200K<span style="font-size:2rem;">+</span></div>
-          <div class="text-sm mt-3" style="color:#94A3B8;">Follower gestiti su Instagram</div>
+        <div class="flex flex-col items-center justify-center p-10 text-center" style="background:#0D1425;">
+          <div class="stat-number">200K+</div>
+          <div class="text-xs mt-3" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase; max-width:120px;" data-en="Followers managed on a single account">Follower gestiti su singolo account</div>
         </div>
-        <div class="card p-8 text-center">
-          <div class="stat-number counter" data-target="3">0</div>
-          <div class="text-sm mt-3" style="color:#94A3B8;">Mesi di stage internazionale</div>
+        <div class="flex flex-col items-center justify-center p-10 text-center" style="background:#0D1425;">
+          <div class="stat-number" data-target="4">0</div>
+          <div class="text-xs mt-3" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase; max-width:120px;" data-en="International brands on real briefs">Brand internazionali su brief reali</div>
         </div>
-        <div class="card p-8 text-center">
-          <div class="stat-number counter" data-target="2">0</div>
-          <div class="text-sm mt-3" style="color:#94A3B8;">Brand internazionali (Ferrari, Kinder)</div>
+        <div class="flex flex-col items-center justify-center p-10 text-center" style="background:#0D1425;">
+          <div class="stat-number" data-target="3">0</div>
+          <div class="text-xs mt-3" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase; max-width:120px;" data-en="Websites launched">Siti web lanciati</div>
+        </div>
+      </div>
+
+      <div class="reveal grid md:grid-cols-3 gap-5 mt-5">
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase;">2022</div>
+          <h3 class="font-display font-bold text-xl mb-3" data-en="International internship">Stage internazionale</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Meta Ads and Google Ads campaigns, KPI monitoring and reporting in English in a multicultural context.">Campagne Meta Ads e Google Ads, monitoraggio KPI e reportistica in lingua inglese in contesto multiculturale.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase;">2025-2026 / Roma</div>
+          <h3 class="font-display font-bold text-xl mb-3">Social Media Management</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Strategic management of two Instagram accounts: growth from stall and maintenance of a 200K+ follower hospitality account.">Gestione strategica di due account Instagram: crescita da zero e mantenimento di un account da 200K+ follower nel settore hospitality.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB; font-family:'DM Mono',monospace; letter-spacing:0.1em; text-transform:uppercase;" data-en="2026 / Ongoing">2026 / In corso</div>
+          <h3 class="font-display font-bold text-xl mb-3" data-en="Thesis + E-commerce">Tesi + E-commerce</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Experimental quantitative research alongside launching Shopify e-commerce stores across multiple sectors and a B2B marketing internship.">Ricerca quantitativa sperimentale in parallelo al lancio di e-commerce Shopify su più settori e un tirocinio aziendale nel marketing B2B.</p>
         </div>
       </div>
     </div>
@@ -640,164 +610,274 @@
 
   <div class="divider"></div>
 
-  <!-- CONTATTI -->
-  <section id="contact" class="py-28 px-6" style="background:#0F1623;">
-    <div class="max-w-3xl mx-auto">
-      <div class="reveal text-center mb-12">
-        <span class="tag mb-4 block">Contatti</span>
-        <h2 class="font-display font-black text-4xl md:text-5xl mb-4">
-          Lavoriamo <span style="color:#4B6BFB;">insieme.</span>
+  <!-- ═══════════════════════════════ BLOG ═══════════════════════════════ -->
+  <section id="blog" class="py-32 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <div class="section-label mb-4">Blog</div>
+          <h2 class="font-display font-black leading-tight" style="font-size: clamp(2.5rem, 4.5vw, 3.5rem); letter-spacing:-0.02em;" data-en="Thoughts on &lt;span style='color:#4B6BFB; font-style:italic;'&gt;marketing.&lt;/span&gt;" data-html="true">
+            Pensieri sul <span style="color:#4B6BFB; font-style:italic;">marketing.</span>
+          </h2>
+        </div>
+        <p class="text-sm max-w-xs" style="color:#4A5568;" data-en="Reflections on strategy, data and communication. No generic tutorials — only field-tested perspectives.">Riflessioni su strategia, dati e comunicazione. Niente tutorial generici — solo punti di vista sviluppati sul campo.</p>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-5">
+        <!-- Post 1 -->
+        <article class="blog-card">
+          <div class="blog-thumb">
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80&fit=crop" alt="AI e marketing" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="tag">AI & Marketing</span>
+              <span style="font-size:0.72rem; color:#4A5568; font-family:'DM Mono',monospace;">5 min</span>
+            </div>
+            <h3 class="font-display font-bold text-lg mb-3 leading-tight" data-en="How to use AI in marketing without sounding like a robot">Come usare l'AI nel marketing senza sembrare un robot</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:#8896B0; font-size:0.85rem;" data-en="AI is not a text generator. It's a strategy amplifier — if you know how to use it. Here's what I learned working with it every day.">L'AI non è un generatore di testi. È un amplificatore di strategia — se sai come usarla. Ecco cosa ho imparato lavorandoci ogni giorno.</p>
+            <div class="flex items-center justify-between">
+              <span style="font-size:0.75rem; color:#4A5568; font-family:'DM Mono',monospace;">Aprile 2026</span>
+              <span style="font-size:0.78rem; color:#4B6BFB; font-family:'DM Mono',monospace; letter-spacing:0.04em;">COMING SOON &#8594;</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="blog-card">
+          <div class="blog-thumb">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&fit=crop" alt="Dati e ricerca" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="tag" data-en="Research">Ricerca</span>
+              <span style="font-size:0.72rem; color:#4A5568; font-family:'DM Mono',monospace;">8 min</span>
+            </div>
+            <h3 class="font-display font-bold text-lg mb-3 leading-tight" data-en="Guerrilla vs. Traditional Marketing: what the research really says">Guerrilla vs. Marketing Tradizionale: cosa dice davvero la ricerca</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:#8896B0; font-size:0.85rem;" data-en="I'm writing a thesis on this. Here are the findings that surprised me most — and why the literature isn't as unanimous as you'd think.">Sto scrivendo una tesi su questo. Ecco i risultati che mi hanno sorpreso di più — e perché la letteratura non è unanime come si crede.</p>
+            <div class="flex items-center justify-between">
+              <span style="font-size:0.75rem; color:#4A5568; font-family:'DM Mono',monospace;">Maggio 2026</span>
+              <span style="font-size:0.78rem; color:#4B6BFB; font-family:'DM Mono',monospace; letter-spacing:0.04em;">COMING SOON &#8594;</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════ NEWSLETTER ═══════════════════════════════ -->
+  <section class="newsletter-section py-32 px-6" style="background:#080D1A;">
+    <div class="max-w-2xl mx-auto text-center relative">
+      <div class="reveal">
+        <div class="section-label mb-6 justify-center">Newsletter</div>
+        <h2 class="font-display font-black leading-tight mb-6" style="font-size: clamp(2.2rem, 4vw, 3rem); letter-spacing:-0.02em;" data-en="Strategic marketing,&lt;br /&gt;&lt;span style='color:#4B6BFB; font-style:italic;'&gt;once a month.&lt;/span&gt;" data-html="true">
+          Marketing strategico,<br /><span style="color:#4B6BFB; font-style:italic;">una volta al mese.</span>
         </h2>
-        <p class="text-base" style="color:#94A3B8;">
-          Stai cercando un marketing manager, vuoi un sito web professionale o hai un progetto da sviluppare? Scrivimi.
+        <p class="mb-10 leading-relaxed" style="color:#8896B0; max-width:480px; margin-left:auto; margin-right:auto;" data-en="No spam. Just reflections on marketing, AI, and business communication — written by someone who studies and works in the field every day.">
+          Niente spam. Solo riflessioni su marketing, AI, e comunicazione d'impresa — scritte da chi studia e lavora sul campo ogni giorno.
+        </p>
+
+        <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="handleNewsletter(event)">
+          <input type="email" id="newsletterEmail" class="form-input flex-1" placeholder="La tua email" data-en-placeholder="Your email" required />
+          <button type="submit" class="btn-primary whitespace-nowrap" style="padding:0.875rem 1.75rem;" data-en="Subscribe">Iscriviti</button>
+        </form>
+
+        <div id="newsletterSuccess" class="hidden mt-4 text-sm" style="color:#4ade80; font-family:'DM Mono',monospace; letter-spacing:0.04em;" data-en="Subscription confirmed. Welcome!">
+          Iscrizione confermata. Benvenuto/a!
+        </div>
+
+        <p class="mt-5 text-xs" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.05em;" data-en="ZERO SPAM / UNSUBSCRIBE IN ONE CLICK">
+          ZERO SPAM / DISISCRIZIONE IN UN CLICK
         </p>
       </div>
+    </div>
+  </section>
 
-      <div class="reveal card p-10">
-        <form onsubmit="handleSubmit(event)">
-          <div class="grid md:grid-cols-2 gap-5 mb-5">
-            <div>
-              <label class="block text-sm mb-2" style="color:#94A3B8;">Nome</label>
-              <input type="text" placeholder="Il tuo nome" class="form-input" required />
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════ CONTATTI ═══════════════════════════════ -->
+  <section id="contact" class="py-32 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-20">
+
+        <div class="reveal">
+          <div class="section-label mb-6" data-en="Contact">Contatti</div>
+          <h2 class="font-display font-black leading-tight mb-8" style="font-size: clamp(2.5rem, 4.5vw, 3.5rem); letter-spacing:-0.02em;" data-en="Let's work&lt;br /&gt;&lt;span style='color:#4B6BFB; font-style:italic;'&gt;together.&lt;/span&gt;" data-html="true">
+            Lavoriamo<br /><span style="color:#4B6BFB; font-style:italic;">insieme.</span>
+          </h2>
+          <p class="leading-relaxed mb-10" style="color:#8896B0; max-width:420px;" data-en="Have a project in mind? Looking for a Marketing Manager or want a professional website? Write me — I reply within 24 hours.">
+            Hai un progetto in mente? Cerchi un Marketing Manager o vuoi un sito web professionale? Scrivimi — rispondo entro 24 ore.
+          </p>
+          <div class="space-y-4">
+            <a href="mailto:gabrielesiani22@gmail.com" class="flex items-center gap-4 group" style="text-decoration:none;">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(75,107,251,0.12); border:1px solid rgba(75,107,251,0.2);">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#4B6BFB" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <span style="color:#8896B0; font-size:0.9rem;" class="group-hover:text-white transition-colors">gabrielesiani22@gmail.com</span>
+            </a>
+            <a href="https://www.linkedin.com/in/gabrielesiani" target="_blank" class="flex items-center gap-4 group" style="text-decoration:none;">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(75,107,251,0.12); border:1px solid rgba(75,107,251,0.2);">
+                <svg width="16" height="16" fill="#4B6BFB" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </div>
+              <span style="color:#8896B0; font-size:0.9rem;" class="group-hover:text-white transition-colors">linkedin.com/in/gabrielesiani</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <form id="contactForm" class="space-y-4" onsubmit="handleContact(event)">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs mb-2" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase;" data-en="Name">Nome</label>
+                <input type="text" class="form-input" placeholder="Il tuo nome" data-en-placeholder="Your name" required />
+              </div>
+              <div>
+                <label class="block text-xs mb-2" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase;">Email</label>
+                <input type="email" class="form-input" placeholder="La tua email" data-en-placeholder="Your email" required />
+              </div>
             </div>
             <div>
-              <label class="block text-sm mb-2" style="color:#94A3B8;">Email</label>
-              <input type="email" placeholder="la-tua@email.com" class="form-input" required />
+              <label class="block text-xs mb-2" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase;" data-en="Subject">Oggetto</label>
+              <input type="text" class="form-input" placeholder="Di cosa hai bisogno?" data-en-placeholder="What do you need?" required />
             </div>
-          </div>
-          <div class="mb-5">
-            <label class="block text-sm mb-2" style="color:#94A3B8;">Di cosa hai bisogno?</label>
-            <select class="form-input">
-              <option value="" style="background:#0F1623;">Seleziona un'opzione</option>
-              <option value="marketing" style="background:#0F1623;">Marketing Manager / Consulenza</option>
-              <option value="website" style="background:#0F1623;">Sito Web / Landing Page</option>
-              <option value="social" style="background:#0F1623;">Social Media Management</option>
-              <option value="other" style="background:#0F1623;">Altro</option>
-            </select>
-          </div>
-          <div class="mb-8">
-            <label class="block text-sm mb-2" style="color:#94A3B8;">Messaggio</label>
-            <textarea rows="4" placeholder="Raccontami del tuo progetto..." class="form-input resize-none" required></textarea>
-          </div>
-          <button type="submit" class="btn-primary w-full text-center" style="text-align:center;">Invia messaggio</button>
-        </form>
-      </div>
+            <div>
+              <label class="block text-xs mb-2" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase;" data-en="Message">Messaggio</label>
+              <textarea class="form-input" rows="5" placeholder="Raccontami il tuo progetto..." data-en-placeholder="Tell me about your project..." style="resize:none;" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full" style="text-align:center;" data-en="Send message &#8594;">Invia messaggio &#8594;</button>
+            <div id="contactSuccess" class="hidden text-sm text-center mt-2" style="color:#4ade80; font-family:'DM Mono',monospace; letter-spacing:0.04em;" data-en="Message sent! I'll reply within 24 hours.">
+              Messaggio inviato! Ti rispondo entro 24 ore.
+            </div>
+          </form>
+        </div>
 
-      <!-- Direct contacts -->
-      <div class="reveal flex flex-wrap justify-center gap-6 mt-10">
-        <a href="mailto:gabrielesiani22@gmail.com" class="flex items-center gap-2 text-sm transition-colors hover:text-white" style="color:#94A3B8;">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          gabrielesiani22@gmail.com
-        </a>
-        <a href="https://www.linkedin.com/in/gabrielesiani" target="_blank" class="flex items-center gap-2 text-sm transition-colors hover:text-white" style="color:#94A3B8;">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <span class="flex items-center gap-2 text-sm" style="color:#94A3B8;">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          Roma, Italia
-        </span>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-8 px-6 text-center" style="background:#080D1A; border-top: 1px solid #1E293B;">
-    <p class="text-sm" style="color:#94A3B8;">
-      © 2026 Gabriele Siani
-    </p>
+  <footer class="py-10 px-6 border-t" style="border-color:#1A2540; background:#080D1A;">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-1">
+        <span class="font-display font-black text-lg">GS</span><span style="color:#4B6BFB;font-size:1.4rem;line-height:1;">.</span>
+      </div>
+      <p class="text-xs text-center" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.06em;">
+        &copy; 2026 Gabriele Siani — Marketing Strategist & Web Designer
+      </p>
+      <div class="flex items-center gap-5">
+        <a href="mailto:gabrielesiani22@gmail.com" class="nav-link" style="font-size:0.75rem;">Email</a>
+        <a href="https://www.linkedin.com/in/gabrielesiani" target="_blank" class="nav-link" style="font-size:0.75rem;">LinkedIn</a>
+        <a href="#blog" class="nav-link" style="font-size:0.75rem;">Blog</a>
+      </div>
+    </div>
   </footer>
 
+  <!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
   <script>
+    // NAV
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+
+    // MOBILE MENU
+    document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+    document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open')));
+
+    // GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-    // Make sure all reveals work on page load and navigation
-    window.addEventListener('load', () => {
-      ScrollTrigger.refresh();
-    });
-
-    // Nav scroll effect
-    window.addEventListener('scroll', () => {
-      const navbar = document.getElementById('navbar');
-      if (window.scrollY > 50) navbar.classList.add('scrolled');
-      else navbar.classList.remove('scrolled');
-    });
-
-    // Reveal animations
-    document.querySelectorAll('.reveal').forEach((el) => {
-      gsap.fromTo(el,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          }
-        }
-      );
-    });
-
-    // Skill bars
-    document.querySelectorAll('.skill-bar-fill').forEach((bar) => {
-      ScrollTrigger.create({
-        trigger: bar,
-        start: 'top 85%',
-        onEnter: () => {
-          bar.style.width = bar.dataset.width + '%';
-        }
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        delay: (i % 3) * 0.08,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
       });
     });
 
-    // Counter animation
-    document.querySelectorAll('.counter').forEach((counter) => {
-      const target = parseInt(counter.dataset.target);
+    // SKILL BARS
+    document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+      const w = bar.dataset.width;
       ScrollTrigger.create({
-        trigger: counter,
+        trigger: bar,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => { bar.style.width = w + '%'; }
+      });
+    });
+
+    // STAT COUNTERS
+    document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+      const target = +el.dataset.target;
+      ScrollTrigger.create({
+        trigger: el,
         start: 'top 85%',
+        once: true,
         onEnter: () => {
-          gsap.to({ val: 0 }, {
-            val: target,
-            duration: 2,
-            ease: 'power2.out',
+          gsap.to({ v: 0 }, {
+            v: target, duration: 1.6, ease: 'power2.out',
             onUpdate: function() {
-              const val = Math.round(this.targets()[0].val);
-              counter.textContent = target >= 1000
-                ? '+' + (val >= 1000 ? (val/1000).toFixed(1) + 'K' : val)
-                : val;
+              const val = Math.round(this.targets()[0].v);
+              el.textContent = target >= 1000 ? '+' + val.toLocaleString('it-IT') : val;
             }
           });
         }
       });
     });
 
-    // Staggered project cards
-    gsap.from('#projects .card', {
-      opacity: 0,
-      y: 20,
-      stagger: 0.08,
-      duration: 0.4,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '#projects .grid',
-        start: 'top 85%',
-      }
-    });
-
-    // Form submit
-    function handleSubmit(e) {
+    // NEWSLETTER
+    function handleNewsletter(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('button[type="submit"]');
-      btn.textContent = 'Messaggio inviato ✓';
-      btn.style.background = '#22c55e';
-      setTimeout(() => {
-        btn.textContent = 'Invia messaggio';
-        btn.style.background = '';
-        e.target.reset();
-      }, 3000);
+      document.getElementById('newsletterSuccess').classList.remove('hidden');
+      document.getElementById('newsletterForm').reset();
+      setTimeout(() => document.getElementById('newsletterSuccess').classList.add('hidden'), 4000);
     }
+
+    // CONTACT
+    function handleContact(e) {
+      e.preventDefault();
+      document.getElementById('contactSuccess').classList.remove('hidden');
+      document.getElementById('contactForm').reset();
+      setTimeout(() => document.getElementById('contactSuccess').classList.add('hidden'), 4000);
+    }
+
+    // FIX: ScrollTrigger refresh on load
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+
+    // ── LANG TOGGLE ──
+    let currentLang = localStorage.getItem('lang') || 'it';
+
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = currentLang === 'it' ? 'EN' : 'IT';
+      document.documentElement.lang = currentLang;
+
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.it) el.dataset.it = el.dataset.html === 'true' ? el.innerHTML.trim() : el.textContent.trim();
+        if (currentLang === 'en') {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.en;
+          else el.textContent = el.dataset.en;
+        } else {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.it;
+          else el.textContent = el.dataset.it;
+        }
+      });
+
+      document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+        if (!el.dataset.itPlaceholder) el.dataset.itPlaceholder = el.placeholder;
+        el.placeholder = currentLang === 'en' ? el.dataset.enPlaceholder : el.dataset.itPlaceholder;
+      });
+    }
+
+    if (currentLang === 'en') applyLang();
   </script>
 </body>
 </html>

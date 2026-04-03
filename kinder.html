@@ -60,6 +60,8 @@
     /* KPI bar */
     .kpi-bar-bg { background: #1E293B; border-radius: 9999px; height: 6px; width: 100%; overflow: hidden; }
     .kpi-bar-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #FF6B2B, #FFB347); }
+    .lang-toggle { background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 999px; padding: 0.3rem 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: #818cf8; cursor: pointer; transition: background 0.3s, border-color 0.3s; text-transform: uppercase; }
+    .lang-toggle:hover { background: rgba(75,107,251,0.2); border-color: #4B6BFB; }
   </style>
 </head>
 
@@ -69,10 +71,13 @@
   <nav style="position:fixed; top:0; left:0; right:0; z-index:100; padding:1.5rem 2rem; background:rgba(8,13,26,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #1E293B;">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <a href="index.html" class="font-display font-bold text-lg">GS<span style="color:#4B6BFB">.</span></a>
-      <a href="index.html" class="btn-back">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Torna al portfolio
-      </a>
+      <div class="flex items-center gap-3">
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+        <a href="index.html" class="btn-back">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span data-en="Back to portfolio">Torna al portfolio</span>
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -81,17 +86,17 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex flex-wrap gap-3 mb-6">
         <span class="tag">Social Media Strategy</span>
-        <span class="tag" style="background:rgba(148,163,184,0.1);">Progetto Universitario</span>
+        <span class="tag" style="background:rgba(148,163,184,0.1);" data-en="University Project">Progetto Universitario</span>
         <span class="tag">2024–2025</span>
       </div>
       <h1 class="font-display font-black leading-tight mb-6" style="font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing:-0.02em;">
-        Kinder Pinguì —<br /><span class="kinder-accent">Ogni pausa ha il suo Pinguì</span>
+        <span data-en="Kinder Pinguì —" data-html="true">Kinder Pinguì —</span><br /><span class="kinder-accent" data-en="Every break deserves its Pinguì">Ogni pausa ha il suo Pinguì</span>
       </h1>
       <p class="text-lg mb-8" style="color:#94A3B8; max-width:620px; line-height:1.7;">
-        Strategia social media commissionata da Ferrero per il rilancio di Kinder Pinguì. Campagna multicanale con influencer, contest e piano editoriale completo sviluppati per Instagram, TikTok, YouTube e Facebook.
+        <span data-en="Social media strategy commissioned by Ferrero for the relaunch of Kinder Pinguì. Multichannel campaign featuring influencers, contests and a complete editorial plan developed for Instagram, TikTok, YouTube and Facebook.">Strategia social media commissionata da Ferrero per il rilancio di Kinder Pinguì. Campagna multicanale con influencer, contest e piano editoriale completo sviluppati per Instagram, TikTok, YouTube e Facebook.</span>
       </p>
       <div class="flex flex-wrap gap-3">
-        <span class="kinder-stat">Commissionato da Ferrero</span>
+        <span class="kinder-stat" data-en="Commissioned by Ferrero">Commissionato da Ferrero</span>
         <span class="stat-pill">La Sapienza · 2024–2025</span>
         <span class="stat-pill">Team Sin4rgy</span>
       </div>
@@ -105,30 +110,30 @@
     <div class="max-w-4xl mx-auto">
       <div class="reveal grid md:grid-cols-4 gap-5 mb-16">
         <div class="card p-6">
-          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Ruolo</div>
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;" data-en="Role">Ruolo</div>
           <div class="font-display font-bold text-base">Strategist & Presenter</div>
         </div>
         <div class="card p-6">
           <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Team</div>
-          <div class="font-display font-bold text-base">4 persone · Sin4rgy</div>
+          <div class="font-display font-bold text-base" data-en="4 people · Sin4rgy">4 persone · Sin4rgy</div>
         </div>
         <div class="card p-6">
-          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Canali</div>
-          <div class="font-display font-bold text-base">4 piattaforme</div>
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;" data-en="Channels">Canali</div>
+          <div class="font-display font-bold text-base" data-en="4 platforms">4 piattaforme</div>
         </div>
         <div class="card p-6">
-          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Orizzonte</div>
-          <div class="font-display font-bold text-base">9 mesi di piano</div>
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;" data-en="Timeframe">Orizzonte</div>
+          <div class="font-display font-bold text-base" data-en="9-month plan">9 mesi di piano</div>
         </div>
       </div>
 
       <div class="reveal">
-        <span class="tag mb-4 block">Il Brief</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">Il progetto</h2>
-        <p class="text-base leading-relaxed mb-4" style="color:#94A3B8;">
+        <span class="tag mb-4 block" data-en="The Brief">Il Brief</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6" data-en="The project">Il progetto</h2>
+        <p class="text-base leading-relaxed mb-4" style="color:#94A3B8;" data-en="Ferrero commissioned the university team to design a complete social media strategy for Kinder Pinguì, an iconic product that needed to reposition itself as a quality snack for the whole family and as an authentic break moment.">
           Ferrero ha commissionato al team universitario la progettazione di una strategia social media completa per Kinder Pinguì, prodotto iconico che ha bisogno di riposizionarsi come snack di qualità per tutta la famiglia e come momento di pausa autentica.
         </p>
-        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+        <p class="text-base leading-relaxed" style="color:#94A3B8;" data-en="The brief required: target identification, channel selection, creative concept, monthly editorial plan, influencer strategy, special activations and measurable KPIs over a 9-month timeframe.">
           Il brief richiedeva: identificazione del target, scelta dei canali, concept creativo, piano editoriale mensile, strategia influencer, attivazioni speciali e KPI misurabili su un orizzonte temporale di 9 mesi.
         </p>
       </div>
@@ -142,30 +147,30 @@
     <div class="max-w-4xl mx-auto space-y-16">
 
       <div class="reveal">
-        <span class="tag mb-4 block">Concept creativo</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">"Ogni pausa ha il suo Pinguì"</h2>
-        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
+        <span class="tag mb-4 block" data-en="Creative concept">Concept creativo</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6" data-en="&quot;Every break deserves its Pinguì&quot;">"Ogni pausa ha il suo Pinguì"</h2>
+        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;" data-en="The concept stems from the idea that every break moment — from work, study, or routine — deserves a small but authentic reward. Kinder Pinguì is not just a snack: it's the signal that you've earned a moment all to yourself. A ritual break, recognizable, shareable.">
           Il concept nasce dall'idea che ogni momento di pausa — dal lavoro, dallo studio, dalla routine — merita una ricompensa piccola ma autentica. Kinder Pinguì non è solo uno snack: è il segnale che ci si è guadagnati un attimo tutto per sé. Una pausa rituale, riconoscibile, condivisibile.
         </p>
         <div class="card p-6" style="border-left: 3px solid #FF6B2B;">
-          <p class="font-display italic text-lg leading-relaxed" style="color:#e2e8f0;">"Non è uno snack. È il segnale che stai per staccare."</p>
-          <p class="text-sm mt-3" style="color:#94A3B8;">— Linea guida di tono del progetto</p>
+          <p class="font-display italic text-lg leading-relaxed" style="color:#e2e8f0;" data-en="&quot;It's not a snack. It's the signal you're about to unwind.&quot;">"Non è uno snack. È il segnale che stai per staccare."</p>
+          <p class="text-sm mt-3" style="color:#94A3B8;" data-en="— Project tone guideline">— Linea guida di tono del progetto</p>
         </div>
       </div>
 
       <div class="reveal">
         <span class="tag mb-4 block">Target</span>
-        <h2 class="font-display font-black text-3xl mb-6">Due pubblici, un prodotto</h2>
+        <h2 class="font-display font-black text-3xl mb-6" data-en="Two audiences, one product">Due pubblici, un prodotto</h2>
         <div class="grid md:grid-cols-2 gap-6">
           <div class="card p-7">
             <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-4" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">01</div>
-            <div class="font-display font-bold text-lg mb-2">Genitori multitasking</div>
-            <p class="text-sm leading-relaxed" style="color:#94A3B8;">Adulti con figli tra gli 8 e i 12 anni. Cercano snack di qualità che possano condividere con i bambini senza sensi di colpa. Valutano il rapporto qualità-marca.</p>
+            <div class="font-display font-bold text-lg mb-2" data-en="Multitasking parents">Genitori multitasking</div>
+            <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Adults with children aged 8 to 12. They seek quality snacks they can share with their kids guilt-free. They value the quality-brand relationship.">Adulti con figli tra gli 8 e i 12 anni. Cercano snack di qualità che possano condividere con i bambini senza sensi di colpa. Valutano il rapporto qualità-marca.</p>
           </div>
           <div class="card p-7">
             <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-4" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">02</div>
-            <div class="font-display font-bold text-lg mb-2">Giovani adulti 18–35</div>
-            <p class="text-sm leading-relaxed" style="color:#94A3B8;">Studenti e lavoratori che associano Kinder Pinguì alla nostalgia dell'infanzia. Ricercano autenticità nei brand. Fortemente presenti su TikTok e Instagram.</p>
+            <div class="font-display font-bold text-lg mb-2" data-en="Young adults 18–35">Giovani adulti 18–35</div>
+            <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Students and workers who associate Kinder Pinguì with childhood nostalgia. They seek authenticity in brands. Highly active on TikTok and Instagram.">Studenti e lavoratori che associano Kinder Pinguì alla nostalgia dell'infanzia. Ricercano autenticità nei brand. Fortemente presenti su TikTok e Instagram.</p>
           </div>
         </div>
       </div>
@@ -179,8 +184,8 @@
   <section class="py-20 px-6" style="background:#080D1A;">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Visual della campagna</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Come appare sui canali</h2>
+        <span class="tag mb-4 block" data-en="Campaign visuals">Visual della campagna</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="How it looks on channels">Come appare sui canali</h2>
       </div>
       <div class="reveal flex flex-wrap justify-center gap-8">
 
@@ -297,8 +302,8 @@
   <section class="py-20 px-6" style="background:#0F1623;">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Piano multicanale</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Strategia per canale</h2>
+        <span class="tag mb-4 block" data-en="Multichannel plan">Piano multicanale</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="Channel strategy">Strategia per canale</h2>
       </div>
       <div class="reveal grid md:grid-cols-2 gap-6">
 
@@ -309,7 +314,7 @@
             </div>
             <span class="font-display font-bold text-base">Instagram</span>
           </div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Hub visivo del progetto. Contenuti estetici delle pause, Reels lifestyle, Stories interattive con quiz e sondaggi. Contest "#PausaPinguì" con foto UGC. Frequenza: 4–5 post/settimana.</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Visual hub of the project. Aesthetic break content, lifestyle Reels, interactive Stories with quizzes and polls. &quot;#PausaPinguì&quot; contest with UGC photos. Frequency: 4–5 posts/week.">Hub visivo del progetto. Contenuti estetici delle pause, Reels lifestyle, Stories interattive con quiz e sondaggi. Contest "#PausaPinguì" con foto UGC. Frequenza: 4–5 post/settimana.</p>
         </div>
 
         <div class="card p-7">
@@ -319,7 +324,7 @@
             </div>
             <span class="font-display font-bold text-base">TikTok</span>
           </div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Canale prioritario per i giovani 18–35. Challenge "#KinderPinguìDance" in collaborazione con Me Contro Te. Video brevi autentici, trend adattati al brand, duetti con influencer. Frequenza: 5–6 video/settimana.</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Priority channel for young adults 18–35. &quot;#KinderPinguìDance&quot; challenge in collaboration with Me Contro Te. Authentic short videos, brand-adapted trends, influencer duets. Frequency: 5–6 videos/week.">Canale prioritario per i giovani 18–35. Challenge "#KinderPinguìDance" in collaborazione con Me Contro Te. Video brevi autentici, trend adattati al brand, duetti con influencer. Frequenza: 5–6 video/settimana.</p>
         </div>
 
         <div class="card p-7">
@@ -329,7 +334,7 @@
             </div>
             <span class="font-display font-bold text-base">YouTube</span>
           </div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Contenuti longform e pre-roll ads. Collaboration paid con Me Contro Te (7,1M iscritti). Mini-docuserie "La storia di una pausa". Frequenza: 1–2 video/mese.</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Longform content and pre-roll ads. Paid collaboration with Me Contro Te (7.1M subscribers). Mini-docuseries &quot;The story of a break&quot;. Frequency: 1–2 videos/month.">Contenuti longform e pre-roll ads. Collaboration paid con Me Contro Te (7,1M iscritti). Mini-docuserie "La storia di una pausa". Frequenza: 1–2 video/mese.</p>
         </div>
 
         <div class="card p-7">
@@ -339,7 +344,7 @@
             </div>
             <span class="font-display font-bold text-base">Facebook</span>
           </div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Canale dedicato ai genitori. Post informativi su ingredienti e qualità Ferrero, event marketing (back to school, feste), community management e retargeting ads verso il segmento adulto.</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Channel dedicated to parents. Informative posts about Ferrero ingredients and quality, event marketing (back to school, holidays), community management and retargeting ads targeting the adult segment.">Canale dedicato ai genitori. Post informativi su ingredienti e qualità Ferrero, event marketing (back to school, feste), community management e retargeting ads verso il segmento adulto.</p>
         </div>
 
       </div>
@@ -353,7 +358,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
         <span class="tag mb-4 block">Influencer Strategy</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">I partner selezionati</h2>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="Selected partners">I partner selezionati</h2>
       </div>
       <div class="reveal space-y-5">
 
@@ -362,9 +367,9 @@
           <div class="flex-1">
             <div class="flex flex-wrap items-center gap-2 mb-1">
               <span class="font-display font-bold text-base">Me Contro Te</span>
-              <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(255,107,43,0.15); color:#FF9A6B;">Partnership paid</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(255,107,43,0.15); color:#FF9A6B;" data-en="Paid partnership">Partnership paid</span>
             </div>
-            <p class="text-sm" style="color:#94A3B8;">7,1M iscritti YouTube · Coppia di creator perfetta per il target bambini 8–12 e genitori. Integrazione nella challenge #KinderPinguìDance e nei video YouTube.</p>
+            <p class="text-sm" style="color:#94A3B8;" data-en="7.1M YouTube subscribers · Creator couple perfect for the 8–12 children and parents target. Integration in the #KinderPinguìDance challenge and YouTube videos.">7,1M iscritti YouTube · Coppia di creator perfetta per il target bambini 8–12 e genitori. Integrazione nella challenge #KinderPinguìDance e nei video YouTube.</p>
           </div>
         </div>
 
@@ -375,7 +380,7 @@
               <span class="font-display font-bold text-base">Pamela Paolini</span>
               <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(75,107,251,0.1); color:#818cf8;">TikTok · 2,7M follower</span>
             </div>
-            <p class="text-sm" style="color:#94A3B8;">Lifestyle creator con forte engagement sul segmento 18–35. Contenuti autentici sulle pause quotidiane, perfetti per il concept del progetto.</p>
+            <p class="text-sm" style="color:#94A3B8;" data-en="Lifestyle creator with strong engagement in the 18–35 segment. Authentic content about daily breaks, perfect for the project concept.">Lifestyle creator con forte engagement sul segmento 18–35. Contenuti autentici sulle pause quotidiane, perfetti per il concept del progetto.</p>
           </div>
         </div>
 
@@ -386,7 +391,7 @@
               <span class="font-display font-bold text-base">Claudia Tortorici</span>
               <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(75,107,251,0.1); color:#818cf8;">TikTok · 1,8M follower</span>
             </div>
-            <p class="text-sm" style="color:#94A3B8;">Creator con tono ironico e quotidiano, molto riconoscibile dai giovani adulti. Ideale per contenuti relatable sulla pausa studio/lavoro.</p>
+            <p class="text-sm" style="color:#94A3B8;" data-en="Creator with an ironic, everyday tone, highly recognizable among young adults. Ideal for relatable content about study/work breaks.">Creator con tono ironico e quotidiano, molto riconoscibile dai giovani adulti. Ideale per contenuti relatable sulla pausa studio/lavoro.</p>
           </div>
         </div>
 
@@ -397,7 +402,7 @@
               <span class="font-display font-bold text-base">Vita da Fuori Sede</span>
               <span class="text-xs px-2 py-0.5 rounded-full font-medium" style="background:rgba(75,107,251,0.1); color:#818cf8;">TikTok · 220K follower</span>
             </div>
-            <p class="text-sm" style="color:#94A3B8;">Micro-influencer specializzata nella vita universitaria fuori casa. Comunità iper-engaggiata di studenti fuorisede — target diretto per Pinguì come snack da studio.</p>
+            <p class="text-sm" style="color:#94A3B8;" data-en="Micro-influencer specializing in off-campus university life. Hyper-engaged community of out-of-town students — direct target for Pinguì as a study snack.">Micro-influencer specializzata nella vita universitaria fuori casa. Comunità iper-engaggiata di studenti fuorisede — target diretto per Pinguì come snack da studio.</p>
           </div>
         </div>
 
@@ -411,30 +416,30 @@
   <section class="py-20 px-6" style="background:#0F1623;">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Attivazioni speciali</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Le campagne chiave</h2>
+        <span class="tag mb-4 block" data-en="Special activations">Attivazioni speciali</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="Key campaigns">Le campagne chiave</h2>
       </div>
       <div class="reveal grid md:grid-cols-2 gap-6">
 
         <div class="card p-7">
           <div class="text-3xl mb-4">🏆</div>
-          <h3 class="font-display font-bold text-xl mb-3">Contest "Pausa Pinguì"</h3>
-          <p class="text-sm leading-relaxed mb-4" style="color:#94A3B8;">Gli utenti condividono la loro pausa preferita taggando @KinderPinguì con l'hashtag #PausaPinguì. Il post più creativo vince un weekend a Disneyland Paris per tutta la famiglia.</p>
+          <h3 class="font-display font-bold text-xl mb-3" data-en="Contest &quot;Pinguì Break&quot;">Contest "Pausa Pinguì"</h3>
+          <p class="text-sm leading-relaxed mb-4" style="color:#94A3B8;" data-en="Users share their favorite break by tagging @KinderPinguì with the hashtag #PausaPinguì. The most creative post wins a weekend at Disneyland Paris for the whole family.">Gli utenti condividono la loro pausa preferita taggando @KinderPinguì con l'hashtag #PausaPinguì. Il post più creativo vince un weekend a Disneyland Paris per tutta la famiglia.</p>
           <div class="flex flex-wrap gap-2">
             <span class="tag" style="font-size:0.7rem;">UGC</span>
             <span class="tag" style="font-size:0.7rem;">Instagram + Facebook</span>
-            <span class="tag" style="font-size:0.7rem;">Premio Disneyland Paris</span>
+            <span class="tag" style="font-size:0.7rem;" data-en="Disneyland Paris Prize">Premio Disneyland Paris</span>
           </div>
         </div>
 
         <div class="card p-7">
           <div class="text-3xl mb-4">💃</div>
           <h3 class="font-display font-bold text-xl mb-3">#KinderPinguìDance</h3>
-          <p class="text-sm leading-relaxed mb-4" style="color:#94A3B8;">Challenge TikTok con coreografia originale co-creata con Me Contro Te. Gli utenti replicano e condividono il loro Pinguì dance. Meccanica semplice, alta potenziale di viralità.</p>
+          <p class="text-sm leading-relaxed mb-4" style="color:#94A3B8;" data-en="TikTok challenge with original choreography co-created with Me Contro Te. Users replicate and share their Pinguì dance. Simple mechanics, high virality potential.">Challenge TikTok con coreografia originale co-creata con Me Contro Te. Gli utenti replicano e condividono il loro Pinguì dance. Meccanica semplice, alta potenziale di viralità.</p>
           <div class="flex flex-wrap gap-2">
             <span class="tag" style="font-size:0.7rem;">TikTok Challenge</span>
-            <span class="tag" style="font-size:0.7rem;">Con Me Contro Te</span>
-            <span class="tag" style="font-size:0.7rem;">Virale</span>
+            <span class="tag" style="font-size:0.7rem;" data-en="With Me Contro Te">Con Me Contro Te</span>
+            <span class="tag" style="font-size:0.7rem;" data-en="Viral">Virale</span>
           </div>
         </div>
 
@@ -448,28 +453,28 @@
   <section class="py-20 px-6">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Misurazione dei risultati</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">KPI obiettivo</h2>
+        <span class="tag mb-4 block" data-en="Results measurement">Misurazione dei risultati</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="Target KPIs">KPI obiettivo</h2>
       </div>
       <div class="reveal grid md:grid-cols-3 gap-6 mb-12">
         <div class="card p-6 text-center">
           <div class="font-display font-black text-4xl mb-2" style="color:#FF6B2B;">+30%</div>
-          <div class="text-sm" style="color:#94A3B8;">Menzioni organiche in 6 mesi</div>
+          <div class="text-sm" style="color:#94A3B8;" data-en="Organic mentions in 6 months">Menzioni organiche in 6 mesi</div>
         </div>
         <div class="card p-6 text-center">
           <div class="font-display font-black text-4xl mb-2" style="color:#FF6B2B;">200K</div>
-          <div class="text-sm" style="color:#94A3B8;">Visualizzazioni video totali</div>
+          <div class="text-sm" style="color:#94A3B8;" data-en="Total video views">Visualizzazioni video totali</div>
         </div>
         <div class="card p-6 text-center">
           <div class="font-display font-black text-4xl mb-2" style="color:#FF6B2B;">+20%</div>
-          <div class="text-sm" style="color:#94A3B8;">Engagement rate in 3 mesi</div>
+          <div class="text-sm" style="color:#94A3B8;" data-en="Engagement rate in 3 months">Engagement rate in 3 mesi</div>
         </div>
       </div>
       <div class="reveal card p-7">
-        <h3 class="font-display font-bold text-lg mb-5">Obiettivi per canale</h3>
+        <h3 class="font-display font-bold text-lg mb-5" data-en="Goals by channel">Obiettivi per canale</h3>
         <div class="space-y-5">
           <div>
-            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>Instagram — Reach mensile</span><span class="kinder-accent font-medium">500K+</span></div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span data-en="Instagram — Monthly reach">Instagram — Reach mensile</span><span class="kinder-accent font-medium">500K+</span></div>
             <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:80%;"></div></div>
           </div>
           <div>
@@ -477,11 +482,11 @@
             <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:65%;"></div></div>
           </div>
           <div>
-            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>Contest UGC — Contenuti generati</span><span class="kinder-accent font-medium">50 post</span></div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span data-en="UGC Contest — Generated content">Contest UGC — Contenuti generati</span><span class="kinder-accent font-medium">50 post</span></div>
             <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:50%;"></div></div>
           </div>
           <div>
-            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span>YouTube — Visualizzazioni challenge</span><span class="kinder-accent font-medium">200K</span></div>
+            <div class="flex justify-between text-sm mb-2" style="color:#94A3B8;"><span data-en="YouTube — Challenge views">YouTube — Visualizzazioni challenge</span><span class="kinder-accent font-medium">200K</span></div>
             <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:70%;"></div></div>
           </div>
         </div>
@@ -495,16 +500,16 @@
   <section class="py-20 px-6" style="background:#0F1623;">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Piano editoriale</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">9 mesi di contenuti</h2>
+        <span class="tag mb-4 block" data-en="Editorial plan">Piano editoriale</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="9 months of content">9 mesi di contenuti</h2>
       </div>
       <div class="reveal grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Gen–Feb</div><div class="font-display font-bold mb-1">New Year, New Pause</div><p class="text-xs" style="color:#94A3B8;">Nuovi buoni propositi e momento di pausa come ricompensa per i propri obiettivi.</p></div>
-        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Mar</div><div class="font-display font-bold mb-1">Spring Break Snack</div><p class="text-xs" style="color:#94A3B8;">Pausa primaverile, contenuti outdoor e lifestyle leggero.</p></div>
-        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Apr</div><div class="font-display font-bold mb-1">Pausa Pasquale</div><p class="text-xs" style="color:#94A3B8;">Integrazione con le festività. Famiglia e condivisione come valori centrali.</p></div>
-        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Mag–Giu</div><div class="font-display font-bold mb-1">Back to School</div><p class="text-xs" style="color:#94A3B8;">Fine anno scolastico, la pausa meritata dopo gli esami e le verifiche.</p></div>
-        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Lug–Ago</div><div class="font-display font-bold mb-1">Estate in Pausa</div><p class="text-xs" style="color:#94A3B8;">Vacanze, spiaggia, momenti relax. UGC con scatti estivi. Contest #PausaPinguì.</p></div>
-        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;">Set</div><div class="font-display font-bold mb-1">Ritorno alla Routine</div><p class="text-xs" style="color:#94A3B8;">Rientro scolastico e lavorativo. Pinguì come alleato delle pause quotidiane post-estate.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;" data-en="Jan–Feb">Gen–Feb</div><div class="font-display font-bold mb-1">New Year, New Pause</div><p class="text-xs" style="color:#94A3B8;" data-en="New year's resolutions and break moments as a reward for personal goals.">Nuovi buoni propositi e momento di pausa come ricompensa per i propri obiettivi.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;" data-en="Mar">Mar</div><div class="font-display font-bold mb-1">Spring Break Snack</div><p class="text-xs" style="color:#94A3B8;" data-en="Spring break, outdoor content and light lifestyle.">Pausa primaverile, contenuti outdoor e lifestyle leggero.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;" data-en="Apr">Apr</div><div class="font-display font-bold mb-1" data-en="Easter Break">Pausa Pasquale</div><p class="text-xs" style="color:#94A3B8;" data-en="Holiday integration. Family and sharing as core values.">Integrazione con le festività. Famiglia e condivisione come valori centrali.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;" data-en="May–Jun">Mag–Giu</div><div class="font-display font-bold mb-1">Back to School</div><p class="text-xs" style="color:#94A3B8;" data-en="End of school year, the well-deserved break after exams and tests.">Fine anno scolastico, la pausa meritata dopo gli esami e le verifiche.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;" data-en="Jul–Aug">Lug–Ago</div><div class="font-display font-bold mb-1" data-en="Summer on Pause">Estate in Pausa</div><p class="text-xs" style="color:#94A3B8;" data-en="Holidays, beach, relaxation moments. UGC with summer shots. #PausaPinguì contest.">Vacanze, spiaggia, momenti relax. UGC con scatti estivi. Contest #PausaPinguì.</p></div>
+        <div class="card p-5"><div class="text-xs uppercase tracking-widest mb-1" style="color:#FF9A6B;" data-en="Sep">Set</div><div class="font-display font-bold mb-1" data-en="Back to Routine">Ritorno alla Routine</div><p class="text-xs" style="color:#94A3B8;" data-en="School and work comeback. Pinguì as an ally for post-summer daily breaks.">Rientro scolastico e lavorativo. Pinguì come alleato delle pause quotidiane post-estate.</p></div>
       </div>
     </div>
   </section>
@@ -515,8 +520,8 @@
   <section class="py-20 px-6">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Il progetto</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Chi ha lavorato a questo</h2>
+        <span class="tag mb-4 block" data-en="The project">Il progetto</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="Who worked on this">Chi ha lavorato a questo</h2>
       </div>
       <div class="reveal flex justify-start">
         <div class="card p-7 flex items-center gap-5" style="max-width:320px;">
@@ -528,7 +533,7 @@
         </div>
       </div>
       <div class="reveal mt-6 card p-5" style="border-color: rgba(255,107,43,0.2);">
-        <p class="text-sm" style="color:#94A3B8;">Corso: Comunicazione digitale e social media · Prof. Francesca Comunello · Sapienza Università di Roma</p>
+        <p class="text-sm" style="color:#94A3B8;" data-en="Course: Digital Communication and Social Media · Prof. Francesca Comunello · Sapienza University of Rome">Corso: Comunicazione digitale e social media · Prof. Francesca Comunello · Sapienza Università di Roma</p>
       </div>
     </div>
   </section>
@@ -540,11 +545,11 @@
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
         <span class="tag mb-4 block">Takeaway</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">Cosa ci ha insegnato questo progetto</h2>
-        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6" data-en="What this project taught us">Cosa ci ha insegnato questo progetto</h2>
+        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;" data-en="Working on a real brief commissioned by Ferrero meant tackling the complexity of a brand with an established identity and a dual target — children and adults — to reach with consistent messages across completely different channels.">
           Lavorare su un brief reale commissionato da Ferrero ha significato affrontare la complessità di un brand con un'identità consolidata e un target doppio — bambini e adulti — da raggiungere con messaggi coerenti ma su canali completamente diversi.
         </p>
-        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+        <p class="text-base leading-relaxed" style="color:#94A3B8;" data-en="The project required coordination between strategy, creativity and measurement: from selecting the right influencers for each segment to building a monthly editorial plan with differentiated themes and tones per platform. A true 360° integrated marketing experience.">
           Il progetto ha richiesto coordinamento tra strategia, creatività e misurazione: dalla selezione degli influencer giusti per ogni segmento alla costruzione di un piano editoriale mensile con temi e toni differenziati per piattaforma. Una vera esperienza di marketing integrato a 360°.
         </p>
       </div>
@@ -555,7 +560,7 @@
   <section class="py-16 px-6 text-center">
     <a href="index.html" class="btn-back mx-auto" style="display:inline-flex;">
       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      Torna al portfolio
+      <span data-en="Back to portfolio">Torna al portfolio</span>
     </a>
   </section>
 
@@ -574,6 +579,29 @@
       );
     });
     window.addEventListener('load', () => { ScrollTrigger.refresh(); });
+
+    let currentLang = localStorage.getItem('lang') || 'it';
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+    }
+    function applyLang() {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = currentLang === 'it' ? 'EN' : 'IT';
+      document.documentElement.lang = currentLang;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.it) el.dataset.it = el.dataset.html === 'true' ? el.innerHTML.trim() : el.textContent.trim();
+        if (currentLang === 'en') {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.en;
+          else el.textContent = el.dataset.en;
+        } else {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.it;
+          else el.textContent = el.dataset.it;
+        }
+      });
+    }
+    if (currentLang === 'en') applyLang();
   </script>
 </body>
 </html>

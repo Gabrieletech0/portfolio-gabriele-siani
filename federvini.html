@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FederVini — Case Study · Gabriele Siani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?v=3"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #080D1A; color: #fff; font-family: 'DM Sans', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      transition: background 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(8,13,26,0.90);
+      backdrop-filter: blur(16px);
+      border-color: #1A2540;
+    }
+    .tag {
+      display: inline-block; padding: 0.2rem 0.65rem; border-radius: 9999px;
+      border: 1px solid #1A2540; font-size: 0.72rem; color: #8896B0;
+      letter-spacing: 0.07em; text-transform: uppercase; font-family: 'DM Mono', monospace;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #4B6BFB;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: #4B6BFB; }
+    .card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1A2540 30%, #1A2540 70%, transparent); }
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .stat-big {
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      font-size: clamp(3rem, 6vw, 5rem); color: #4B6BFB;
+      letter-spacing: -0.03em; line-height: 1;
+    }
+    .img-frame {
+      border-radius: 1.25rem; overflow: hidden;
+      border: 1px solid #1A2540;
+      position: relative;
+    }
+    .img-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-frame::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(8,13,26,0.6) 100%);
+      pointer-events: none;
+    }
+    .quote {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1.4rem, 2.5vw, 2rem); line-height: 1.4;
+      color: #fff; border-left: 3px solid #4B6BFB; padding-left: 1.5rem;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #8896B0; text-decoration: none; font-size: 0.85rem;
+      font-family: 'DM Mono', monospace; letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+    .back-btn:hover { color: #fff; }
+    .phase-card {
+      background: #0D1425; border: 1px solid #1A2540; border-radius: 1rem;
+      padding: 1.75rem; position: relative; overflow: hidden;
+    }
+    .phase-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: #4B6BFB;
+    }
+    .insight-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(75,107,251,0.1); border: 1px solid rgba(75,107,251,0.25);
+      border-radius: 9999px; padding: 0.4rem 1rem;
+      font-size: 0.82rem; color: #818cf8;
+    }
+    .lang-toggle { background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 999px; padding: 0.3rem 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: #818cf8; cursor: pointer; transition: background 0.3s, border-color 0.3s; text-transform: uppercase; }
+    .lang-toggle:hover { background: rgba(75,107,251,0.2); border-color: #4B6BFB; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-1" style="text-decoration:none;">
+        <span class="font-display font-black text-lg">GS</span><span style="color:#4B6BFB;font-size:1.4rem;line-height:1;">.</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="index.html#projects" class="back-btn">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span data-en="All projects">Tutti i progetti</span>
+        </a>
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative min-h-screen flex items-end overflow-hidden">
+
+    <!-- Hero image full-bleed -->
+    <div style="position:absolute;inset:0;">
+      <img
+        src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1600&q=80&fit=crop"
+        alt="Aperitivo conviviale"
+        style="width:100%;height:100%;object-fit:cover;filter:brightness(0.35);"
+      />
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,13,26,0.3) 0%, rgba(8,13,26,0.7) 60%, #080D1A 100%);"></div>
+    </div>
+
+    <!-- Hero content -->
+    <div class="max-w-6xl mx-auto px-6 pb-20 pt-40 w-full relative">
+      <div class="reveal max-w-4xl">
+        <div class="flex flex-wrap items-center gap-3 mb-8">
+          <span class="tag" style="border-color:rgba(75,107,251,0.4);color:#818cf8;" data-en="ADV Campaign">Campagna ADV</span>
+          <span class="tag" data-en="Case Study">Case Study</span>
+          <span class="tag" data-en="GMG Group · 2025">GMG Group · 2025</span>
+        </div>
+        <h1 class="font-display font-black leading-none mb-6" style="font-size:clamp(3.5rem, 8vw, 7.5rem); letter-spacing:-0.03em;">
+          FederVini
+        </h1>
+        <p class="font-display font-bold text-2xl md:text-3xl mb-8" style="color:#8896B0; font-style:italic; letter-spacing:-0.01em; max-width:700px;" data-en="Those who (DON'T) drink with friends... the night's a bust.">
+          Chi (NON) beve in compagnia... 'a serata nun se svorta.
+        </p>
+        <p class="text-base leading-relaxed" style="color:#8896B0; max-width:580px;" data-en="Integrated campaign for FederVini to promote responsible drinking among young Italians aged 18–25. Glocal language, dialectal irony, and phygital strategy.">
+          Campagna integrata per FederVini per promuovere un consumo responsabile tra i giovani italiani 18–25 anni. Linguaggio glocal, ironia dialettale e strategia phygital.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="py-20 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-px" style="background:#1A2540; border-radius:1.25rem; overflow:hidden;">
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">18–25</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Target age">Target età</div>
+        </div>
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">18.7%</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Binge drinking men 18–24">Binge drinking uomini 18–24</div>
+        </div>
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">3</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Integrated channels">Canali integrati</div>
+        </div>
+        <div class="p-8 text-center" style="background:#0D1425;">
+          <div class="stat-big">Roma</div>
+          <div class="text-xs mt-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.07em;text-transform:uppercase;" data-en="Pilot market">Mercato pilota</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- IL BRIEF -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="section-label mb-6" data-en="The Brief">Il Brief</div>
+          <h2 class="font-display font-black leading-tight mb-6" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="The problem&lt;br /&gt;&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;is not drinking.&lt;/span&gt;" data-html="true">
+            Il problema<br /><span style="color:#4B6BFB;font-style:italic;">non è il bere.</span>
+          </h2>
+          <p class="leading-relaxed mb-5" style="color:#8896B0;" data-en="FederVini — the Italian federation representing over 2,600 companies in the sector with a turnover of 21.5 billion euros — had a communication problem: how to promote responsible drinking among young people without sounding paternalistic?">
+            FederVini — la federazione italiana che rappresenta oltre 2.600 imprese del settore con un fatturato di 21,5 miliardi di euro — aveva un problema di comunicazione: come promuovere un consumo responsabile tra i giovani senza sembrare paternalistica?
+          </p>
+          <p class="leading-relaxed mb-8" style="color:#8896B0;" data-en="ISS data shows that 18.7% of men and 10.8% of women aged 18 to 24 engage in binge drinking. But the cause is not wine itself — it's isolation, solitary consumption outside the convivial ritual.">
+            I dati ISS mostrano che il 18,7% degli uomini e il 10,8% delle donne tra i 18 e i 24 anni pratica binge drinking. Ma la causa non è il vino in sé — è l'isolamento, il consumo solitario fuori dal rito conviviale.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="insight-pill" data-en="&lt;svg width=&quot;14&quot; height=&quot;14&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;&gt;&lt;path d=&quot;M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z&quot;/&gt;&lt;/svg&gt; The real enemy is loneliness" data-html="true">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              Il vero nemico è la solitudine
+            </span>
+            <span class="insight-pill" data-en="The group is the natural regulator">Il gruppo è il regolatore naturale</span>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="img-frame" style="height:420px;">
+            <img
+              src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80&fit=crop"
+              alt="Giovani in socialità"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- L'INSIGHT -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal text-center mb-16">
+        <div class="section-label mb-4 justify-center" data-en="The Strategic Insight">L'Insight Strategico</div>
+        <h2 class="font-display font-black leading-tight" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="The group as an &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;antidote.&lt;/span&gt;" data-html="true">
+          Il gruppo come <span style="color:#4B6BFB;font-style:italic;">antidoto.</span>
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-3 gap-5 mb-16">
+        <div class="card p-7">
+          <div class="text-3xl mb-4">🍷</div>
+          <h3 class="font-display font-bold text-lg mb-3" data-en="The Convivial Ritual">Il Rito Conviviale</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="57.8% of Italians consume wine only occasionally: a relational experience, not a compulsive habit. Wine is a means of connection, not an end in itself.">Il 57,8% degli italiani consuma vino solo occasionalmente: un'esperienza relazionale, non un'abitudine compulsiva. Il vino è un mezzo di relazione, non un fine.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-3xl mb-4">👥</div>
+          <h3 class="font-display font-bold text-lg mb-3" data-en="The Social Lever">La Leva Sociale</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="7 out of 10 people under 44 drink wine to socialize. Gen Z uses wine as a tool for connection. The group becomes a shared prevention instrument.">7 persone su 10 tra gli under 44 bevono vino per socializzare. La Gen Z usa il vino come strumento di relazione. Il gruppo diventa strumento di prevenzione condivisa.</p>
+        </div>
+        <div class="card p-7">
+          <div class="text-3xl mb-4">✋</div>
+          <h3 class="font-display font-bold text-lg mb-3" data-en="Sober Curiosity">Sober Curiosity</h3>
+          <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Nearly half of young people favor &quot;dry periods&quot;: not a rejection of consumption, but a search for balance. An openness the campaign can leverage.">Quasi la metà dei giovani è favorevole ai "dry periods": non rifiuto del consumo, ma ricerca di equilibrio. Un'apertura che la campagna può cavalcare.</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="quote max-w-3xl mx-auto">
+          "Chi (NON) beve in compagnia... 'a serata nun se svorta."<br />
+          <span class="text-base mt-4 block" style="font-family:'DM Mono',monospace;font-style:normal;font-size:0.78rem;letter-spacing:0.08em;color:#4A5568;" data-en="THE CAMPAIGN PAYOFF — ROMAN DIALECT, IRONIC, MEMORABLE">IL PAYOFF DELLA CAMPAGNA — ROMANO, IRONICO, MEMORABILE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- IL CONCEPT VISIVO -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center mb-16">
+        <div class="reveal">
+          <div class="section-label mb-6" data-en="The Visual Concept">Il Concept Visivo</div>
+          <h2 class="font-display font-black leading-tight mb-6" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="Dialect as a&lt;br /&gt;&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;&quot;chrome finish&quot;.&lt;/span&gt;" data-html="true">
+            Il dialetto come<br /><span style="color:#4B6BFB;font-style:italic;">"chrome finish".</span>
+          </h2>
+          <p class="leading-relaxed mb-5" style="color:#8896B0;" data-en="The slogan uses an interrupted proverb — &quot;Those who (DON'T) drink with friends…&quot; — that the audience is compelled to complete. The &lt;strong style=&quot;color:#fff;&quot;&gt;circled DON'T&lt;/strong&gt; acts as a switch: left in, it excludes; removed, it ignites conviviality." data-html="true">
+            Lo slogan usa un proverbio interrotto — "Chi (NON) beve in compagnia…" — che l'utente è portato a completare. Il <strong style="color:#fff;">NON cerchiato</strong> è un interruttore: lasciato esclude, rimosso accende la convivialità.
+          </p>
+          <p class="leading-relaxed mb-8" style="color:#8896B0;" data-en="The Roman dialect closing makes the message feel closer and more direct. The tone is ironic: drinking alone is ridiculed, togetherness becomes the desired social norm.">
+            La chiusura in dialetto romano rende il messaggio più vicino e diretto. Il tono è ironico: bere da soli è ridicolizzato, la compagnia diventa la norma sociale desiderata.
+          </p>
+
+          <!-- Visual mock -->
+          <div class="card p-6" style="background:rgba(75,107,251,0.05);border-color:rgba(75,107,251,0.2);">
+            <div class="text-center py-4">
+              <div class="font-display font-black text-2xl mb-2" style="letter-spacing:-0.01em;">
+                Chi <span style="text-decoration:line-through;color:#4B6BFB;">(NON)</span> beve in compagnia...
+              </div>
+              <div class="font-display font-bold text-xl" style="color:#4B6BFB;font-style:italic;">
+                'a serata nun se svorta.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal grid grid-cols-2 gap-4">
+          <div class="img-frame" style="height:260px;">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&fit=crop" alt="Aperitivo romano" />
+          </div>
+          <div class="img-frame" style="height:260px; margin-top:2rem;">
+            <img src="https://images.unsplash.com/photo-1543353071-873f17a7a088?w=600&q=80&fit=crop" alt="Vino conviviale" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STRATEGIA DI COMUNICAZIONE -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal text-center mb-16">
+        <div class="section-label mb-4 justify-center" data-en="Strategy">Strategia</div>
+        <h2 class="font-display font-black leading-tight" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="Phygital: online + &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;offline.&lt;/span&gt;" data-html="true">
+          Phygital: online + <span style="color:#4B6BFB;font-style:italic;">offline.</span>
+        </h2>
+      </div>
+
+      <!-- Online -->
+      <div class="reveal mb-8">
+        <div class="section-label mb-5" data-en="Online Channel">Canale Online</div>
+        <div class="grid md:grid-cols-3 gap-5">
+          <div class="phase-card">
+            <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;">01 — Instagram</div>
+            <h3 class="font-display font-bold text-lg mb-3" data-en="Complete the phrase">Completa la frase</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Interactive challenge: posts and Stories stickers with &quot;Those who (don't) drink with friends…&quot; to complete with your own neighborhood slang. The most creative responses get reposted.">Challenge interattiva: post e sticker Stories con "Chi (non) beve in compagnia…" da completare con lo slang del proprio quartiere. Le risposte più creative vengono ripostate.</p>
+          </div>
+          <div class="phase-card">
+            <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;">02 — TikTok UGC</div>
+            <h3 class="font-display font-bold text-lg mb-3" data-en="The viral dialect">Il dialetto virale</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Short videos where users complete the slogan in their own local dialect, in groups, during real social moments. The best ones get reposted by the campaign channel.">Video brevi in cui gli utenti completano lo slogan con il proprio dialetto locale, in gruppo, durante momenti di socialità reale. I migliori vengono rilanciati dal canale campagna.</p>
+          </div>
+          <div class="phase-card">
+            <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;">03 — Influencer</div>
+            <h3 class="font-display font-bold text-lg mb-3" data-en="Partnership Rome Is More">Partnership Rome Is More</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Collaboration with Rome Is More to reinterpret Roman vernacular in a cultural key. High brand fit, message legitimization with the target audience, recognizable irony.">Collaborazione con Rome Is More per rielaborare il vernacolo romano in chiave culturale. Brand fit elevato, legittimazione del messaggio presso il target, ironia riconoscibile.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offline -->
+      <div class="reveal">
+        <div class="section-label mb-5" data-en="Offline Channel — Urban Storytelling">Canale Offline — Urban Storytelling</div>
+        <div class="grid lg:grid-cols-2 gap-8 items-start">
+          <div class="space-y-4">
+            <div class="phase-card">
+              <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;" data-en="Transit — Metro B">Transito — Metro B</div>
+              <h3 class="font-display font-bold text-lg mb-2" data-en="The Journey">Il Viaggio</h3>
+              <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Metro B shelters (the university line: Bologna, Policlinico, Garbatella) and night bus backs. The message entertains during the wait.">Pensiline Metro B (linea universitaria: Bologna, Policlinico, Garbatella) e retro autobus notturni. Il messaggio intrattiene durante l'attesa.</p>
+            </div>
+            <div class="phase-card">
+              <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;" data-en="Destination — Nightlife">Destinazione — Movida</div>
+              <h3 class="font-display font-bold text-lg mb-2" data-en="The Nudge">Il Nudge</h3>
+              <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Large billboards in nightlife districts. The message acts as an immediate reminder before entering the venue: the decisive moment.">Maxi-affissioni nei distretti del divertimento. Il messaggio agisce come promemoria immediato prima di entrare nel locale: il momento decisivo.</p>
+            </div>
+            <div class="phase-card">
+              <div class="text-xs mb-3" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;" data-en="Multi-subject Approach">Approccio Multi-soggetto</div>
+              <h3 class="font-display font-bold text-lg mb-2" data-en="The Collectible">Il Collezionabile</h3>
+              <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="Not a single repeated phrase, but dozens of different dialectal variations for Rome. Passersby photograph and share them in Stories: physical billboards become digital content — Earned Media.">Non un'unica frase ripetuta, ma decine di varianti dialettali diverse per Roma. I passanti fotografano e condividono nelle Stories: i cartelloni fisici diventano contenuto digitale — Earned Media.</p>
+            </div>
+          </div>
+          <div class="img-frame" style="height:480px;">
+            <img src="https://images.unsplash.com/photo-1477120128765-a0528148fed6?w=800&q=80&fit=crop" alt="Affissione urbana notturna Roma" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TARGET & PERSONAS -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-12">
+        <div class="section-label mb-4" data-en="Personas">Personas</div>
+        <h2 class="font-display font-black leading-tight" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="Who we talk to.">
+          A chi parliamo.
+        </h2>
+      </div>
+      <div class="reveal grid md:grid-cols-2 gap-6">
+        <div class="card p-8">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2" style="border-color:#4B6BFB;">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80&fit=crop&crop=face" alt="Giulia" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div>
+              <div class="font-display font-bold text-xl">Giulia</div>
+              <div class="text-sm" style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;" data-en="FEMALE · 20 YEARS OLD · ROME">DONNA · 20 ANNI · ROMA</div>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed mb-5" style="color:#8896B0;" data-en="Student. Academic stress, few nights out. Drinks alone to relieve university pressure — the at-risk &quot;isolation&quot; target. Instagram Stories and TikTok are her main channels.">
+            Studentessa. Stress accademico, poche uscite. Beve da sola per alleviare la pressione universitaria — il target a rischio "isolamento". Instagram Stories e TikTok sono i suoi canali principali.
+          </p>
+          <div class="text-sm" style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.05em;" data-en="SENSITIVE TARGET: SOLITARY DRINKING">OBIETTIVO SENSIBILE: SOLITARY DRINKING</div>
+        </div>
+        <div class="card p-8">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2" style="border-color:#4B6BFB;">
+              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&q=80&fit=crop&crop=face" alt="Marco" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div>
+              <div class="font-display font-bold text-xl">Marco</div>
+              <div class="text-sm" style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;" data-en="MALE · 22 YEARS OLD · ROME">UOMO · 22 ANNI · ROMA</div>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed mb-5" style="color:#8896B0;" data-en="Off-site university student. Goes out often with friends, but in certain contexts consumption becomes excessive (pre-party binge drinking). Uses TikTok daily, responsive to irony and trends.">
+            Universitario fuorisede. Esce spesso con amici, ma in determinati contesti il consumo diventa eccessivo (binge drinking pre-serata). Usa TikTok quotidianamente, sensibile all'ironia e ai trend.
+          </p>
+          <div class="text-sm" style="color:#4B6BFB;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.05em;" data-en="GOAL: TRANSFORM EXCESS INTO RITUAL">OBIETTIVO: TRASFORMARE L'ECCESSO IN RITO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOTO CAMPAGNA -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-10">
+        <div class="section-label mb-4" data-en="Campaign Visuals">Visual della Campagna</div>
+        <h2 class="font-display font-black leading-tight" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;Positive&lt;/span&gt; imagery." data-html="true">
+          Immagini <span style="color:#4B6BFB;font-style:italic;">positive.</span>
+        </h2>
+        <p class="mt-4 max-w-lg" style="color:#8896B0;" data-en="Only images of authentic conviviality — no shock tactics. Gen Z responds to aspiration, not fear: the social reward of moderation is highlighted.">Solo immagini di convivialità autentica — nessuna shock tactic. La Gen Z risponde all'aspirazione, non alla paura: si valorizza la ricompensa sociale della moderazione.</p>
+      </div>
+
+      <div class="reveal grid grid-cols-3 gap-4">
+        <div class="img-frame" style="height:320px;grid-row:span 2;">
+          <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80&fit=crop" alt="Amici aperitivo" />
+        </div>
+        <div class="img-frame" style="height:150px;">
+          <img src="https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?w=600&q=80&fit=crop" alt="Brindisi" />
+        </div>
+        <div class="img-frame" style="height:150px;">
+          <img src="https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&q=80&fit=crop" alt="Vino" />
+        </div>
+        <div class="img-frame" style="height:150px;">
+          <img src="https://images.unsplash.com/photo-1596813362035-d9f5d1b7db7b?w=600&q=80&fit=crop" alt="Gruppo amici" />
+        </div>
+        <div class="img-frame" style="height:150px;">
+          <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?w=600&q=80&fit=crop" alt="Serata" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SWOT -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-12">
+        <div class="section-label mb-4" data-en="SWOT Analysis">Analisi SWOT</div>
+        <h2 class="font-display font-black leading-tight" style="font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" data-en="The competitive landscape.">Il contesto competitivo.</h2>
+      </div>
+      <div class="reveal grid md:grid-cols-2 gap-5">
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4ade80;font-family:'DM Mono',monospace;letter-spacing:0.1em;">STRENGTHS</div>
+          <ul class="space-y-2 text-sm" style="color:#8896B0;" data-en="&lt;li&gt;→ Mediterranean Cultural DNA: wine as conviviality&lt;/li&gt;&lt;li&gt;→ FederVini's institutional authority (Confindustria)&lt;/li&gt;&lt;li&gt;→ Inclusive tone: &quot;Drink better&quot;, not &quot;Don't drink&quot;&lt;/li&gt;" data-html="true">
+            <li>→ DNA Culturale Mediterraneo: il vino come convivialità</li>
+            <li>→ Autorevolezza istituzionale di FederVini (Confindustria)</li>
+            <li>→ Tono inclusivo: "Bevi meglio", non "Non bere"</li>
+          </ul>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#f87171;font-family:'DM Mono',monospace;letter-spacing:0.1em;">WEAKNESSES</div>
+          <ul class="space-y-2 text-sm" style="color:#8896B0;" data-en="&lt;li&gt;→ Gen Z skepticism toward institutional communications&lt;/li&gt;&lt;li&gt;→ Lack of active official social channels on TikTok/IG&lt;/li&gt;&lt;li&gt;→ Difficulty measuring deep cultural change&lt;/li&gt;" data-html="true">
+            <li>→ Scetticismo della Gen Z verso comunicazioni istituzionali</li>
+            <li>→ Assenza di canali social ufficiali attivi su TikTok/IG</li>
+            <li>→ Difficoltà a misurare il cambiamento culturale profondo</li>
+          </ul>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;">OPPORTUNITIES</div>
+          <ul class="space-y-2 text-sm" style="color:#8896B0;" data-en="&lt;li&gt;→ &quot;Quality over Quantity&quot; trend among Gen Z&lt;/li&gt;&lt;li&gt;→ High viral potential of authentic and ironic content&lt;/li&gt;&lt;li&gt;→ &quot;Made in Italy&quot; brand recognized globally&lt;/li&gt;" data-html="true">
+            <li>→ Trend "Quality over Quantity" nella Gen Z</li>
+            <li>→ Alto potenziale virale dei contenuti autentici e ironici</li>
+            <li>→ Brand "Made in Italy" riconosciuto globalmente</li>
+          </ul>
+        </div>
+        <div class="card p-7">
+          <div class="text-xs mb-4" style="color:#facc15;font-family:'DM Mono',monospace;letter-spacing:0.1em;">THREATS</div>
+          <ul class="space-y-2 text-sm" style="color:#8896B0;" data-en="&lt;li&gt;→ Risk of moderation being perceived as &quot;boring&quot;&lt;/li&gt;&lt;li&gt;→ Proprietary digital gap compared to youth channels&lt;/li&gt;&lt;li&gt;→ Regulatory complexity (L. 125/2001, D.Lgs. 177/2005)&lt;/li&gt;" data-html="true">
+            <li>→ Rischio di percepire la moderazione come "noiosa"</li>
+            <li>→ Gap digitale proprietario rispetto ai canali giovanili</li>
+            <li>→ Complessità normativa (L. 125/2001, D.Lgs. 177/2005)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <div class="divider"></div>
+  <section class="py-16 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <div class="text-xs mb-2" style="color:#4A5568;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;" data-en="Next project">Progetto successivo</div>
+        <a href="napoli.html" class="font-display font-bold text-2xl" style="color:#fff;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#4B6BFB'" onmouseout="this.style.color='#fff'">
+          SSC Napoli — 100 Giri di Passione →
+        </a>
+      </div>
+      <a href="index.html" class="back-btn" style="font-size:0.9rem;" data-en="← Back to portfolio">← Torna al portfolio</a>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        delay: (i % 2) * 0.1,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+    });
+
+    // Language toggle
+    let currentLang = localStorage.getItem('lang') || 'it';
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+    }
+    function applyLang() {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = currentLang === 'it' ? 'EN' : 'IT';
+      document.documentElement.lang = currentLang;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.it) el.dataset.it = el.dataset.html === 'true' ? el.innerHTML.trim() : el.textContent.trim();
+        if (currentLang === 'en') {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.en;
+          else el.textContent = el.dataset.en;
+        } else {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.it;
+          else el.textContent = el.dataset.it;
+        }
+      });
+    }
+    if (currentLang === 'en') applyLang();
+  </script>
+</body>
+</html>

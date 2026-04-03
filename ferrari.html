@@ -51,6 +51,8 @@
 
     /* Radial glow */
     .hero-glow::before { content: ''; position: absolute; top: -20%; right: -10%; width: 50%; height: 80%; background: radial-gradient(ellipse, rgba(239,68,68,0.08) 0%, transparent 70%); pointer-events: none; }
+    .lang-toggle { background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 999px; padding: 0.3rem 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: #818cf8; cursor: pointer; transition: background 0.3s, border-color 0.3s; text-transform: uppercase; }
+    .lang-toggle:hover { background: rgba(75,107,251,0.2); border-color: #4B6BFB; }
   </style>
 </head>
 
@@ -60,7 +62,8 @@
   <nav style="position:fixed; top:0; left:0; right:0; z-index:100; padding:1.5rem 2rem; background:rgba(8,13,26,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #1E293B;">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <a href="index.html" class="font-display font-bold text-lg">GS<span style="color:#4B6BFB">.</span></a>
-      <a href="index.html" class="btn-back">
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      <a href="index.html" class="btn-back" data-en="Back to portfolio">
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Torna al portfolio
       </a>
@@ -72,19 +75,19 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex flex-wrap gap-3 mb-6">
         <span class="tag">Brand Strategy</span>
-        <span class="tag" style="background:rgba(148,163,184,0.1);">Progetto Universitario</span>
+        <span class="tag" style="background:rgba(148,163,184,0.1);" data-en="University Project">Progetto Universitario</span>
         <span class="tag">2024</span>
       </div>
       <h1 class="font-display font-black leading-tight mb-6" style="font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing:-0.02em;">
         Ferrari — Strategie di<br /><span style="color:#ef4444;">Comunicazione Corporate</span>
       </h1>
-      <p class="text-lg mb-8" style="color:#94A3B8; max-width:600px; line-height:1.7;">
+      <p class="text-lg mb-8" style="color:#94A3B8; max-width:600px; line-height:1.7;" data-en="Analysis of Ferrari's internal and external communication strategies, conducted through direct interviews with the company's Communication, Employer Branding and Internal Communication managers.">
         Analisi delle strategie di comunicazione interna ed esterna di Ferrari, condotta attraverso interviste dirette ai responsabili Communication, Employer Branding e Internal Communication dell'azienda.
       </p>
       <div class="flex flex-wrap gap-3">
-        <span class="stat-pill">Progetto universitario · La Sapienza</span>
-        <span class="stat-pill">Ricerca qualitativa</span>
-        <span class="stat-pill">Condotto al Museo Ferrari · Maranello</span>
+        <span class="stat-pill" data-en="University project · La Sapienza">Progetto universitario · La Sapienza</span>
+        <span class="stat-pill" data-en="Qualitative research">Ricerca qualitativa</span>
+        <span class="stat-pill" data-en="Conducted at the Ferrari Museum · Maranello">Condotto al Museo Ferrari · Maranello</span>
       </div>
     </div>
   </section>
@@ -96,26 +99,26 @@
     <div class="max-w-4xl mx-auto">
       <div class="reveal grid md:grid-cols-3 gap-6 mb-16">
         <div class="card p-6">
-          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Ruolo</div>
-          <div class="font-display font-bold text-lg">Ricercatore & Presentatore</div>
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;" data-en="Role">Ruolo</div>
+          <div class="font-display font-bold text-lg" data-en="Researcher & Presenter">Ricercatore & Presentatore</div>
         </div>
         <div class="card p-6">
           <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Team</div>
-          <div class="font-display font-bold text-lg">3 persone</div>
+          <div class="font-display font-bold text-lg" data-en="3 people">3 persone</div>
         </div>
         <div class="card p-6">
-          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;">Metodologia</div>
-          <div class="font-display font-bold text-lg">Interviste qualitative</div>
+          <div class="text-xs uppercase tracking-widest mb-2" style="color:#94A3B8;" data-en="Methodology">Metodologia</div>
+          <div class="font-display font-bold text-lg" data-en="Qualitative interviews">Interviste qualitative</div>
         </div>
       </div>
 
       <div class="reveal">
-        <span class="tag mb-4 block">Contesto</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">Il progetto</h2>
-        <p class="text-base leading-relaxed mb-4" style="color:#94A3B8;">
+        <span class="tag mb-4 block" data-en="Context">Contesto</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6" data-en="The project">Il progetto</h2>
+        <p class="text-base leading-relaxed mb-4" style="color:#94A3B8;" data-en="As part of a university project work, the team conducted an in-depth analysis of Ferrari's corporate communication strategies. The project included direct interviews with three key company figures, carried out at the Ferrari Museum in Maranello.">
           Nell'ambito di un project work universitario, il team ha condotto un'analisi approfondita delle strategie di comunicazione corporate di Ferrari. Il progetto ha incluso interviste dirette con tre figure chiave dell'azienda, realizzate presso il Museo Ferrari di Maranello.
         </p>
-        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+        <p class="text-base leading-relaxed" style="color:#94A3B8;" data-en="The goal was to understand how Ferrari manages the brand narrative both internally and externally, maintaining consistency between internal and external communication in a company with such a strong and globally recognizable identity.">
           L'obiettivo era comprendere come Ferrari gestisce la narrativa del brand verso l'interno e verso l'esterno, mantenendo coerenza tra comunicazione interna ed esterna in un'azienda con un'identità così forte e riconoscibile a livello globale.
         </p>
       </div>
@@ -128,27 +131,27 @@
   <section class="py-20 px-6">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Le voci di Ferrari</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Chi abbiamo intervistato</h2>
+        <span class="tag mb-4 block" data-en="The voices of Ferrari">Le voci di Ferrari</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="Who we interviewed">Chi abbiamo intervistato</h2>
       </div>
       <div class="reveal grid md:grid-cols-3 gap-6">
         <div class="card p-7">
           <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold mb-4" style="background:rgba(239,68,68,0.15); color:#f87171;">AG</div>
           <div class="font-display font-bold text-lg mb-1">Andrea Gatti</div>
           <div class="text-sm mb-4" style="color:#4B6BFB;">Internal Communication Manager</div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Responsabile della comunicazione interna e del modello "One Ferrari".</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Responsible for internal communication and the 'One Ferrari' model.">Responsabile della comunicazione interna e del modello "One Ferrari".</p>
         </div>
         <div class="card p-7">
           <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold mb-4" style="background:rgba(239,68,68,0.15); color:#f87171;">ET</div>
           <div class="font-display font-bold text-lg mb-1">Eleonora Tugliani</div>
           <div class="text-sm mb-4" style="color:#4B6BFB;">Corporate Communication Manager</div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Gestisce la comunicazione esterna, la reputazione e la presenza digitale.</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Manages external communication, reputation and digital presence.">Gestisce la comunicazione esterna, la reputazione e la presenza digitale.</p>
         </div>
         <div class="card p-7">
           <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold mb-4" style="background:rgba(239,68,68,0.15); color:#f87171;">DD</div>
           <div class="font-display font-bold text-lg mb-1">Dennis De Munck</div>
           <div class="text-sm mb-4" style="color:#4B6BFB;">Head of Employer Branding</div>
-          <p class="text-sm leading-relaxed" style="color:#94A3B8;">Responsabile dell'employer branding e delle partnership universitarie.</p>
+          <p class="text-sm leading-relaxed" style="color:#94A3B8;" data-en="Responsible for employer branding and university partnerships.">Responsabile dell'employer branding e delle partnership universitarie.</p>
         </div>
       </div>
     </div>
@@ -161,35 +164,35 @@
     <div class="max-w-4xl mx-auto space-y-16">
 
       <div class="reveal">
-        <span class="tag mb-4 block">Comunicazione Interna</span>
-        <h2 class="font-display font-black text-3xl mb-6">Il modello "One Ferrari"</h2>
-        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
+        <span class="tag mb-4 block" data-en="Internal Communication">Comunicazione Interna</span>
+        <h2 class="font-display font-black text-3xl mb-6" data-en="The 'One Ferrari' model">Il modello "One Ferrari"</h2>
+        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;" data-en="Ferrari's corporate culture is built on six guiding principles: collaboration, continuous learning, confident humility, results focus, fearless organization and drive for continuous progress. Introduced by Benedetto Vigna, the model reduced hierarchical levels, fostering a two-way communication flow.">
           La cultura aziendale Ferrari si fonda su sei principi guida: collaborazione, apprendimento continuo, umiltà confidente, focus sui risultati, fearless organization e volontà di progresso continuo. Introdotto da Benedetto Vigna, il modello ha ridotto i livelli gerarchici favorendo un flusso di comunicazione bidirezionale.
         </p>
         <div class="grid md:grid-cols-2 gap-4">
           <div class="card p-5">
             <div class="text-2xl font-display font-black mb-1" style="color:#4B6BFB;">98%+</div>
-            <div class="text-sm" style="color:#94A3B8;">Dipendenti attivamente coinvolti nelle piattaforme interne</div>
+            <div class="text-sm" style="color:#94A3B8;" data-en="Employees actively engaged in internal platforms">Dipendenti attivamente coinvolti nelle piattaforme interne</div>
           </div>
           <div class="card p-5">
             <div class="text-2xl font-display font-black mb-1" style="color:#4B6BFB;">83</div>
-            <div class="text-sm" style="color:#94A3B8;">Eventi universitari nel 2023 con oltre 6.000 partecipanti</div>
+            <div class="text-sm" style="color:#94A3B8;" data-en="University events in 2023 with over 6,000 participants">Eventi universitari nel 2023 con oltre 6.000 partecipanti</div>
           </div>
         </div>
       </div>
 
       <div class="reveal">
-        <span class="tag mb-4 block">Comunicazione Esterna</span>
-        <h2 class="font-display font-black text-3xl mb-6">Reputazione e presenza digitale</h2>
-        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+        <span class="tag mb-4 block" data-en="External Communication">Comunicazione Esterna</span>
+        <h2 class="font-display font-black text-3xl mb-6" data-en="Reputation and digital presence">Reputazione e presenza digitale</h2>
+        <p class="text-base leading-relaxed" style="color:#94A3B8;" data-en="Ferrari's external communication is built on transparency and trust, combining strategic financial updates with a strong digital presence that blends technical precision and emotion. The brand stands out for its integration of sports narrative, luxury and commitment to sustainability — with initiatives like Q-Cycle and the use of renewable energy to achieve carbon neutrality.">
           Ferrari basa la comunicazione esterna su trasparenza e fiducia, combinando aggiornamenti finanziari strategici con una forte presenza digitale che unisce precisione tecnica ed emozionalità. Il brand si distingue per l'integrazione tra narrazione sportiva, lusso e impegno per la sostenibilità — con iniziative come Q-Cycle e l'uso di energie rinnovabili per raggiungere la carbon neutrality.
         </p>
       </div>
 
       <div class="reveal">
         <span class="tag mb-4 block">Employer Branding</span>
-        <h2 class="font-display font-black text-3xl mb-6">Attrarre i migliori talenti</h2>
-        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+        <h2 class="font-display font-black text-3xl mb-6" data-en="Attracting top talent">Attrarre i migliori talenti</h2>
+        <p class="text-base leading-relaxed" style="color:#94A3B8;" data-en="Dennis De Munck explained how Ferrari uses university partnerships not only for recruitment, but to consolidate its image as an innovation leader. 90% of university events were held in person, creating immersive experiences that strengthen the emotional bond with the brand.">
           Dennis De Munck ha illustrato come Ferrari utilizzi le partnership universitarie non solo per il reclutamento, ma per consolidare l'immagine di leader nell'innovazione. Il 90% degli eventi universitari si è svolto in presenza, creando esperienze immersive che rafforzano il legame emotivo con il brand.
         </p>
       </div>
@@ -203,8 +206,8 @@
   <section class="py-20 px-6">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Quindi, cos'è Ferrari?</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-10">Le parole di chi ci lavora</h2>
+        <span class="tag mb-4 block" data-en="So, what is Ferrari?">Quindi, cos'è Ferrari?</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-10" data-en="In their own words">Le parole di chi ci lavora</h2>
       </div>
       <div class="reveal space-y-8">
         <div class="quote-block">
@@ -233,12 +236,12 @@
   <section class="py-20 px-6" style="background:#0F1623;">
     <div class="max-w-4xl mx-auto">
       <div class="reveal">
-        <span class="tag mb-4 block">Conclusioni</span>
-        <h2 class="font-display font-black text-3xl md:text-4xl mb-6">Un modello integrato</h2>
-        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;">
+        <span class="tag mb-4 block" data-en="Conclusions">Conclusioni</span>
+        <h2 class="font-display font-black text-3xl md:text-4xl mb-6" data-en="An integrated model">Un modello integrato</h2>
+        <p class="text-base leading-relaxed mb-6" style="color:#94A3B8;" data-en="Ferrari adopts a multidimensional approach to corporate communication, where internal and external communication feed each other. The 'One Ferrari' model ensures consistency of corporate values at all levels, while financial transparency and digital presence consolidate external reputation.">
           Ferrari adotta un approccio multidimensionale alla comunicazione corporate, dove comunicazione interna ed esterna si alimentano a vicenda. Il modello "One Ferrari" garantisce coerenza dei valori aziendali a tutti i livelli, mentre la trasparenza finanziaria e la presenza digitale consolidano la reputazione verso l'esterno.
         </p>
-        <p class="text-base leading-relaxed" style="color:#94A3B8;">
+        <p class="text-base leading-relaxed" style="color:#94A3B8;" data-en="The Ferrari case demonstrates how a brand with a very strong identity can maintain authenticity and narrative consistency even in a context of global growth, using events, employer branding and integrated communication as strategic levers.">
           Il caso Ferrari dimostra come un brand con un'identità fortissima riesca a mantenere autenticità e coerenza narrativa anche in un contesto di crescita globale, usando eventi, employer branding e comunicazione integrata come leve strategiche.
         </p>
       </div>
@@ -247,7 +250,7 @@
 
   <!-- FOOTER NAV -->
   <section class="py-16 px-6 text-center">
-    <a href="index.html" class="btn-back mx-auto" style="display:inline-flex;">
+    <a href="index.html" class="btn-back mx-auto" style="display:inline-flex;" data-en="Back to portfolio">
       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       Torna al portfolio
     </a>
@@ -267,6 +270,34 @@
         }
       );
     });
+
+    // ── LANG TOGGLE ──
+    let currentLang = localStorage.getItem('lang') || 'it';
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+    }
+    function applyLang() {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = currentLang === 'it' ? 'EN' : 'IT';
+      document.documentElement.lang = currentLang;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.it) el.dataset.it = el.dataset.html === 'true' ? el.innerHTML.trim() : el.textContent.trim();
+        if (currentLang === 'en') {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.en;
+          else el.textContent = el.dataset.en;
+        } else {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.it;
+          else el.textContent = el.dataset.it;
+        }
+      });
+      document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+        if (!el.dataset.itPlaceholder) el.dataset.itPlaceholder = el.placeholder;
+        el.placeholder = currentLang === 'en' ? el.dataset.enPlaceholder : el.dataset.itPlaceholder;
+      });
+    }
+    if (currentLang === 'en') applyLang();
   </script>
 </body>
 </html>

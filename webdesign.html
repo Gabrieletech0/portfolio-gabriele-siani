@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Design — Siti Web Professionali · Gabriele Siani</title>
+  <meta name="description" content="Siti web professionali su misura per attività commerciali, freelance e aziende. Design personalizzato, veloce, mobile-first." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?v=3"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #080D1A; color: #fff; font-family: 'DM Sans', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
+    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 2rem; transition: background 0.4s, border-color 0.4s; border-bottom: 1px solid transparent; }
+    nav.scrolled { background: rgba(8,13,26,0.92); backdrop-filter: blur(16px); border-color: #1A2540; }
+    .tag { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 9999px; border: 1px solid #1A2540; font-size: 0.72rem; color: #8896B0; letter-spacing: 0.07em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #4B6BFB; display: flex; align-items: center; gap: 0.6rem; }
+    .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: #4B6BFB; }
+    .card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1A2540 30%, #1A2540 70%, transparent); }
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; color: #8896B0; text-decoration: none; font-size: 0.85rem; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; transition: color 0.3s; }
+    .back-btn:hover { color: #fff; }
+    .btn-primary { background: #4B6BFB; color: #fff; padding: 0.875rem 2rem; border-radius: 0.625rem; font-weight: 500; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: background 0.3s, transform 0.2s, box-shadow 0.3s; display: inline-block; text-decoration: none; }
+    .btn-primary:hover { background: #5D7AFF; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(75,107,251,0.40); }
+    .btn-ghost { background: transparent; color: #fff; padding: 0.875rem 2rem; border-radius: 0.625rem; border: 1px solid #1A2540; font-weight: 400; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: border-color 0.3s, transform 0.2s, color 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .btn-ghost:hover { border-color: #4B6BFB; color: #4B6BFB; transform: translateY(-2px); }
+
+    /* SITE CARD */
+    .site-card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; overflow: hidden; transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s; }
+    .site-card:hover { border-color: rgba(75,107,251,0.4); box-shadow: 0 20px 60px rgba(75,107,251,0.12); transform: translateY(-6px); }
+    .site-preview { position: relative; overflow: hidden; border-bottom: 1px solid #1A2540; }
+    .site-preview img { width: 100%; display: block; transition: transform 0.6s ease; }
+    .site-card:hover .site-preview img { transform: scale(1.03); }
+    .site-preview .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(8,13,26,0.8) 100%); pointer-events: none; }
+
+    /* BROWSER FRAME */
+    .browser-frame { background: #0A0F1E; border-radius: 0.75rem; overflow: hidden; border: 1px solid #1A2540; }
+    .browser-dots { display: flex; gap: 6px; padding: 10px 14px; background: #0D1425; border-bottom: 1px solid #1A2540; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* PROCESS */
+    .process-step { position: relative; padding-left: 3rem; }
+    .process-step::before { content: attr(data-step); position: absolute; left: 0; top: 0; width: 2rem; height: 2rem; background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: #4B6BFB; font-weight: 600; }
+
+    /* PRICING */
+    .pricing-card { background: #0D1425; border: 1px solid #1A2540; border-radius: 1.25rem; padding: 2.5rem; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
+    .pricing-card:hover { border-color: rgba(75,107,251,0.35); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(75,107,251,0.10); }
+    .pricing-card.featured { border-color: rgba(75,107,251,0.5); position: relative; }
+    .pricing-card.featured::before { content: 'PIU\0027 RICHIESTO'; position: absolute; top: -0.65rem; left: 50%; transform: translateX(-50%); background: #4B6BFB; color: #fff; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.2rem 0.8rem; border-radius: 999px; }
+    .lang-toggle { background: rgba(75,107,251,0.12); border: 1px solid rgba(75,107,251,0.3); border-radius: 999px; padding: 0.3rem 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: #818cf8; cursor: pointer; transition: background 0.3s, border-color 0.3s; text-transform: uppercase; }
+    .lang-toggle:hover { background: rgba(75,107,251,0.2); border-color: #4B6BFB; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-1" style="text-decoration:none;">
+        <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;">GS</span><span style="color:#4B6BFB;font-size:1.4rem;line-height:1;">.</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="index.html#projects" class="back-btn">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span data-en="Back to portfolio">Torna al portfolio</span>
+        </a>
+        <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="relative min-h-[80vh] flex items-end overflow-hidden">
+    <div class="hero-ambient" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+      <div style="position:absolute;top:-20%;left:10%;width:60vw;height:60vw;background:radial-gradient(ellipse,rgba(75,107,251,0.10) 0%,transparent 65%);"></div>
+      <div style="position:absolute;bottom:0;right:-10%;width:40vw;height:40vw;background:radial-gradient(ellipse,rgba(75,107,251,0.06) 0%,transparent 65%);"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 pb-20 pt-40 w-full relative">
+      <div class="reveal max-w-3xl">
+        <div class="flex flex-wrap items-center gap-3 mb-8">
+          <span class="tag" style="border-color:rgba(75,107,251,0.4);color:#818cf8;">Web Design</span>
+          <span class="tag" data-en="Service">Servizio</span>
+        </div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(3rem,7vw,6rem);letter-spacing:-0.03em;line-height:0.95;" class="mb-6" data-en="Websites that&lt;br /&gt;&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;convert.&lt;/span&gt;" data-html="true">
+          Siti web che<br /><span style="color:#4B6BFB;font-style:italic;">convertono.</span>
+        </h1>
+        <p class="text-lg leading-relaxed mb-10" style="color:#8896B0; max-width:560px;" data-en="Custom design, fast, mobile-optimized and built to deliver real results. Every website is tailored to your business.">
+          Design personalizzato, veloce, ottimizzato per mobile e pensato per generare risultati concreti. Ogni sito è costruito su misura per il tuo business.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#portfolio" class="btn-primary" data-en="View work">Vedi i lavori</a>
+          <a href="index.html#contact" class="btn-ghost" data-en="Request a quote &#8594;" data-html="true">
+            Richiedi un preventivo
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ PORTFOLIO SITI ═══════════════════ -->
+  <section id="portfolio" class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-16">
+        <div class="section-label mb-4">Portfolio</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="Websites &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;delivered.&lt;/span&gt;" data-html="true">
+          Siti web <span style="color:#4B6BFB;font-style:italic;">realizzati.</span>
+        </h2>
+      </div>
+
+      <!-- SITE 1 — Portfolio personale -->
+      <div class="reveal site-card mb-8">
+        <div class="site-preview">
+          <div class="browser-frame">
+            <div class="browser-dots">
+              <span style="background:#f87171;"></span>
+              <span style="background:#facc15;"></span>
+              <span style="background:#4ade80;"></span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80&fit=crop" alt="Portfolio Gabriele Siani - screenshot" style="height:360px;object-fit:cover;" />
+          </div>
+          <div class="overlay"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+            <div class="flex gap-2 flex-wrap">
+              <span class="tag" style="border-color:rgba(75,107,251,0.4);color:#818cf8;">Portfolio</span>
+              <span class="tag">Single Page</span>
+              <span class="tag">Dark Theme</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2026</span>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.5rem;" class="mb-3 leading-tight" data-en="Professional Portfolio — Gabriele Siani">Portfolio Professionale — Gabriele Siani</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color:#8896B0; max-width:600px;" data-en="Personal portfolio with Dark & Bold design. GSAP animations, responsive layout, blog section and integrated newsletter. Built to acquire clients and showcase real case studies.">
+            Portfolio personale con design Dark & Bold. Animazioni GSAP, layout responsive, sezione blog e newsletter integrata. Costruito per acquisire clienti e mostrare case study reali.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag" style="font-size:0.65rem;">Tailwind CSS</span>
+            <span class="tag" style="font-size:0.65rem;">GSAP</span>
+            <span class="tag" style="font-size:0.65rem;">Vercel</span>
+            <span class="tag" style="font-size:0.65rem;">Responsive</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITE 2 — Moda Mare Italia -->
+      <div class="reveal site-card mb-8">
+        <div class="site-preview">
+          <div class="browser-frame">
+            <div class="browser-dots">
+              <span style="background:#f87171;"></span>
+              <span style="background:#facc15;"></span>
+              <span style="background:#4ade80;"></span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80&fit=crop" alt="Moda Mare Italia - resort wear" style="height:360px;object-fit:cover;" />
+          </div>
+          <div class="overlay"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+            <div class="flex gap-2 flex-wrap">
+              <span class="tag" style="border-color:rgba(20,184,166,0.4);color:#2dd4bf;">E-commerce</span>
+              <span class="tag">Pre-order</span>
+              <span class="tag">Fashion</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2026</span>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.5rem;" class="mb-3 leading-tight" data-en="Moda Mare Italia — Resort Wear E-commerce">Moda Mare Italia — Resort Wear E-commerce</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color:#8896B0; max-width:600px;" data-en="E-commerce website for Italian distribution of a Turkish resort wear brand. Pre-order system with WhatsApp and integrated newsletter. Minimal Mediterranean design with sand and blue palette.">
+            Sito e-commerce per distribuzione in Italia di un brand turco di resort wear. Sistema pre-order con WhatsApp e newsletter integrata. Design minimal mediterraneo con palette sabbia e azzurro.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag" style="font-size:0.65rem;">HTML/CSS</span>
+            <span class="tag" style="font-size:0.65rem;">Tailwind</span>
+            <span class="tag" style="font-size:0.65rem;">Newsletter</span>
+            <span class="tag" style="font-size:0.65rem;">WhatsApp API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITE 3 — Landing page ristorante -->
+      <div class="reveal site-card mb-8">
+        <div class="site-preview">
+          <div class="browser-frame">
+            <div class="browser-dots">
+              <span style="background:#f87171;"></span>
+              <span style="background:#facc15;"></span>
+              <span style="background:#4ade80;"></span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80&fit=crop" alt="Ristorante landing page" style="height:360px;object-fit:cover;" />
+          </div>
+          <div class="overlay"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+            <div class="flex gap-2 flex-wrap">
+              <span class="tag" style="border-color:rgba(234,179,8,0.4);color:#facc15;">Landing Page</span>
+              <span class="tag" data-en="Restaurant">Ristorazione</span>
+              <span class="tag">Local Business</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2026</span>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.5rem;" class="mb-3 leading-tight" data-en="Gourmet Restaurant — Landing Page">Ristorante Gourmet — Landing Page</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color:#8896B0; max-width:600px;" data-en="Landing page for a restaurant with online booking, immersive photo gallery and Google Maps integration. Elegant design with serif typography and warm color palette.">
+            Landing page per ristorante con prenotazione online, gallery fotografica immersiva e integrazione Google Maps. Design elegante con tipografia serif e palette calda.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag" style="font-size:0.65rem;">Landing Page</span>
+            <span class="tag" style="font-size:0.65rem;">Responsive</span>
+            <span class="tag" style="font-size:0.65rem;">Google Maps</span>
+            <span class="tag" style="font-size:0.65rem;">Form Booking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SITE 4 — Studio professionale -->
+      <div class="reveal site-card">
+        <div class="site-preview">
+          <div class="browser-frame">
+            <div class="browser-dots">
+              <span style="background:#f87171;"></span>
+              <span style="background:#facc15;"></span>
+              <span style="background:#4ade80;"></span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&fit=crop" alt="Studio professionale website" style="height:360px;object-fit:cover;" />
+          </div>
+          <div class="overlay"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+            <div class="flex gap-2 flex-wrap">
+              <span class="tag" style="border-color:rgba(168,85,247,0.4);color:#c084fc;">Corporate</span>
+              <span class="tag">Multi-page</span>
+              <span class="tag">B2B</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:#4A5568;">2026</span>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.5rem;" class="mb-3 leading-tight" data-en="Professional Firm — Corporate Website">Studio Professionale — Sito Corporate</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color:#8896B0; max-width:600px;" data-en="Multi-page website for a professional firm with services section, team, work portfolio and advanced contact form. Clean and professional design, SEO optimized.">
+            Sito multi-pagina per studio professionale con sezione servizi, team, portfolio lavori e form contatto avanzato. Design clean e professionale, ottimizzato SEO.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag" style="font-size:0.65rem;">Multi-page</span>
+            <span class="tag" style="font-size:0.65rem;">SEO</span>
+            <span class="tag" style="font-size:0.65rem;">Contact Form</span>
+            <span class="tag" style="font-size:0.65rem;">Animations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ PROCESSO ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-16">
+        <div class="section-label mb-4" data-en="How I work">Come lavoro</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="From brief to &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;launch.&lt;/span&gt;" data-html="true">
+          Dal brief al <span style="color:#4B6BFB;font-style:italic;">lancio.</span>
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-12">
+        <div class="space-y-10">
+          <div class="process-step" data-step="01">
+            <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-2" data-en="Briefing & Analysis">Briefing & Analisi</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="I understand your business, goals and audience. I analyze competitors and define the visual and content strategy.">Capisco il tuo business, i tuoi obiettivi e il tuo pubblico. Analizzo i competitor e definisco la strategia visiva e di contenuto.</p>
+          </div>
+          <div class="process-step" data-step="02">
+            <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-2" data-en="Design & Prototype">Design & Prototipo</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="I create the complete site design with your approval. Color palette, typography, layout and animations — all custom-made.">Creo il design completo del sito con la tua approvazione. Palette colori, tipografia, layout e animazioni — tutto su misura.</p>
+          </div>
+          <div class="process-step" data-step="03">
+            <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-2" data-en="Development & Testing">Sviluppo & Test</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="I build the site with clean, performant code. Tested on every device and browser to ensure a flawless experience.">Costruisco il sito con codice pulito e performante. Test su ogni dispositivo e browser per garantire un'esperienza perfetta.</p>
+          </div>
+          <div class="process-step" data-step="04">
+            <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;" class="mb-2" data-en="Launch & Support">Lancio & Supporto</h3>
+            <p class="text-sm leading-relaxed" style="color:#8896B0;" data-en="I take the site live, configure domain and hosting, and provide support for the first weeks. Basic SEO included.">Metto online il sito, configuro dominio e hosting, e ti fornisco supporto per le prime settimane. SEO di base inclusa.</p>
+          </div>
+        </div>
+
+        <div class="card p-8">
+          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;" class="mb-6" data-en="What every project includes">Cosa include ogni progetto</h3>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <span style="color:#4B6BFB;font-size:1.1rem;margin-top:0.1rem;">&#10003;</span>
+              <div><span class="text-sm font-medium" data-en="100% custom design">Design 100% personalizzato</span><br/><span class="text-xs" style="color:#8896B0;" data-en="No templates, no pre-built themes">Nessun template, nessun tema preconfezionato</span></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span style="color:#4B6BFB;font-size:1.1rem;margin-top:0.1rem;">&#10003;</span>
+              <div><span class="text-sm font-medium">Responsive & Mobile-first</span><br/><span class="text-xs" style="color:#8896B0;" data-en="Perfect on smartphone, tablet and desktop">Perfetto su smartphone, tablet e desktop</span></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span style="color:#4B6BFB;font-size:1.1rem;margin-top:0.1rem;">&#10003;</span>
+              <div><span class="text-sm font-medium" data-en="Optimized speed">Velocità ottimizzata</span><br/><span class="text-xs" style="color:#8896B0;" data-en="Fast loading, no heavy plugins">Caricamento rapido, nessun plugin pesante</span></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span style="color:#4B6BFB;font-size:1.1rem;margin-top:0.1rem;">&#10003;</span>
+              <div><span class="text-sm font-medium" data-en="Basic SEO">SEO di base</span><br/><span class="text-xs" style="color:#8896B0;" data-en="Meta tags, sitemap, Google-optimized structure">Meta tag, sitemap, struttura ottimizzata per Google</span></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span style="color:#4B6BFB;font-size:1.1rem;margin-top:0.1rem;">&#10003;</span>
+              <div><span class="text-sm font-medium" data-en="Hosting & domain assistance">Hosting & dominio assistiti</span><br/><span class="text-xs" style="color:#8896B0;" data-en="I help you choose and configure hosting and domain">Ti aiuto a scegliere e configurare hosting e dominio</span></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span style="color:#4B6BFB;font-size:1.1rem;margin-top:0.1rem;">&#10003;</span>
+              <div><span class="text-sm font-medium" data-en="2 weeks post-launch support">2 settimane di supporto post-lancio</span><br/><span class="text-xs" style="color:#8896B0;" data-en="Minor changes and assistance included">Modifiche minori e assistenza incluse</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ PRICING ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#0D1425;">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal text-center mb-16">
+        <div class="section-label mb-4 justify-center" data-en="Packages">Pacchetti</div>
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight" data-en="Choose the right &lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;package.&lt;/span&gt;" data-html="true">
+          Scegli il pacchetto <span style="color:#4B6BFB;font-style:italic;">giusto.</span>
+        </h2>
+        <p class="mt-4 text-sm" style="color:#8896B0;max-width:480px;margin:0 auto;" data-en="Transparent pricing, no hidden costs. Every package is customizable based on your needs.">Prezzi trasparenti, nessun costo nascosto. Ogni pacchetto è personalizzabile in base alle tue esigenze.</p>
+      </div>
+
+      <div class="reveal grid md:grid-cols-3 gap-6">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <div class="text-xs mb-6" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;">Starter</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:2.5rem;color:#fff;letter-spacing:-0.02em;" class="mb-2" data-en="From &euro;299">
+            Da 299&euro;
+          </div>
+          <p class="text-sm mb-8" style="color:#8896B0;" data-en="Perfect for freelancers, professionals and small businesses that need an effective online presence.">Perfetto per freelance, professionisti e piccole attività che hanno bisogno di una presenza online efficace.</p>
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Single-page landing page" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Landing page single-page</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Responsive design" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Design responsive</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Contact form" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Form contatto</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Basic SEO" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> SEO di base</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Delivery in 7 days" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Consegna in 7 giorni</div>
+          </div>
+          <a href="index.html#contact" class="btn-ghost w-full text-center" style="justify-content:center;" data-en="Contact me">Contattami</a>
+        </div>
+
+        <!-- Professional -->
+        <div class="pricing-card featured">
+          <div class="text-xs mb-6" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;">Professional</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:2.5rem;color:#fff;letter-spacing:-0.02em;" class="mb-2" data-en="From &euro;599">
+            Da 599&euro;
+          </div>
+          <p class="text-sm mb-8" style="color:#8896B0;" data-en="For businesses that want a complete site with multiple sections, professional animations and advanced features.">Per attività che vogliono un sito completo con più sezioni, animazioni professionali e funzionalità avanzate.</p>
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Multi-page site (up to 5)" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Sito multi-pagina (fino a 5)</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Premium GSAP animations" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Animazioni GSAP premium</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Blog or news section" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Blog o sezione news</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Integrated newsletter" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Newsletter integrata</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Delivery in 14 days" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Consegna in 14 giorni</div>
+          </div>
+          <a href="index.html#contact" class="btn-primary w-full text-center" data-en="Contact me">Contattami</a>
+        </div>
+
+        <!-- E-commerce -->
+        <div class="pricing-card">
+          <div class="text-xs mb-6" style="color:#4B6BFB;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;">E-commerce</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:2.5rem;color:#fff;letter-spacing:-0.02em;" class="mb-2" data-en="From &euro;999">
+            Da 999&euro;
+          </div>
+          <p class="text-sm mb-8" style="color:#8896B0;" data-en="For those who want to sell online with a complete store, product management, payments and integrated logistics.">Per chi vuole vendere online con un negozio completo, gestione prodotti, pagamenti e logistica integrata.</p>
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Shopify or custom site" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Shopify o sito custom</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Product catalog" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Catalogo prodotti</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Stripe/PayPal payments" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Pagamenti Stripe/PayPal</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Email marketing setup" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Email marketing setup</div>
+            <div class="flex items-center gap-2 text-sm" style="color:#8896B0;" data-en="&#10003; Delivery in 21 days" data-html="true"><span style="color:#4B6BFB;">&#10003;</span> Consegna in 21 giorni</div>
+          </div>
+          <a href="index.html#contact" class="btn-ghost w-full text-center" style="justify-content:center;" data-en="Contact me">Contattami</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════ CTA ═══════════════════ -->
+  <section class="py-24 px-6" style="background:#080D1A;">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="reveal">
+        <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.02em;" class="leading-tight mb-6" data-en="Ready to launch your&lt;br /&gt;&lt;span style=&quot;color:#4B6BFB;font-style:italic;&quot;&gt;website?&lt;/span&gt;" data-html="true">
+          Pronto a lanciare il<br />tuo <span style="color:#4B6BFB;font-style:italic;">sito web?</span>
+        </h2>
+        <p class="mb-10 leading-relaxed" style="color:#8896B0;max-width:480px;margin:0 auto;" data-en="Write me with a brief description of your project and I'll reply within 24 hours with a custom proposal.">
+          Scrivimi con una breve descrizione del tuo progetto e ti rispondo entro 24 ore con una proposta personalizzata.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="index.html#contact" class="btn-primary" data-en="Request a quote">Richiedi un preventivo</a>
+          <a href="mailto:gabrielesiani22@gmail.com" class="btn-ghost">
+            gabrielesiani22@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-10 px-6 border-t" style="border-color:#1A2540; background:#080D1A;">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-1">
+        <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;">GS</span><span style="color:#4B6BFB;font-size:1.4rem;line-height:1;">.</span>
+      </div>
+      <p class="text-xs text-center" style="color:#4A5568; font-family:'DM Mono',monospace; letter-spacing:0.06em;">
+        &copy; 2026 Gabriele Siani — Marketing Strategist & Web Designer
+      </p>
+      <a href="index.html" class="back-btn" style="font-size:0.75rem;" data-en="&#8592; Portfolio" data-html="true">&#8592; Portfolio</a>
+    </div>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        delay: (i % 3) * 0.08,
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+    });
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+
+    // Language toggle
+    let currentLang = localStorage.getItem('lang') || 'it';
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+    }
+    function applyLang() {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = currentLang === 'it' ? 'EN' : 'IT';
+      document.documentElement.lang = currentLang;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.it) el.dataset.it = el.dataset.html === 'true' ? el.innerHTML.trim() : el.textContent.trim();
+        if (currentLang === 'en') {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.en;
+          else el.textContent = el.dataset.en;
+        } else {
+          if (el.dataset.html === 'true') el.innerHTML = el.dataset.it;
+          else el.textContent = el.dataset.it;
+        }
+      });
+    }
+    if (currentLang === 'en') applyLang();
+  </script>
+</body>
+</html>
